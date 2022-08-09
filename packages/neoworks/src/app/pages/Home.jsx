@@ -21,8 +21,8 @@ export function Home(props) {
     //grids hold containers
     <Grid
       gridDefinition={[
-        { colspan: { default: 9, xxs: 9 } },
-        { colspan: { default: 9, xxs: 3 } },
+        { colspan: { default: 9, xxs: 8 } },
+        { colspan: { default: 5, xxs: 4 } },
       ]}
     >
       <Container

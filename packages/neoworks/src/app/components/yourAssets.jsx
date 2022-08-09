@@ -6,39 +6,33 @@ export function YourAssets() {
     <Table
       columnDefinitions={[
         {
-          id: 'description',
-          header: '',
-          cell: (item) => item.description || '-',
+          id: 'asset',
+          header: 'Asset',
+          cell: (item) => item.asset || '-',
+        },
+        {
+          id: 'amount',
+          header: 'Amount',
+          cell: (item) => item.amount || '-',
         },
       ]}
       items={[
         {
-          name: 'Bitcoin',
-          alt: 'First',
-          description: '$25,000',
-          type: '1A',
-          size: 'Large',
+          asset: 'Bitcoin',
+          amount: '$25,000',
         },
         {
-          name: 'Ethereum',
-          alt: 'Second',
-          description: '$18,000',
-          type: '1B',
-          size: 'Large',
+          asset: 'Ethereum',
+          amount: '$18,000',
         },
         {
-          name: 'Ethereum',
-          alt: 'Third',
-          description: '$16,000',
-          type: '1A',
-          size: 'Large',
+          asset: 'Cardano',
+          amount: '$16,000',
         },
         {
-          name: 'Matic',
-          alt: 'Fourth',
-          description: '$15,000',
-          type: '1A',
-          size: 'Large',
+          asset: 'Matic',
+
+          amount: '$15,000',
         },
       ]}
       loadingText="Loading resources"

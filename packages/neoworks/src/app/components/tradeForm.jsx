@@ -42,7 +42,9 @@ export function TradeForm() {
           header={<Header variant="h3">Place an Order</Header>}
           actions={
             <SpaceBetween direction="horizontal" size="xs">
-              <Button variant="primary">Submit</Button>
+              <Button variant="primary">
+                {orderType} {selectedOption.value}
+              </Button>
             </SpaceBetween>
           }
         >

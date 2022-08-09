@@ -42,7 +42,7 @@ export function TradeModal(props) {
                     Close
                   </Button>
                   <Button href="#/activity/orders/12345" variant="primary">
-                    View Order Details
+                    Order Details
                   </Button>
                 </SpaceBetween>
               </Box>
