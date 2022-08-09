@@ -1,8 +1,12 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import TopNavigation from '@cloudscape-design/components/top-navigation';
+
+import { AuthContext } from '../context/authContext';
 import { LoginModal } from './loginModal';
 
 export default function TopNav() {
+  const { sessionInfo, attrInfo } = useContext(AuthContext);
+  console.log('nav session', sessionInfo, attrInfo);
   return (
     <TopNavigation
       identity={{
@@ -30,8 +34,8 @@ export default function TopNav() {
 
         {
           type: 'menu-dropdown',
-          text: 'Jay Prix',
-          description: 'jay.parisi@neoworks.com',
+          text: sessionInfo.username,
+          description: sessionInfo.email,
           iconName: 'user-profile',
           // onItemClick: <LoginModal />,
           items: [

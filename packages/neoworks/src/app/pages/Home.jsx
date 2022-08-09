@@ -4,19 +4,13 @@ import {
   Header,
   SpaceBetween,
   Button,
-  ExpandableSection,
   Link,
 } from '@cloudscape-design/components';
-import BalanceChart from '../components/balanceChart';
-import YourAssets from '../components/yourAssets';
 
-/* eslint-disable-next-line */
+import { BalanceChart } from '../components/balanceChart';
+import { YourAssets } from '../components/yourAssets';
 
-// const StyledHome = styled.div`
-//   color: blue;
-// `;
-
-export function Home(props) {
+export function Home() {
   return (
     //grids hold containers
     <Grid
@@ -113,5 +107,3 @@ export function Home(props) {
     </Grid>
   );
 }
-
-export default Home;

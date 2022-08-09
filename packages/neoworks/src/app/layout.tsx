@@ -1,22 +1,17 @@
-import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Outlet } from 'react-router-dom';
 
 import TopNav from './components/topNav';
 import SideNavigation from '@cloudscape-design/components/side-navigation';
-import { AppLayout, Grid } from '@cloudscape-design/components';
-import { Outlet } from 'react-router-dom';
+import { AppLayout } from '@cloudscape-design/components';
 
 export const Layout = () => {
   const navigate = useNavigate();
-
-  const [activeHref, setActiveHref] = React.useState('#/page1');
 
   return (
     <>
       <TopNav />
       <AppLayout
         content={<Outlet />}
-        activeHref={activeHref}
         navigation={
           <SideNavigation
             header={{

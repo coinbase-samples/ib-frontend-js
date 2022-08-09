@@ -1,13 +1,12 @@
-import styled from '@emotion/styled';
-// eslint-disable-next-line import/no-unresolved
+import AuthProvider from './context/authContext';
 import { Router } from './routes';
 
-const StyledApp = styled.div`
-  // Your style here
-`;
-
 export function App() {
-  return <Router />;
+  return (
+    <AuthProvider>
+      <Router />
+    </AuthProvider>
+  );
 }
 
 export default App;

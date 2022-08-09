@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { Button, Table, Box, Header } from '@cloudscape-design/components';
+import { Button, Table, Box } from '@cloudscape-design/components';
 
 export function YourAssets() {
   return (

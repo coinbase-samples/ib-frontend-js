@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Tabs from '@cloudscape-design/components/tabs';
 
 export function OrderId() {
@@ -20,5 +19,3 @@ export function OrderId() {
     />
   );
 }
-
-export default OrderId;
