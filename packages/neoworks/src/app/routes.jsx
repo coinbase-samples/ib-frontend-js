@@ -9,6 +9,7 @@ import Profile from './components/profiles';
 import Activity from './pages/activity';
 import AssetId from './pages/assetId';
 import OrderId from './pages/OrderId';
+import { LoginModal } from './components/loginModal';
 
 export const Router = () => (
   <HashRouter>
@@ -17,6 +18,8 @@ export const Router = () => (
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/trades" element={<Trades />} />
+        <Route path="/modal" element={<LoginModal />} />
+
         <Route path="/assets/:asset" element={<AssetId />} />
 
         <Route path="/profile" element={<Profile />} />

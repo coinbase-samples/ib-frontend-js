@@ -12,29 +12,32 @@ import {
 import TradeModal from './tradeModal';
 
 export function TradeForm() {
-  const [amount, setAmount] = React.useState('0');
-  const [orderType, setOrderType] = React.useState('buy');
+  const [quantity, setQuantity] = React.useState('0');
+  const [orderType, setOrderType] = React.useState('Buy');
 
-  //   const [visible, setVisible] = React.useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    <TradeModal visible="true" />;
-  };
-
-  const displayOrderType = (e) => {
-    console.log(e.detail.id);
-    setOrderType(e.detail.id);
-  };
+  const [showPreviewModal, setShowPreviewModal] = React.useState(false);
 
   const [selectedOption, setSelectedOption] = React.useState({
     label: 'BTC-USD',
     value: 'BTC-USD',
   });
 
+  const handlePreviewSubmit = (e) => {
+    e.preventDefault();
+    setShowPreviewModal(true);
+  };
+
+  const closePreviewModal = () => {
+    setShowPreviewModal(false);
+  };
+  const displayOrderType = (e) => {
+    console.log(e.detail.id);
+    setOrderType(e.detail.id);
+  };
+
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handlePreviewSubmit}>
         <Form
           header={<Header variant="h3">Place an Order</Header>}
           actions={
@@ -43,13 +46,12 @@ export function TradeForm() {
             </SpaceBetween>
           }
         >
-          {/* <TradeModal visible="true" /> */}
           <SpaceBetween direction="vertical" size="l">
             <ButtonDropdown
               onItemClick={displayOrderType}
               items={[
-                { text: 'Buy', id: 'buy', disabled: false },
-                { text: 'Sell', id: 'sell', disabled: false },
+                { text: 'Buy', id: 'Buy', disabled: false },
+                { text: 'Sell', id: 'Sell', disabled: false },
               ]}
             >
               {orderType}
@@ -72,11 +74,11 @@ export function TradeForm() {
                 ]}
               />
             </FormField>
-            <FormField label="amount" id="amount">
+            <FormField label="quantity" id="quantity">
               <Input
                 placeholder="0"
-                onChange={({ detail }) => setAmount(detail.value)}
-                value={amount}
+                onChange={({ detail }) => setQuantity(detail.value)}
+                value={quantity}
               />
             </FormField>
           </SpaceBetween>
@@ -85,6 +87,13 @@ export function TradeForm() {
           </div>
         </Form>
       </form>
+      <TradeModal
+        open={showPreviewModal}
+        close={closePreviewModal}
+        qty={quantity}
+        asset={selectedOption.value}
+        type={orderType}
+      />
     </div>
   );
 }

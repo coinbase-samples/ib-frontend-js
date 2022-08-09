@@ -1,5 +1,6 @@
 import * as React from 'react';
 import TopNavigation from '@cloudscape-design/components/top-navigation';
+import { LoginModal } from './loginModal';
 
 export default function TopNav() {
   return (
@@ -32,9 +33,15 @@ export default function TopNav() {
           text: 'Jay Prix',
           description: 'jay.parisi@neoworks.com',
           iconName: 'user-profile',
+          // onItemClick: <LoginModal />,
           items: [
             { id: 'profile', text: 'Profile', href: '#/Profile' },
             { id: 'signout', text: 'Sign out' },
+            {
+              id: 'login',
+              text: 'Login',
+              onItemClick: <LoginModal showLogin="true" />,
+            },
           ],
         },
       ]}
