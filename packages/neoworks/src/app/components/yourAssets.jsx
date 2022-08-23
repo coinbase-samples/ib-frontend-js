@@ -1,48 +1,57 @@
-import { Button, Table, Box } from '@cloudscape-design/components';
+import { Table, Box, Link } from '@cloudscape-design/components';
+import { PortfolioContext } from '../context/portfolioContext';
+import { useContext, useEffect } from 'react';
+import { Icons } from '../utils/Icons';
 
 export function YourAssets() {
+  const {
+    portfolio,
+    portfolioLoading: portfolioLoaded,
+    fetchPortfolio,
+  } = useContext(PortfolioContext);
+
+  useEffect(() => {
+    if (!portfolioLoaded && portfolio?.length === 0) {
+      fetchPortfolio();
+    }
+  }, [portfolio, portfolioLoaded, fetchPortfolio]);
   return (
     <Table
       columnDefinitions={[
         {
+          id: 'icon',
+          header: '',
+          width: 30,
+          cell: (e) => <Icons asset={e.asset} />,
+        },
+        {
           id: 'asset',
           header: 'Asset',
-          cell: (item) => item.asset || '-',
+          width: 30,
+          cell: (e) => <Link href={`#/assets/${e.asset}`}>{e.asset}</Link>,
         },
         {
           id: 'amount',
           header: 'Amount',
+          width: 50,
           cell: (item) => item.amount || '-',
         },
-      ]}
-      items={[
         {
-          asset: 'Bitcoin',
-          amount: '$25,000',
-        },
-        {
-          asset: 'Ethereum',
-          amount: '$18,000',
-        },
-        {
-          asset: 'Cardano',
-          amount: '$16,000',
-        },
-        {
-          asset: 'Matic',
-
-          amount: '$15,000',
+          id: 'qty',
+          header: 'quantity',
+          width: 50,
+          cell: (item) => item.qty || '-',
         },
       ]}
-      loadingText="Loading resources"
-      sortingDisabled
+      items={portfolio}
+      loading={portfolioLoaded}
+      loadingText="Loading Portfolio"
       empty={
         <Box textAlign="center" color="inherit">
-          <b>No resources</b>
+          <b>No Assets</b>
           <Box padding={{ bottom: 's' }} variant="p" color="inherit">
-            No resources to display.
+            No Assets to display.
           </Box>
-          <Button>Create resource</Button>
         </Box>
       }
     />

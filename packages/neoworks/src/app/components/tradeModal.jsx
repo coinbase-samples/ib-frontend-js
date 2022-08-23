@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Icons } from '../utils/Icons';
+import { tradeFee } from '../../constants';
 import {
   Modal,
   HelpPanel,
@@ -10,17 +12,20 @@ import {
   Box,
   SpaceBetween,
   Button,
+  ColumnLayout,
 } from '@cloudscape-design/components';
 
 export function TradeModal(props) {
   const [orderPreview, setOrderPreview] = React.useState(true);
-  console.log(orderPreview);
 
   const submitOrder = () => {
     setOrderPreview(false);
 
     alert('Order Submitted');
   };
+  const platformFee = tradeFee;
+  const { qty, assetPrice, fiatBalance } = props;
+  const orderTotal = qty * assetPrice + platformFee;
 
   const cancelOrder = () => {
     window.location.reload(false);
@@ -48,6 +53,7 @@ export function TradeModal(props) {
               </Box>
             }
           >
+            <Icons asset={props.asset} />
             <div>
               <ul>
                 <h5>
@@ -69,6 +75,7 @@ export function TradeModal(props) {
                 </SpaceBetween>
               }
             >
+              <Icons asset={props.asset} />
               {props.type} {props.asset}
             </Header>
           }
@@ -87,20 +94,32 @@ export function TradeModal(props) {
               </Box>
             }
           >
-            <div>
-              <ul>
-                <h5>Asset: {props.asset}</h5>
-              </ul>
-              <ul>
-                <h5>Quantity: {props.qty}</h5>
-              </ul>
-              <ul>
-                <h5>Platform Fee: $0.048</h5>
-              </ul>
-              <ul>
-                <h5>Network Fee: $0.04</h5>
-              </ul>
-              <ul>
+            <ColumnLayout borders="horizontal" columns={3}>
+              <div>
+                <h5>Asset:</h5>
+              </div>
+              <div>{props.asset}</div>
+
+              <div>
+                <h5>Quantity: </h5>
+              </div>
+              <div>{props.qty}</div>
+              <div>
+                <h5>Platform Fee:</h5>
+              </div>
+              <div>{platformFee}</div>
+              <div>
+                <h5>Payment Type: US Dollars:</h5>
+              </div>
+              <div>Balance: {fiatBalance}</div>
+              <div>
+                <h5>Total</h5>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <h5>${orderTotal}</h5>
+              </div>
+
+              <div>
                 <Popover
                   position="top"
                   size="small"
@@ -113,12 +132,13 @@ export function TradeModal(props) {
                   }
                 >
                   <TextContent iconName="slippage">
-                    <h5>Slippage: 3%</h5>
+                    <small style={{ textAlign: 'right' }}>
+                      how its calculated
+                    </small>
                   </TextContent>
                 </Popover>
-              </ul>
-              <h5 style={{ textAlign: 'right' }}>Total: $0.04</h5>
-            </div>
+              </div>
+            </ColumnLayout>
           </HelpPanel>
         </Container>
       )}

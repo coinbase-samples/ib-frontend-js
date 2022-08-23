@@ -2,25 +2,73 @@ import * as React from 'react';
 import {
   Form,
   Header,
+  Input,
   Button,
   SpaceBetween,
   FormField,
   ButtonDropdown,
-  Input,
   Select,
 } from '@cloudscape-design/components';
-import TradeModal from './tradeModal';
+import { TradeModal } from './tradeModal';
+import { AssetContext } from '../context/assetsContext';
+import { PortfolioContext } from '../context/portfolioContext';
+import { useContext, useEffect } from 'react';
+import _ from 'lodash';
 
-export function TradeForm() {
-  const [quantity, setQuantity] = React.useState('0');
+// const [value, setValue] = React.useState('');
+
+export function TradeForm(props) {
+  const {
+    asset,
+    assets,
+    assetsLoading: assetsLoaded,
+    fetchAssets,
+  } = useContext(AssetContext);
+
+  const {
+    portfolio,
+    portfolioLoading: portfolioLoaded,
+    fetchPortfolio,
+  } = useContext(PortfolioContext);
+
+  const [quantity, setQuantity] = React.useState('1');
   const [orderType, setOrderType] = React.useState('Buy');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
 
   const [selectedOption, setSelectedOption] = React.useState({
-    label: 'BTC-USD',
-    value: 'BTC-USD',
+    label: asset ? asset : 'BTC',
+    value: asset ? asset : 'BTC',
   });
+
+  useEffect(() => {
+    if (!portfolioLoaded && portfolio?.length === 0) {
+      fetchPortfolio();
+    }
+    if (!assetsLoaded && assets?.length === 0) {
+      fetchAssets();
+    }
+  }, [
+    assets,
+    fetchAssets,
+    portfolio,
+    fetchPortfolio,
+    assetsLoaded,
+    portfolioLoaded,
+  ]);
+
+  const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
+  const assetPrice = assetObject[0]?.price;
+  const portfolioObject = _.filter(portfolio, {
+    asset: selectedOption?.value,
+  });
+
+  const fiatObject = _.filter(portfolio, {
+    asset: 'USD',
+  });
+
+  const fiatBalance = fiatObject[0]?.amount;
+  const portfolioPrice = portfolioObject[0]?.amount;
 
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +79,6 @@ export function TradeForm() {
     setShowPreviewModal(false);
   };
   const displayOrderType = (e) => {
-    console.log(e.detail.id);
     setOrderType(e.detail.id);
   };
 
@@ -39,7 +86,7 @@ export function TradeForm() {
     <div>
       <form onSubmit={handlePreviewSubmit}>
         <Form
-          header={<Header variant="h3">Place an Order</Header>}
+          header={<Header variant="h3">Place Order</Header>}
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               <Button variant="primary">
@@ -60,15 +107,14 @@ export function TradeForm() {
             </ButtonDropdown>
             <FormField label="Asset" id="asset">
               <Select
-                placeholder="Bitcoin"
                 selectedOption={selectedOption}
                 onChange={({ detail }) =>
                   setSelectedOption(detail.selectedOption)
                 }
                 required="true"
                 options={[
-                  { label: 'BTC-USD', value: 'BTC-USD' },
-                  { label: 'ETH-USD', value: 'ETH_USD' },
+                  { label: 'BTC', value: 'BTC' },
+                  { label: 'ETH', value: 'ETH' },
                   { label: 'SOL', value: 'SOL' },
                   { label: 'CARDANO', value: 'CARDANO' },
                   { label: 'MATIC', value: 'MATIC' },
@@ -76,16 +122,23 @@ export function TradeForm() {
                 ]}
               />
             </FormField>
-            <FormField label="quantity" id="quantity">
+            <div>
+              <p>
+                <h4>Asset Price:</h4> ${assetPrice}
+              </p>
+            </div>
+
+            <FormField label="Quantity" id="quantity">
               <Input
-                placeholder="0"
                 onChange={({ detail }) => setQuantity(detail.value)}
                 value={quantity}
               />
             </FormField>
           </SpaceBetween>
           <div>
-            <p> BTC Balance: $12,000</p>
+            <p>
+              {selectedOption?.value} Balance: {portfolioPrice}
+            </p>
           </div>
         </Form>
       </form>
@@ -95,6 +148,8 @@ export function TradeForm() {
         qty={quantity}
         asset={selectedOption.value}
         type={orderType}
+        assetPrice={assetPrice}
+        fiatBalance={fiatBalance}
       />
     </div>
   );

@@ -2,12 +2,11 @@ import {
   Container,
   Grid,
   Header,
-  Button,
   SpaceBetween,
 } from '@cloudscape-design/components';
 import * as React from 'react';
-import TradeableAssets from '../components/tradeableAssets';
-import TransactionWidget from '../components/transactionWidget';
+import { TradeableAssets } from '../components/tradeableAssets';
+import { TransactionWidget } from '../components/transactionWidget';
 
 /* eslint-disable-next-line */
 
@@ -39,14 +38,6 @@ export function Trades(props) {
         <TradeableAssets />
       </Container>
       <Container
-        // footer={
-        //     <Link
-        //     href="#/trades"
-        //     variant="footer"
-        //     >
-        //       View Full Portfolio
-        //     </Link>
-        //   }
         variant="stacked"
         actions={<SpaceBetween direction="vertical" size="xs"></SpaceBetween>}
       >

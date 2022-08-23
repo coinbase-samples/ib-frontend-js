@@ -1,15 +1,14 @@
 import * as React from 'react';
 import Tabs from '@cloudscape-design/components/tabs';
-import { AssetLanding } from '../components/assetLandingPage';
 
-export function AssetId() {
+export function Portfolio() {
   return (
     <Tabs
       tabs={[
         {
           label: 'Overview',
           id: 'first',
-          content: <AssetLanding />,
+          content: 'Hi Portfolio',
         },
       ]}
       variant="container"
@@ -17,4 +16,4 @@ export function AssetId() {
   );
 }
 
-export default AssetId;
+export default Portfolio;

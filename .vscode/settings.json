@@ -1,0 +1,6 @@
+{
+    "github.gitProtocol": "ssh",
+    "github.gitAuthentication": true,
+    "git.enableCommitSigning": false,
+    "github-enterprise.uri": "github.cbhq.net/"
+}

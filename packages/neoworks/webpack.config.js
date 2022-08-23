@@ -3,7 +3,6 @@ const nrwlConfig = require('@nrwl/react/plugins/webpack.js'); // require the mai
 module.exports = (config, context) => {
   nrwlConfig(config); // first call it so that it @nrwl/react plugin adds its configs,
 
-  console.log('modifying webpack', config);
   // then override your config.
   return {
     ...config,

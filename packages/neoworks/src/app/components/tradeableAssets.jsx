@@ -1,12 +1,34 @@
 import * as React from 'react';
 import { Table, Link } from '@cloudscape-design/components';
+import { AssetContext } from '../context/assetsContext';
+import { useContext, useEffect } from 'react';
+import { Icons } from '../utils/Icons';
 
 export function TradeableAssets() {
+  // const [value, setValue] = React.useState('');
+  const {
+    assets,
+    assetsLoading: assetsLoaded,
+    fetchAssets,
+  } = useContext(AssetContext);
+
+  useEffect(() => {
+    if (!assetsLoaded && assets?.length === 0) {
+      fetchAssets();
+    }
+  }, [assets, assetsLoaded, fetchAssets]);
+
   return (
     <Table
       variant="container"
-      onRowClick={() => console.log('clicked')}
       columnDefinitions={[
+        {
+          id: 'icon',
+          header: '',
+          cell: (e) => <Icons asset={e.name} />,
+          width: 100,
+          minWidth: 100,
+        },
         {
           id: 'name',
           header: 'Name',
@@ -53,68 +75,9 @@ export function TradeableAssets() {
           minWidth: 170,
         },
       ]}
-      items={[
-        {
-          name: 'btc',
-          price: '24000',
-          alt: 'btc',
-          change: 'up',
-          mktCap: '100000000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Buy',
-        },
-        {
-          name: 'Ethereum',
-          price: '16000',
-          alt: 'eth',
-          change: 'up',
-          mktCap: '100000000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Buy',
-        },
-        {
-          name: 'Solana',
-          price: '24000',
-          alt: 'eth',
-          change: 'up',
-          mktCap: '100000000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Buy',
-        },
-        {
-          name: 'Cardano',
-          price: '50',
-          alt: 'cardano',
-          change: 'up',
-          mktCap: '400000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Buy',
-        },
-        {
-          name: 'Matic',
-          price: '50',
-          alt: 'matic',
-          change: 'up',
-          mktCap: '50000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Sell',
-        },
-        {
-          name: 'Atom',
-          price: '50',
-          alt: 'atom',
-          change: 'up',
-          mktCap: '780000',
-          volume: '18.9B',
-          supply: '19.0M',
-          activity: '100 Buy',
-        },
-      ]}
+      items={assets.assets}
+      loading={assetsLoaded}
+      loadingText="Loading Assets"
     />
   );
 }

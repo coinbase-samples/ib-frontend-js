@@ -10,8 +10,8 @@ import { Profile } from './components/profiles';
 import { Activity } from './pages/activity';
 import { AssetId } from './pages/assetId';
 import { OrderId } from './pages/orderId';
-import { LoginModal } from './components/loginModal';
 import { Landing } from './pages/landing';
+import { Portfolio } from './pages/portfolio';
 
 export const Router = () => {
   const { authStatus } = useContext(AuthContext);
@@ -23,16 +23,19 @@ export const Router = () => {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/trades" element={<Trades />} />
-            <Route path="/modal" element={<LoginModal />} />
             <Route path="/assets/:asset" element={<AssetId />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/activity/orders/:orderId" element={<OrderId />} />
           </Route>
         ) : authStatus === AuthStatus.Loading ? (
           <div>loading...</div>
         ) : (
+          <>
           <Route path="/" element={<Landing />} />
+          <Route path="/signin" element={<Landing />} />
+          </>
         )}
       </Routes>
     </HashRouter>

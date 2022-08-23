@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Tabs from '@cloudscape-design/components/tabs';
-import OrderActivity from '../components/orderActivity';
+import { OrderActivity } from '../components/orderActivity';
 
 export function Activity() {
   return (

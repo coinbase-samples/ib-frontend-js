@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, createContext } from 'react';
 
 import {
   signInWithEmail as signInCognito,
-  signOut,
+  signOut as signOutCognito,
   getAttributes as getCognitoAttributes,
   setAttribute as setCognitoAttribute,
   getSession as getCognitoSession,
@@ -39,7 +39,7 @@ type Props = {
   children?: React.ReactNode;
 };
 
-export const AuthContext = React.createContext(defaultState);
+export const AuthContext = createContext(defaultState);
 
 export const AuthIsSignedIn = ({ children }: Props) => {
   const { authStatus }: IAuth = useContext(AuthContext);
@@ -123,15 +123,18 @@ const AuthProvider = ({ children }: Props) => {
     return res;
   }
 
+  function signOut() {
+    signOutCognito()
+    setAuthStatus(AuthStatus.SignedOut)
+  }
+
   const state: IAuth = {
     authStatus,
     sessionInfo,
     attrInfo,
     signInWithEmail,
     signOut,
-
     getSession,
-
     getAttributes,
   };
 

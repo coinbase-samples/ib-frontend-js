@@ -1,12 +1,20 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TopNavigation from '@cloudscape-design/components/top-navigation';
 
 import { AuthContext } from '../context/authContext';
-import { LoginModal } from './loginModal';
 
 export default function TopNav() {
-  const { sessionInfo, attrInfo } = useContext(AuthContext);
-  console.log('nav session', sessionInfo, attrInfo);
+  const navigate = useNavigate();
+  const { sessionInfo, signOut } = useContext(AuthContext);
+
+  const onMenuClick = (e) => {
+    if (e.detail.id === 'signout') {
+      signOut();
+      navigate('/signin');
+    }
+  };
+
   return (
     <TopNavigation
       identity={{
@@ -37,14 +45,12 @@ export default function TopNav() {
           text: sessionInfo.username,
           description: sessionInfo.email,
           iconName: 'user-profile',
-          // onItemClick: <LoginModal />,
+          onItemClick: onMenuClick,
           items: [
             { id: 'profile', text: 'Profile', href: '#/Profile' },
-            { id: 'signout', text: 'Sign out' },
             {
-              id: 'login',
-              text: 'Login',
-              onItemClick: <LoginModal showLogin="true" />,
+              id: 'signout',
+              text: 'Sign out',
             },
           ],
         },

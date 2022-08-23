@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Tabs } from '@cloudscape-design/components';
-import TradeForm from './tradeForm';
+import { TradeForm } from './tradeForm';
+import { TransferForm } from './transferForm';
 export function TransactionWidget() {
   return (
     <div>
@@ -14,7 +15,7 @@ export function TransactionWidget() {
           {
             label: 'Transfer',
             id: 'second',
-            content: <div style={{ color: 'red' }}>red text</div>,
+            content: <TransferForm />,
           },
         ]}
       />

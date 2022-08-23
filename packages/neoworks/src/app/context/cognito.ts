@@ -8,9 +8,6 @@ import {
 const userPoolId = process.env['NX_USERPOOL_ID'];
 const clientId = process.env['NX_CLIENT_ID'];
 
-console.log(`userpool id=${userPoolId}`);
-console.log(`client id=${clientId}`);
-
 const poolData = {
   UserPoolId: `${userPoolId}`,
   ClientId: `${clientId}`,

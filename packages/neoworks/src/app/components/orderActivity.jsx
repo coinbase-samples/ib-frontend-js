@@ -1,139 +1,82 @@
 import * as React from 'react';
+import { OrderContext } from '../context/ordersContext';
+import { useContext, useEffect } from 'react';
+import { Icons } from '../utils/Icons';
+import _ from 'lodash';
 import {
   Input,
   Header,
   Table,
   Link,
   Box,
-  Button,
   SpaceBetween,
 } from '@cloudscape-design/components';
 
-export function OrderActivity() {
-  const orderId = '12345';
-  const [value, setValue] = React.useState('');
+export function OrderActivity(props) {
+  let filteredOrders;
+  let ordersByAsset;
+  // const [value, setValue] = React.useState('');
+  const {
+    orders,
+    ordersLoading: ordersLoaded,
+    fetchOrders,
+  } = useContext(OrderContext);
+
+  useEffect(() => {
+    if (!ordersLoaded && orders?.length === 0) {
+      fetchOrders();
+    }
+  }, [orders, ordersLoaded, fetchOrders]);
+
+  if (props.asset) {
+    ordersByAsset = _.filter(orders.orders, { product_id: props.asset });
+    filteredOrders = true;
+  }
+
   return [
     <SpaceBetween size="l">
       <Input type="search" placeholder="Search Orders" ariaLabel="Search" />
       <Table
         columnDefinitions={[
           {
-            id: 'asset',
+            id: 'product_id',
             header: 'Asset',
-            cell: (item) => item.asset || '-',
-            sortingField: 'asset',
+            cell: (e) => <Icons asset={e.product_id} />,
+            sortingField: 'product_id',
           },
           {
             id: 'type',
             header: 'Order Type',
-            cell: (item) => item.name || '-',
-            sortingField: 'name',
+            cell: (item) => item.type || '-',
+            sortingField: 'type',
           },
           {
-            id: 'qty',
+            id: 'filled_quantity',
             header: 'Qty',
-            cell: (item) => item.qty || '-',
-            sortingField: 'qty',
+            cell: (item) => item.filled_quantity || '-',
+            sortingField: 'filled_quantity',
           },
           {
-            id: 'orderDate',
+            id: 'created_at',
             header: 'Order Date',
-            cell: (item) => item.orderDate || '-',
+            cell: (item) => item.created_at || '-',
           },
-          {
-            id: 'cost',
-            header: 'cost',
-            cell: (item) => item.cost || '-',
-          },
+
           {
             id: 'details',
             header: '',
             cell: (e) => (
-              <Link href={`#/activity/orders/${orderId}`}>View Order</Link>
+              <Link href={`#/activity/orders/${e.order_Id}`}>View Order</Link>
             ),
           },
         ]}
-        items={[
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-01-2022',
-            cost: '$100',
-          },
-          {
-            asset: 'ETH-USD',
-            name: 'SELL',
-            qty: '4',
-            orderDate: '08-03-2022',
-            cost: '$50',
-          },
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-06-2022',
-            cost: '$10',
-          },
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-01-2022',
-            cost: '$100',
-          },
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-01-2022',
-            cost: '$100',
-          },
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-09-2022',
-            cost: '$100',
-          },
-          {
-            asset: 'ETH-USD',
-            name: 'SELL',
-            qty: '4',
-            orderDate: '08-03-2022',
-            cost: '$50',
-          },
-          {
-            asset: 'SOL-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-01-2022',
-            cost: '$100',
-          },
-          {
-            asset: 'ETH-USD',
-            name: 'SELL',
-            qty: '4',
-            orderDate: '08-03-2022',
-            cost: '$50',
-          },
-          {
-            asset: 'BTC-USD',
-            name: 'Buy',
-            qty: '4',
-            orderDate: '08-01-2022',
-            cost: '$100',
-          },
-        ]}
-        loadingText="Loading resources"
+        items={filteredOrders ? ordersByAsset : orders.orders}
+        loading={ordersLoaded}
+        loadingText="Loading Orders"
         sortingDisabled
         empty={
           <Box textAlign="center" color="inherit">
-            <b>No resources</b>
-            <Box padding={{ bottom: 's' }} variant="p" color="inherit">
-              No resources to display.
-            </Box>
-            <Button>Create resource</Button>
+            <b>No Orders Found</b>
           </Box>
         }
         header={<Header> Order History </Header>}
