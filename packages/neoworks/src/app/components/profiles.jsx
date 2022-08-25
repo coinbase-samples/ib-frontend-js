@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { ProfileContext } from '../context/profileContext';
+import { AuthContext } from '../context/authContext';
 
 import {
   Container,
@@ -11,6 +12,7 @@ import {
   HelpPanel,
   ColumnLayout,
 } from '@cloudscape-design/components';
+
 import { updateProfile, editProfilePhoto } from '../services/profile';
 
 export function PureProfile({
@@ -122,8 +124,10 @@ export function PureProfile({
 }
 export function Profile() {
   const { userProfile, loading: profileLoading } = useContext(ProfileContext);
+  const { sessionInfo } = useContext(AuthContext);
 
   const updateClicked = () => {
+    console.log(sessionInfo.accessToken);
     return updateProfile();
   };
 

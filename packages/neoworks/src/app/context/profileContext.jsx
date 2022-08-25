@@ -1,4 +1,6 @@
-import React, { useState, useEffect, createContext } from 'react';
+import React, { useContext, useState, useEffect, createContext } from 'react';
+
+import { AuthContext } from '../context/authContext';
 
 import {
   //this is your imports for services
@@ -12,16 +14,17 @@ export const ProfileContext = createContext(defaultState);
 const ProfileProvider = ({ children, userId }) => {
   const [loading, setLoading] = useState(true);
   const [userProfile, setUserProfile] = useState({});
+  const { sessionInfo } = useContext(AuthContext);
+  console.log(sessionInfo.accessToken);
 
   useEffect(() => {
     const getProfile = async () => {
-      const result = await fetchProfile(userId);
-
+      const result = await fetchProfile(sessionInfo.accessToken, '1');
       setUserProfile(result);
       setLoading(false);
     };
     getProfile();
-  }, [userId]);
+  }, [userId, sessionInfo.accessToken]);
 
   const state = { userProfile, loading };
 

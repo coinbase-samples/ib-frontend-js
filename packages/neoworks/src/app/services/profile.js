@@ -4,13 +4,12 @@ const sleep = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms)); 
 }
 
-export async function fetchProfile(userId) {
+export async function fetchProfile(token, userId) {
   await sleep(1000);
-  const url = 'http://localhost:3001/v1/profile/1';
-  const path = '/v1/profile/1';
+  const url = `http://localhost:3001/v1/profile/${userId}`;
 
   try {
-    const fetchProfile = await makeCall('GET', url, path, '');
+    const fetchProfile = await makeCall(token, 'GET', url, '');
 
     const profileResponse = await fetchProfile.json();
     return profileResponse;
