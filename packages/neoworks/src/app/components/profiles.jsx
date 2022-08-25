@@ -11,10 +11,14 @@ import {
   HelpPanel,
   ColumnLayout,
 } from '@cloudscape-design/components';
+import { updateProfile, editProfilePhoto } from '../services/profile';
 
-export function Profile() {
-  const { userProfile, loading: profileLoading } = useContext(ProfileContext);
-
+export function PureProfile({
+  userProfile,
+  profileLoading,
+  updateClicked,
+  editClicked,
+}) {
   return (
     <Container
       header={
@@ -23,8 +27,8 @@ export function Profile() {
           description=""
           actions={
             <SpaceBetween direction="horizontal" size="xs">
-              <Button>Update</Button>
-              <Button>Edit Profile Photo</Button>
+              <Button onClick={updateClicked}>Update</Button>
+              <Button onClick={editClicked}>Edit Profile Photo</Button>
             </SpaceBetween>
           }
         >
@@ -114,6 +118,25 @@ export function Profile() {
         empty={<p>No profile info</p>}
       />
     </Container>
+  );
+}
+export function Profile() {
+  const { userProfile, loading: profileLoading } = useContext(ProfileContext);
+
+  const updateClicked = () => {
+    return updateProfile();
+  };
+
+  const editClicked = () => {
+    return editProfilePhoto();
+  };
+  return (
+    <PureProfile
+      userProfile={userProfile}
+      profileLoading={profileLoading}
+      editClicked={editClicked}
+      updateClicked={updateClicked}
+    />
   );
 }
 
