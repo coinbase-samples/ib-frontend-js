@@ -13,13 +13,16 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 
-import { updateProfile, editProfilePhoto } from '../services/profile';
+import { editProfilePhoto } from '../services/profile';
+import { UpdateProfileModal } from './profileUpdateModal';
 
 export function PureProfile({
   userProfile,
   profileLoading,
   updateClicked,
   editClicked,
+  closeUpdateProfileModal,
+  showUpdateProfileModal,
 }) {
   return (
     <Container
@@ -38,6 +41,10 @@ export function PureProfile({
         </Header>
       }
     >
+      <UpdateProfileModal
+        open={showUpdateProfileModal}
+        close={closeUpdateProfileModal}
+      />
       <Cards
         loading={profileLoading}
         loadingText="Loading Your Profile"
@@ -124,11 +131,17 @@ export function PureProfile({
 }
 export function Profile() {
   const { userProfile, loading: profileLoading } = useContext(ProfileContext);
-  const { sessionInfo } = useContext(AuthContext);
+  const [showUpdateProfileModal, setshowUpdateProfileModal] =
+    React.useState(false);
 
-  const updateClicked = () => {
-    console.log(sessionInfo.accessToken);
-    return updateProfile();
+  const closeUpdateProfileModal = () => {
+    setshowUpdateProfileModal(false);
+  };
+
+  const updateClicked = (e) => {
+    e.preventDefault();
+    setshowUpdateProfileModal(true);
+    console.log(showUpdateProfileModal);
   };
 
   const editClicked = () => {
@@ -140,6 +153,8 @@ export function Profile() {
       profileLoading={profileLoading}
       editClicked={editClicked}
       updateClicked={updateClicked}
+      close={closeUpdateProfileModal}
+      open={showUpdateProfileModal}
     />
   );
 }

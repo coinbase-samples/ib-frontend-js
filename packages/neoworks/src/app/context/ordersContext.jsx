@@ -1,4 +1,5 @@
-import React, { useState, createContext } from 'react';
+import React, { useContext, useState, createContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 import {
   //this is your imports for services
@@ -12,18 +13,25 @@ export const OrderContext = createContext(defaultState);
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [orderLoading, setOrderLoading] = useState(true);
+  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(false);
+
   const [orderDetail, setOrderDetail] = useState({});
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const { sessionInfo } = useContext(AuthContext);
 
   const fetchOrderById = async (orderId) => {
-    if (loading) {
+    console.log(orderLoading, fetchingOrderDetail);
+    if (orderLoading && fetchingOrderDetail) {
       return;
     }
-    setLoading(true);
-    const result = await fetchOrderDetails(orderId);
+    setFetchingOrderDetail(true);
+    const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
     setOrderDetail(result);
-    setLoading(false);
+    console.log(orderDetail);
+
+    setOrderLoading(false);
+    setFetchingOrderDetail(false);
   };
 
   const fetchOrders = async () => {
@@ -39,7 +47,8 @@ const OrderProvider = ({ children }) => {
 
   const state = {
     orderDetail,
-    loading,
+    orderLoading,
+    fetchingOrderDetail,
     fetchOrderById,
     fetchOrders,
     orders,

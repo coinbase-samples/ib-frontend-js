@@ -6,11 +6,12 @@ export default {
   argTypes: {
     updateClicked: { action: 'update' },
     editClicked: { action: 'edit' },
+    closeUpdateProfileModal: { action: 'close modal' },
+    showUpdateProfileModal: { action: 'open modal' },
   },
 };
 
 const Template = (args) => <PureProfile {...args} />;
-
 export const Loading = Template.bind({});
 Loading.args = { profileLoading: true };
 

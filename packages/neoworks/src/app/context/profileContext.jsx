@@ -13,16 +13,24 @@ export const ProfileContext = createContext(defaultState);
 
 const ProfileProvider = ({ children, userId }) => {
   const [loading, setLoading] = useState(true);
+  const [fetching, setFetching] = useState(false);
+
   const [userProfile, setUserProfile] = useState({});
-  const { sessionInfo } = useContext(AuthContext);
-  console.log(sessionInfo.accessToken);
+  const { sessionInfo, attrInfo } = useContext(AuthContext);
 
   useEffect(() => {
+    const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
     const getProfile = async () => {
-      const result = await fetchProfile(sessionInfo.accessToken, '1');
+      if (fetching && userProfile?.name && loading) {
+        return;
+      }
+      setFetching(true);
+      const result = await fetchProfile(sessionInfo.accessToken, sub);
       setUserProfile(result);
       setLoading(false);
+      setFetching(false);
     };
+
     getProfile();
   }, [userId, sessionInfo.accessToken]);
 

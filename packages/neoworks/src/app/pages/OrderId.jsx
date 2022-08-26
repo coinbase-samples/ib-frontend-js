@@ -17,11 +17,8 @@ import { useParams } from 'react-router-dom';
 export function OrderId(props) {
   const { orderId } = useParams();
 
-  const {
-    orderDetail,
-    loading: orderLoading,
-    fetchOrderById,
-  } = useContext(OrderContext);
+  const { orderDetail, orderLoading, fetchOrderById } =
+    useContext(OrderContext);
 
   useEffect(() => {
     if (!orderLoading && orderId !== orderDetail?.order?.orderId) {

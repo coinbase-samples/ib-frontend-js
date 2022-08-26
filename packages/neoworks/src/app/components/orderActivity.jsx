@@ -2,6 +2,8 @@ import * as React from 'react';
 import { OrderContext } from '../context/ordersContext';
 import { useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
+import { AuthContext } from '../context/authContext';
+
 import _ from 'lodash';
 import {
   Input,
@@ -22,11 +24,14 @@ export function OrderActivity(props) {
     fetchOrders,
   } = useContext(OrderContext);
 
+  const { sessionInfo, attrInfo } = useContext(AuthContext);
+  const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
+
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
-      fetchOrders();
+      fetchOrders(sessionInfo.accessToken, sub);
     }
-  }, [orders, ordersLoaded, fetchOrders]);
+  }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
   if (props.asset) {
     ordersByAsset = _.filter(orders.orders, { product_id: props.asset });
