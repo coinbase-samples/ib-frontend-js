@@ -34,7 +34,7 @@ const sleep = (ms) => {
           order_Id:  "222222221215245454545454545454",
           user_id: "42",
           portfolio_id: "3e1fe27e-26fe-46d8-b118-c752a2ae6b47",
-          product_id: "ETH",
+          product_id: "BTC",
           side: "BUY",
           client_order_id: "f69a20b1-4ac4-420e-90b5-814a12565bfa",
           type: "LIMIT",

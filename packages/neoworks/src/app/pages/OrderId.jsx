@@ -17,7 +17,7 @@ import { useParams } from 'react-router-dom';
 export function OrderId(props) {
   const { orderId } = useParams();
 
-  const { orderDetail, orderLoading, fetchOrderById } =
+  const { orderDetail, orderLoading, fetchOrderById, fetchOrderDetails } =
     useContext(OrderContext);
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export function OrderId(props) {
       }
     >
       <Cards
-        loading={orderLoading}
+        loading={fetchOrderDetails}
         loadingText="Loading Your Order Details"
         ariaLabels={{
           itemSelectionLabel: (e, t) => `select ${t.name}`,

@@ -22,20 +22,25 @@ const OrderProvider = ({ children }) => {
   const [orderLoading, setOrderLoading] = useState(false);
 
   console.log('are we fetching order detail? ' + fetchingOrderDetail);
-  console.log('are we loading? ' + orderLoading);
+  console.log('is orderDetail loading? ' + orderLoading);
 
   console.log('are orders loading? ' + ordersLoading);
+
   const fetchOrderById = async (orderId) => {
-    if (_.isEmpty(orderDetail)) {
+    if (!orderLoading && !fetchingOrderDetail) {
+      console.log('calling api');
+      // setOrderDetail({});
+
+      setFetchingOrderDetail(true);
       setOrderLoading(true);
       const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
-      setOrderDetail(result);
-      setFetchingOrderDetail(false);
+      // setFetchingOrderDetail(false);
+      setOrderDetail({ ...result });
       setOrderLoading(false);
-      return;
     }
+
     console.log(orderDetail);
-    console.log({ orderDetail });
+    return;
   };
 
   const fetchOrders = async () => {
