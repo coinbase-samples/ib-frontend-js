@@ -1,5 +1,6 @@
 import React, { useContext, useState, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
+import _ from 'lodash';
 
 import {
   //this is your imports for services
@@ -13,25 +14,28 @@ export const OrderContext = createContext(defaultState);
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
-  const [orderLoading, setOrderLoading] = useState(true);
-  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(false);
-
-  const [orderDetail, setOrderDetail] = useState({});
   const [ordersLoading, setOrdersLoading] = useState(false);
-  const { sessionInfo } = useContext(AuthContext);
 
+  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(false);
+  const [orderDetail, setOrderDetail] = useState({});
+  const { sessionInfo } = useContext(AuthContext);
+  const [orderLoading, setOrderLoading] = useState(false);
+
+  console.log('are we fetching order detail? ' + fetchingOrderDetail);
+  console.log('are we loading? ' + orderLoading);
+
+  console.log('are orders loading? ' + ordersLoading);
   const fetchOrderById = async (orderId) => {
-    console.log(orderLoading, fetchingOrderDetail);
-    if (orderLoading && fetchingOrderDetail) {
+    if (_.isEmpty(orderDetail)) {
+      setOrderLoading(true);
+      const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
+      setOrderDetail(result);
+      setFetchingOrderDetail(false);
+      setOrderLoading(false);
       return;
     }
-    setFetchingOrderDetail(true);
-    const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
-    setOrderDetail(result);
     console.log(orderDetail);
-
-    setOrderLoading(false);
-    setFetchingOrderDetail(false);
+    console.log({ orderDetail });
   };
 
   const fetchOrders = async () => {

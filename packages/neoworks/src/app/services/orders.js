@@ -130,8 +130,6 @@ const sleep = (ms) => {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
 
       const OrderByIdResponse = await fetchOrderById.json();
-      console.log(OrderByIdResponse)
-
       return OrderByIdResponse;
     } catch (e) {
       return e;

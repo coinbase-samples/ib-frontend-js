@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { OrderContext } from '../context/ordersContext';
-import { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
 
 import {
@@ -43,7 +43,7 @@ export function OrderId(props) {
             </SpaceBetween>
           }
         >
-          <Icons asset={orderDetail?.order?.product_id} /> Order Details
+          <Icons asset={orderDetail?.productId} /> Order Details
         </Header>
       }
     >
@@ -72,16 +72,16 @@ export function OrderId(props) {
                     loadingText="Loading Order Details"
                   >
                     <h5>Transaction Id: </h5>{' '}
-                    <p>{orderDetail?.order?.orderId}</p>
+                    <p>{orderDetail?.clientOrderId}</p>
                     <h5>Created At: </h5>{' '}
                     <p>{orderDetail?.order?.created_at}</p>
-                    <h5>Side:</h5> <p>{orderDetail?.order?.side}</p>
+                    <h5>Side:</h5> <p>{orderDetail?.side}</p>
                     <h5>Type</h5> <p>{orderDetail?.order?.type}</p>
                     <h5> Base Quantity:</h5>{' '}
                     <p>{orderDetail?.order?.base_quantity}</p>
                     <h5> Filled Quantity:</h5>{' '}
-                    <p>{orderDetail?.order?.filled_quantity}</p>
-                    <h5>Status:</h5> <p>{orderDetail?.order?.status}</p>
+                    <p>{orderDetail?.filledQuantity}</p>
+                    <h5>Status:</h5> <p>{orderDetail?.status}</p>
                   </ColumnLayout>
                 </HelpPanel>
               ),
@@ -113,10 +113,8 @@ export function OrderId(props) {
               content: (item) => (
                 <HelpPanel header={<h5>Fees</h5>}>
                   <ColumnLayout borders="horizontal" columns={3}>
-                    <h5>Commission: </h5>{' '}
-                    <p>{orderDetail?.order?.commission}</p>
-                    <h5>Exchange Fee: </h5>{' '}
-                    <p>{orderDetail?.order?.exchange_fee}</p>
+                    <h5>Commission: </h5> <p>{orderDetail?.commission}</p>
+                    <h5>Exchange Fee: </h5> <p>{orderDetail?.exchangeFee}</p>
                   </ColumnLayout>
                 </HelpPanel>
               ),
