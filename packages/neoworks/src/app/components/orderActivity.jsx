@@ -17,7 +17,6 @@ import {
 export function OrderActivity(props) {
   let filteredOrders;
   let ordersByAsset;
-  // const [value, setValue] = React.useState('');
   const {
     orders,
     ordersLoading: ordersLoaded,
