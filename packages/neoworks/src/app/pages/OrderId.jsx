@@ -2,6 +2,7 @@ import * as React from 'react';
 import { OrderContext } from '../context/ordersContext';
 import { useState, useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
+import _ from 'lodash';
 
 import {
   Container,
@@ -17,14 +18,41 @@ import { useParams } from 'react-router-dom';
 export function OrderId(props) {
   const { orderId } = useParams();
 
-  const { orderDetail, orderLoading, fetchOrderById, fetchOrderDetails } =
-    useContext(OrderContext);
+  const {
+    orders,
+    orderDetail,
+    orderLoading,
+    fetchOrderById,
+    fetchOrderDetails,
+  } = useContext(OrderContext);
 
+  // console.log(orderMatch );
   useEffect(() => {
-    if (!orderLoading && orderId !== orderDetail?.order?.orderId) {
-      fetchOrderById(orderId);
+    const orderExists = orders?.orders?.find((o) => o.order_id === orderId);
+    console.log(orderDetail);
+    console.log(orderDetail);
+    const currentOrderId = orderDetail?.clientOrderId;
+    console.log(orderExists);
+    console.log(currentOrderId);
+    const orderMatch = orderId === currentOrderId;
+    console.log(orderMatch);
+
+    if (orderMatch) {
+      console.log('order  found. Not making api request');
+      return;
+    } else if (!orderMatch && orderExists) {
+      console.log('order exists', orderExists);
+      return;
+    } else {
+      const getOrderDetails = async () => {
+        console.log('order not found.  making api request');
+        const response = await fetchOrderById(orderId);
+        return response;
+      };
+
+      getOrderDetails();
     }
-  }, [orderDetail, orderLoading, fetchOrderById, orderId]);
+  }, [orderDetail, orderId, fetchOrderById, orderDetail]);
 
   const status = 'open';
   return (

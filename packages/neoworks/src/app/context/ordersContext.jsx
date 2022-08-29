@@ -28,7 +28,6 @@ const OrderProvider = ({ children }) => {
 
   const fetchOrderById = async (orderId) => {
     if (!orderLoading && !fetchingOrderDetail) {
-      console.log('calling api');
       // setOrderDetail({});
 
       setFetchingOrderDetail(true);
@@ -50,6 +49,7 @@ const OrderProvider = ({ children }) => {
 
     setOrdersLoading(true);
     const result = await fetchOrdersList();
+    console.log(ordersLoading);
     setOrders(result);
     setOrdersLoading(false);
   };

@@ -22,7 +22,7 @@ export function UpdateProfileModal(props) {
       visible={props.open}
       onDismiss={props.close}
       closeAriaLabel="Close modal"
-      header="Order Confirmed"
+      header="Update your Profile"
     >
       <Container>
         <HelpPanel
@@ -33,7 +33,7 @@ export function UpdateProfileModal(props) {
                   Close
                 </Button>
                 <Button onClick={submitUpdateProfile} variant="primary">
-                  Submit Order
+                  Submit Profile Update
                 </Button>
               </SpaceBetween>
             </Box>
@@ -41,7 +41,7 @@ export function UpdateProfileModal(props) {
         >
           <div>
             <ul>
-              <h5>You have successfully updated your Profile</h5>
+              <h5>add form fields here</h5>
             </ul>
           </div>
         </HelpPanel>
