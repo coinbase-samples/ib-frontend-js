@@ -5,8 +5,8 @@
   "scripts": {
     "run:web": "nx serve neoworks",
     "test": "nx text",
-    "clean": "rm -r dist",
-    "build": "nx build",
+    "clean": "rm -r dist && rm -r build",
+    "build": "nx build && mkdir -p ./build && cp -a ./dist/packages/neoworks/. ./build",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

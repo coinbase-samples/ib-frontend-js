@@ -16,30 +16,32 @@ const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
 
-  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(false);
+  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(true);
   const [orderDetail, setOrderDetail] = useState({});
   const { sessionInfo } = useContext(AuthContext);
   const [orderLoading, setOrderLoading] = useState(false);
 
-  console.log('are we fetching order detail? ' + fetchingOrderDetail);
-  console.log('is orderDetail loading? ' + orderLoading);
-
-  console.log('are orders loading? ' + ordersLoading);
-
   const fetchOrderById = async (orderId) => {
-    if (!orderLoading && !fetchingOrderDetail) {
-      // setOrderDetail({});
+    console.log('are we fetching order detail? ' + fetchingOrderDetail);
+    console.log('is orderDetail loading? ' + orderLoading);
 
-      setFetchingOrderDetail(true);
+    console.log('are orders loading? ' + ordersLoading);
+
+    if (!orderLoading && fetchingOrderDetail) {
+      console.log('api hit');
       setOrderLoading(true);
       const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
-      // setFetchingOrderDetail(false);
-      setOrderDetail({ ...result });
+      setOrderDetail(result);
+      setFetchingOrderDetail(false);
       setOrderLoading(false);
     }
-
-    console.log(orderDetail);
-    return;
+    setOrderLoading(true);
+    const updateOrderDetail = orders?.orders?.find(
+      (o) => o.clientOrderId === orderId
+    );
+    setOrderDetail(updateOrderDetail);
+    setFetchingOrderDetail(false);
+    setOrderLoading(false);
   };
 
   const fetchOrders = async () => {

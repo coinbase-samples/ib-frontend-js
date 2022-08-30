@@ -45,7 +45,7 @@ export function OrderActivity(props) {
           {
             id: 'product_id',
             header: 'Asset',
-            cell: (e) => <Icons asset={e.product_id} />,
+            cell: (e) => <Icons asset={e.productId} />,
             sortingField: 'product_id',
           },
           {
@@ -57,20 +57,22 @@ export function OrderActivity(props) {
           {
             id: 'filled_quantity',
             header: 'Qty',
-            cell: (item) => item.filled_quantity || '-',
+            cell: (item) => item.quantity || '-',
             sortingField: 'filled_quantity',
           },
           {
             id: 'created_at',
             header: 'Order Date',
-            cell: (item) => item.created_at || '-',
+            cell: (item) => item.createdAt || '-',
           },
 
           {
             id: 'details',
             header: '',
             cell: (e) => (
-              <Link href={`#/activity/orders/${e.order_Id}`}>View Order</Link>
+              <Link href={`#/activity/orders/${e.clientOrderId}`}>
+                View Order
+              </Link>
             ),
           },
         ]}
