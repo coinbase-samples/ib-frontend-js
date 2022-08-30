@@ -12,6 +12,7 @@ import {
   Link,
   Box,
   SpaceBetween,
+  TextFilter,
 } from '@cloudscape-design/components';
 
 export function OrderActivity(props) {
@@ -32,17 +33,30 @@ export function OrderActivity(props) {
     }
   }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
-  if (props.asset) {
-    ordersByAsset = _.filter(orders, { product_id: props.asset });
-    filteredOrders = true;
+  // if (props.asset) {
+  //   ordersByAsset = _.filter(orders, { product_id: props.asset });
+  //   filteredOrders = true;
+  //   console.log(filteredOrders);
+  //   console.log(orders);
+  // }
+
+  const [filteringText, setFilteringText] = React.useState('');
+  if (filteringText) {
+    console.log(filteringText);
+    filteredOrders = _.filter(orders, { productId: filteringText });
     console.log(filteredOrders);
-    console.log(orders);
   }
 
   return [
     <SpaceBetween size="l">
-      <Input type="search" placeholder="Search Orders" ariaLabel="Search" />
       <Table
+        filter={
+          <TextFilter
+            filteringPlaceholder="Search Orders"
+            filteringText={filteringText}
+            onChange={({ detail }) => setFilteringText(detail.filteringText)}
+          />
+        }
         columnDefinitions={[
           {
             id: 'product_id',
@@ -78,7 +92,7 @@ export function OrderActivity(props) {
             ),
           },
         ]}
-        items={filteredOrders ? ordersByAsset : orders}
+        items={filteredOrders ? filteredOrders : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         sortingDisabled
