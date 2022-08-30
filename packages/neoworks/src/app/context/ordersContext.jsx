@@ -1,11 +1,11 @@
 import React, { useContext, useState, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
-import _ from 'lodash';
 
 import {
   //this is your imports for services
   fetchOrderDetails,
-  fetchOrdersList,
+  // fetchOrdersList,
+  createOrder,
 } from '../services/orders';
 
 const defaultState = {};
@@ -20,6 +20,7 @@ const OrderProvider = ({ children }) => {
   const [orderDetail, setOrderDetail] = useState({});
   const { sessionInfo } = useContext(AuthContext);
   const [orderLoading, setOrderLoading] = useState(false);
+  const [newOrderLoading, setNewOrderLoading] = useState(false);
 
   const fetchOrderById = async (orderId) => {
     console.log('are we fetching order detail? ' + fetchingOrderDetail);
@@ -36,9 +37,7 @@ const OrderProvider = ({ children }) => {
       setOrderLoading(false);
     }
     setOrderLoading(true);
-    const updateOrderDetail = orders?.orders?.find(
-      (o) => o.clientOrderId === orderId
-    );
+    const updateOrderDetail = orders?.find((o) => o.clientOrderId === orderId);
     setOrderDetail(updateOrderDetail);
     setFetchingOrderDetail(false);
     setOrderLoading(false);
@@ -50,10 +49,20 @@ const OrderProvider = ({ children }) => {
     }
 
     setOrdersLoading(true);
-    const result = await fetchOrdersList();
+    const result = orders;
     console.log(ordersLoading);
     setOrders(result);
     setOrdersLoading(false);
+  };
+
+  const currentOrder = async (body) => {
+    setNewOrderLoading(true);
+    const result = await createOrder(sessionInfo.accessToken, body);
+    setOrders([...orders, result]);
+
+    // setLastOrder(result);
+    setOrderDetail(result);
+    setNewOrderLoading(false);
   };
 
   const state = {
@@ -64,6 +73,8 @@ const OrderProvider = ({ children }) => {
     fetchOrders,
     orders,
     ordersLoading,
+    currentOrder,
+    newOrderLoading,
   };
 
   return (

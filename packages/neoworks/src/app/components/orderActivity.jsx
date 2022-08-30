@@ -33,8 +33,10 @@ export function OrderActivity(props) {
   }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
   if (props.asset) {
-    ordersByAsset = _.filter(orders.orders, { product_id: props.asset });
+    ordersByAsset = _.filter(orders, { product_id: props.asset });
     filteredOrders = true;
+    console.log(filteredOrders);
+    console.log(orders);
   }
 
   return [
@@ -49,10 +51,10 @@ export function OrderActivity(props) {
             sortingField: 'product_id',
           },
           {
-            id: 'type',
-            header: 'Order Type',
-            cell: (item) => item.type || '-',
-            sortingField: 'type',
+            id: 'side',
+            header: 'Side',
+            cell: (item) => item.side || '-',
+            sortingField: 'side',
           },
           {
             id: 'filled_quantity',
@@ -76,7 +78,7 @@ export function OrderActivity(props) {
             ),
           },
         ]}
-        items={filteredOrders ? ordersByAsset : orders.orders}
+        items={filteredOrders ? ordersByAsset : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         sortingDisabled
