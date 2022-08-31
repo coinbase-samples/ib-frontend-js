@@ -41,7 +41,6 @@ export function OrderActivity(props) {
   if (filteringText) {
     console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
-    console.log(filteredOrders);
   }
 
   return [
