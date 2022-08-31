@@ -6,7 +6,6 @@ import { AuthContext } from '../context/authContext';
 
 import _ from 'lodash';
 import {
-  Input,
   Header,
   Table,
   Link,
@@ -16,8 +15,8 @@ import {
 } from '@cloudscape-design/components';
 
 export function OrderActivity(props) {
+  let searchOptions = false;
   let filteredOrders;
-  let ordersByAsset;
   const {
     orders,
     ordersLoading: ordersLoaded,
@@ -26,6 +25,7 @@ export function OrderActivity(props) {
 
   const { sessionInfo, attrInfo } = useContext(AuthContext);
   const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
+  const [filteringText, setFilteringText] = React.useState('');
 
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
@@ -33,14 +33,11 @@ export function OrderActivity(props) {
     }
   }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
-  // if (props.asset) {
-  //   ordersByAsset = _.filter(orders, { product_id: props.asset });
-  //   filteredOrders = true;
-  //   console.log(filteredOrders);
-  //   console.log(orders);
-  // }
+  if (props.asset) {
+    filteredOrders = _.filter(orders, { productId: props.asset });
+    searchOptions = false;
+  }
 
-  const [filteringText, setFilteringText] = React.useState('');
   if (filteringText) {
     console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
@@ -51,11 +48,15 @@ export function OrderActivity(props) {
     <SpaceBetween size="l">
       <Table
         filter={
-          <TextFilter
-            filteringPlaceholder="Search Orders"
-            filteringText={filteringText}
-            onChange={({ detail }) => setFilteringText(detail.filteringText)}
-          />
+          searchOptions ? (
+            <TextFilter
+              filteringPlaceholder="Search Orders"
+              filteringText={filteringText}
+              onChange={({ detail }) => setFilteringText(detail.filteringText)}
+            />
+          ) : (
+            <p>searching not available</p>
+          )
         }
         columnDefinitions={[
           {

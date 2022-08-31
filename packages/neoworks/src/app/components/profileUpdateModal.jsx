@@ -8,7 +8,7 @@ import {
   Button,
 } from '@cloudscape-design/components';
 
-export function UpdateProfileModal(props) {
+export function PureUpdateProfileModal({ show, close }, props) {
   console.log(props);
   const submitUpdateProfile = () => {
     alert('Profile Updated');
@@ -48,6 +48,10 @@ export function UpdateProfileModal(props) {
       </Container>
     </Modal>
   );
+}
+
+export function UpdateProfileModal() {
+  return <PureUpdateProfileModal show={open} close={close} />;
 }
 
 export default UpdateProfileModal;

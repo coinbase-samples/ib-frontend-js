@@ -26,7 +26,6 @@ export function TradeModal(props) {
   const { qty, assetPrice, fiatBalance, side } = props;
   const orderTotal = qty * assetPrice + platformFee;
 
-  console.log(qty);
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -40,13 +39,19 @@ export function TradeModal(props) {
     await currentOrder(body);
   };
 
+  const closeModal = () => {
+    //add an if check to ensure api finishes
+    setOrderPreview(true);
+    props.close();
+  };
+
   const cancelOrder = () => {
     window.location.reload(false);
   };
   return (
     <Modal
       visible={props.open}
-      onDismiss={props.close}
+      onDismiss={closeModal}
       closeAriaLabel="Close modal"
       header={orderPreview ? 'Order Preview' : 'Order Confirmed'}
     >
