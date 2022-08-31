@@ -15,7 +15,6 @@ export const OrderContext = createContext(defaultState);
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
-
   const [fetchingOrderDetail, setFetchingOrderDetail] = useState(true);
   const [orderDetail, setOrderDetail] = useState({});
   const { sessionInfo } = useContext(AuthContext);
