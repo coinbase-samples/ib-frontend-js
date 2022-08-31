@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Icons } from '../utils/Icons';
 import { tradeFee } from '../../constants';
+import { OrderContext } from '../context/ordersContext';
+import { useContext } from 'react';
 import {
   Modal,
   HelpPanel,
@@ -16,16 +18,32 @@ import {
 } from '@cloudscape-design/components';
 
 export function TradeModal(props) {
+  const { currentOrder, newOrderLoading, orderDetail } =
+    useContext(OrderContext);
+
   const [orderPreview, setOrderPreview] = React.useState(true);
-
-  const submitOrder = () => {
-    setOrderPreview(false);
-
-    alert('Order Submitted');
-  };
   const platformFee = tradeFee;
-  const { qty, assetPrice, fiatBalance } = props;
+  const { qty, assetPrice, fiatBalance, side } = props;
   const orderTotal = qty * assetPrice + platformFee;
+
+  const submitOrder = async () => {
+    setOrderPreview(false);
+    const body = {
+      productId: props.asset,
+      side,
+      orderType: 'limit',
+      quantity: qty,
+      limitPrice: assetPrice,
+    };
+
+    await currentOrder(body);
+  };
+
+  const closeModal = () => {
+    //add an if check to ensure api finishes
+    setOrderPreview(true);
+    props.close();
+  };
 
   const cancelOrder = () => {
     window.location.reload(false);
@@ -33,20 +51,25 @@ export function TradeModal(props) {
   return (
     <Modal
       visible={props.open}
-      onDismiss={props.close}
+      onDismiss={closeModal}
       closeAriaLabel="Close modal"
       header={orderPreview ? 'Order Preview' : 'Order Confirmed'}
     >
       {!orderPreview ? (
         <Container>
           <HelpPanel
+            loading={newOrderLoading}
+            loadingText="Placing your Order."
             footer={
               <Box float="right">
                 <SpaceBetween direction="horizontal" size="xxs">
                   <Button onClick={cancelOrder} variant="link">
                     Close
                   </Button>
-                  <Button href="#/activity/orders/12345" variant="primary">
+                  <Button
+                    href={`#/activity/orders/${orderDetail?.clientOrderId}`}
+                    variant="primary"
+                  >
                     Order Details
                   </Button>
                 </SpaceBetween>
@@ -76,7 +99,7 @@ export function TradeModal(props) {
               }
             >
               <Icons asset={props.asset} />
-              {props.type} {props.asset}
+              {side} {props.asset}
             </Header>
           }
         >

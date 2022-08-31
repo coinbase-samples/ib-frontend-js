@@ -5,7 +5,6 @@ import { useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
 
 export function TradeableAssets() {
-  // const [value, setValue] = React.useState('');
   const {
     assets,
     assetsLoading: assetsLoaded,

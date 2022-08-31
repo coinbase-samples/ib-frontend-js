@@ -1,9 +1,11 @@
-import React, { useState, createContext } from 'react';
+import React, { useContext, useState, createContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 import {
   //this is your imports for services
   fetchOrderDetails,
-  fetchOrdersList,
+  // fetchOrdersList,
+  createOrder,
 } from '../services/orders';
 
 const defaultState = {};
@@ -12,18 +14,32 @@ export const OrderContext = createContext(defaultState);
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [orderDetail, setOrderDetail] = useState({});
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [fetchingOrderDetail, setFetchingOrderDetail] = useState(true);
+  const [orderDetail, setOrderDetail] = useState({});
+  const { sessionInfo } = useContext(AuthContext);
+  const [orderLoading, setOrderLoading] = useState(false);
+  const [newOrderLoading, setNewOrderLoading] = useState(false);
 
   const fetchOrderById = async (orderId) => {
-    if (loading) {
-      return;
+    console.log('are we fetching order detail? ' + fetchingOrderDetail);
+    console.log('is orderDetail loading? ' + orderLoading);
+
+    console.log('are orders loading? ' + ordersLoading);
+
+    if (!orderLoading && fetchingOrderDetail) {
+      console.log('api hit');
+      setOrderLoading(true);
+      const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
+      setOrderDetail(result);
+      setFetchingOrderDetail(false);
+      setOrderLoading(false);
     }
-    setLoading(true);
-    const result = await fetchOrderDetails(orderId);
-    setOrderDetail(result);
-    setLoading(false);
+    setOrderLoading(true);
+    const updateOrderDetail = orders?.find((o) => o.clientOrderId === orderId);
+    setOrderDetail(updateOrderDetail);
+    setFetchingOrderDetail(false);
+    setOrderLoading(false);
   };
 
   const fetchOrders = async () => {
@@ -32,18 +48,32 @@ const OrderProvider = ({ children }) => {
     }
 
     setOrdersLoading(true);
-    const result = await fetchOrdersList();
+    const result = orders;
+    console.log(ordersLoading);
     setOrders(result);
     setOrdersLoading(false);
   };
 
+  const currentOrder = async (body) => {
+    setNewOrderLoading(true);
+    const result = await createOrder(sessionInfo.accessToken, body);
+    setOrders([...orders, result]);
+
+    // setLastOrder(result);
+    setOrderDetail(result);
+    setNewOrderLoading(false);
+  };
+
   const state = {
     orderDetail,
-    loading,
+    orderLoading,
+    fetchingOrderDetail,
     fetchOrderById,
     fetchOrders,
     orders,
     ordersLoading,
+    currentOrder,
+    newOrderLoading,
   };
 
   return (

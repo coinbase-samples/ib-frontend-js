@@ -14,20 +14,39 @@ import {
 } from '@cloudscape-design/components';
 import { useParams } from 'react-router-dom';
 
-export function OrderId(props) {
+export function OrderId() {
   const { orderId } = useParams();
-
   const {
-    orderDetail,
-    loading: orderLoading,
+    orders,
+    orderLoading,
     fetchOrderById,
+    fetchOrderDetails,
+    orderDetail,
   } = useContext(OrderContext);
 
+  const getOrderDetails = async () => {
+    console.log('fetching orders');
+    await fetchOrderById(orderId);
+  };
+
+  const currentOrderDetail = orderDetail?.clientOrderId;
+  const currentOrderId = currentOrderDetail?.clientOrderId;
+  const orderMatch = orderId === currentOrderId;
+  console.log(currentOrderDetail, orderId, currentOrderDetail, orderMatch);
+
   useEffect(() => {
-    if (!orderLoading && orderId !== orderDetail?.order?.orderId) {
-      fetchOrderById(orderId);
+    if (orderMatch) {
+      console.log('order matched');
+      return;
+    } else if (!orderMatch && currentOrderDetail) {
+      console.log('order exists', currentOrderDetail);
+
+      getOrderDetails();
+    } else {
+      console.log('checking api if order exists.');
+      getOrderDetails();
     }
-  }, [orderDetail, orderLoading, fetchOrderById, orderId]);
+  }, [orderId, fetchOrderById, orders, orderMatch, currentOrderDetail]);
 
   const status = 'open';
   return (
@@ -46,12 +65,12 @@ export function OrderId(props) {
             </SpaceBetween>
           }
         >
-          <Icons asset={orderDetail?.order?.product_id} /> Order Details
+          <Icons asset={orderDetail?.productId} /> Order Details
         </Header>
       }
     >
       <Cards
-        loading={orderLoading}
+        loading={fetchOrderDetails}
         loadingText="Loading Your Order Details"
         ariaLabels={{
           itemSelectionLabel: (e, t) => `select ${t.name}`,
@@ -74,17 +93,27 @@ export function OrderId(props) {
                     loading={orderLoading}
                     loadingText="Loading Order Details"
                   >
-                    <h5>Transaction Id: </h5>{' '}
-                    <p>{orderDetail?.order?.orderId}</p>
-                    <h5>Created At: </h5>{' '}
-                    <p>{orderDetail?.order?.created_at}</p>
-                    <h5>Side:</h5> <p>{orderDetail?.order?.side}</p>
-                    <h5>Type</h5> <p>{orderDetail?.order?.type}</p>
-                    <h5> Base Quantity:</h5>{' '}
-                    <p>{orderDetail?.order?.base_quantity}</p>
-                    <h5> Filled Quantity:</h5>{' '}
-                    <p>{orderDetail?.order?.filled_quantity}</p>
-                    <h5>Status:</h5> <p>{orderDetail?.order?.status}</p>
+                    <h5>Transaction Id: </h5>
+
+                    <p>{orderDetail?.clientOrderId}</p>
+                    <h5>Created At:</h5>
+
+                    <p>{orderDetail?.createdAt}</p>
+                    <h5>Side:</h5>
+
+                    <p>{orderDetail?.side}</p>
+                    <h5>Type</h5>
+
+                    <p>{orderDetail?.type}</p>
+                    <h5> Base Quantity:</h5>
+
+                    <p>{orderDetail?.quantity}</p>
+                    <h5> Filled Quantity:</h5>
+
+                    <p>{orderDetail?.filledQuantity}</p>
+                    <h5>Status:</h5>
+
+                    <p>{orderDetail?.status}</p>
                   </ColumnLayout>
                 </HelpPanel>
               ),
@@ -116,10 +145,10 @@ export function OrderId(props) {
               content: (item) => (
                 <HelpPanel header={<h5>Fees</h5>}>
                   <ColumnLayout borders="horizontal" columns={3}>
-                    <h5>Commission: </h5>{' '}
-                    <p>{orderDetail?.order?.commission}</p>
-                    <h5>Exchange Fee: </h5>{' '}
-                    <p>{orderDetail?.order?.exchange_fee}</p>
+                    <h5>Commission: </h5>
+                    <p>{orderDetail?.commission}</p>
+                    <h5>Exchange Fee: </h5>
+                    <p>{orderDetail?.exchangeFee}</p>
                   </ColumnLayout>
                 </HelpPanel>
               ),

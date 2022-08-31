@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { ProfileContext } from '../context/profileContext';
+import { AuthContext } from '../context/authContext';
 
 import {
   Container,
@@ -12,9 +13,17 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 
-export function Profile() {
-  const { userProfile, loading: profileLoading } = useContext(ProfileContext);
+import { editProfilePhoto } from '../services/profile';
+import { UpdateProfileModal } from './profileUpdateModal';
 
+export function PureProfile({
+  userProfile,
+  profileLoading,
+  updateClicked,
+  editClicked,
+  closeUpdateProfileModal,
+  showUpdateProfileModal,
+}) {
   return (
     <Container
       header={
@@ -23,8 +32,8 @@ export function Profile() {
           description=""
           actions={
             <SpaceBetween direction="horizontal" size="xs">
-              <Button>Update</Button>
-              <Button>Edit Profile Photo</Button>
+              <Button onClick={updateClicked}>Update</Button>
+              <Button onClick={editClicked}>Edit Profile Photo</Button>
             </SpaceBetween>
           }
         >
@@ -32,6 +41,10 @@ export function Profile() {
         </Header>
       }
     >
+      <UpdateProfileModal
+        open={showUpdateProfileModal}
+        close={closeUpdateProfileModal}
+      />
       <Cards
         loading={profileLoading}
         loadingText="Loading Your Profile"
@@ -114,6 +127,35 @@ export function Profile() {
         empty={<p>No profile info</p>}
       />
     </Container>
+  );
+}
+export function Profile() {
+  const { userProfile, loading: profileLoading } = useContext(ProfileContext);
+  const [showUpdateProfileModal, setshowUpdateProfileModal] =
+    React.useState(false);
+
+  const closeUpdateProfileModal = () => {
+    setshowUpdateProfileModal(false);
+  };
+
+  const updateClicked = (e) => {
+    e.preventDefault();
+    setshowUpdateProfileModal(true);
+    console.log(showUpdateProfileModal);
+  };
+
+  const editClicked = () => {
+    return editProfilePhoto();
+  };
+  return (
+    <PureProfile
+      userProfile={userProfile}
+      profileLoading={profileLoading}
+      editClicked={editClicked}
+      updateClicked={updateClicked}
+      close={closeUpdateProfileModal}
+      open={showUpdateProfileModal}
+    />
   );
 }
 

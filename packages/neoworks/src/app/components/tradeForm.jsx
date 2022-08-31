@@ -31,7 +31,7 @@ export function TradeForm(props) {
     fetchPortfolio,
   } = useContext(PortfolioContext);
 
-  const [quantity, setQuantity] = React.useState('1');
+  const [quantity, setQuantity] = React.useState(1);
   const [orderType, setOrderType] = React.useState('Buy');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
@@ -41,6 +41,7 @@ export function TradeForm(props) {
     value: asset ? asset : 'BTC',
   });
 
+  console.log(orderType);
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
@@ -147,7 +148,7 @@ export function TradeForm(props) {
         close={closePreviewModal}
         qty={quantity}
         asset={selectedOption.value}
-        type={orderType}
+        side={orderType}
         assetPrice={assetPrice}
         fiatBalance={fiatBalance}
       />

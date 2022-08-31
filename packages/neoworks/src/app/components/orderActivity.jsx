@@ -2,75 +2,98 @@ import * as React from 'react';
 import { OrderContext } from '../context/ordersContext';
 import { useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
+import { AuthContext } from '../context/authContext';
+
 import _ from 'lodash';
 import {
-  Input,
   Header,
   Table,
   Link,
   Box,
   SpaceBetween,
+  TextFilter,
 } from '@cloudscape-design/components';
 
 export function OrderActivity(props) {
+  let searchOptions = false;
   let filteredOrders;
-  let ordersByAsset;
-  // const [value, setValue] = React.useState('');
   const {
     orders,
     ordersLoading: ordersLoaded,
     fetchOrders,
   } = useContext(OrderContext);
 
+  const { sessionInfo, attrInfo } = useContext(AuthContext);
+  const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
+  const [filteringText, setFilteringText] = React.useState('');
+
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
-      fetchOrders();
+      fetchOrders(sessionInfo.accessToken, sub);
     }
-  }, [orders, ordersLoaded, fetchOrders]);
+  }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
   if (props.asset) {
-    ordersByAsset = _.filter(orders.orders, { product_id: props.asset });
-    filteredOrders = true;
+    filteredOrders = _.filter(orders, { productId: props.asset });
+    searchOptions = false;
+  }
+
+  if (filteringText) {
+    console.log(filteringText);
+    filteredOrders = _.filter(orders, { productId: filteringText });
+    console.log(filteredOrders);
   }
 
   return [
     <SpaceBetween size="l">
-      <Input type="search" placeholder="Search Orders" ariaLabel="Search" />
       <Table
+        filter={
+          searchOptions ? (
+            <TextFilter
+              filteringPlaceholder="Search Orders"
+              filteringText={filteringText}
+              onChange={({ detail }) => setFilteringText(detail.filteringText)}
+            />
+          ) : (
+            <p>searching not available</p>
+          )
+        }
         columnDefinitions={[
           {
             id: 'product_id',
             header: 'Asset',
-            cell: (e) => <Icons asset={e.product_id} />,
+            cell: (e) => <Icons asset={e.productId} />,
             sortingField: 'product_id',
           },
           {
-            id: 'type',
-            header: 'Order Type',
-            cell: (item) => item.type || '-',
-            sortingField: 'type',
+            id: 'side',
+            header: 'Side',
+            cell: (item) => item.side || '-',
+            sortingField: 'side',
           },
           {
             id: 'filled_quantity',
             header: 'Qty',
-            cell: (item) => item.filled_quantity || '-',
+            cell: (item) => item.quantity || '-',
             sortingField: 'filled_quantity',
           },
           {
             id: 'created_at',
             header: 'Order Date',
-            cell: (item) => item.created_at || '-',
+            cell: (item) => item.createdAt || '-',
           },
 
           {
             id: 'details',
             header: '',
             cell: (e) => (
-              <Link href={`#/activity/orders/${e.order_Id}`}>View Order</Link>
+              <Link href={`#/activity/orders/${e.clientOrderId}`}>
+                View Order
+              </Link>
             ),
           },
         ]}
-        items={filteredOrders ? ordersByAsset : orders.orders}
+        items={filteredOrders ? filteredOrders : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         sortingDisabled
