@@ -32,7 +32,8 @@ export function TradeForm(props) {
   } = useContext(PortfolioContext);
 
   const [quantity, setQuantity] = React.useState(1);
-  const [orderType, setOrderType] = React.useState('ORDER_SIDE_BUY');
+  const [orderType, setOrderType] = React.useState('Buy');
+  const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
 
@@ -41,7 +42,6 @@ export function TradeForm(props) {
     value: asset ? asset : 'BTC',
   });
 
-  console.log(orderType);
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
@@ -80,9 +80,17 @@ export function TradeForm(props) {
     setShowPreviewModal(false);
   };
   const displayOrderType = (e) => {
-    setOrderType(e.detail.id);
-  };
+    console.log(e);
+    if (e.detail.id === 'Buy') {
+      setOrderType('Buy');
+      setOrderSideType('Buy');
 
+      console.log(orderType);
+    } else {
+      setOrderType('Sell');
+      setOrderSideType('ORDER_SIDE_BUY');
+    }
+  };
   return (
     <div>
       <form onSubmit={handlePreviewSubmit}>
@@ -100,8 +108,12 @@ export function TradeForm(props) {
             <ButtonDropdown
               onItemClick={displayOrderType}
               items={[
-                { text: 'Buy', id: 'ORDER_SIDE_BUY', disabled: false },
-                { text: 'Sell', id: 'ORDER_SIDE_SELL', disabled: false },
+                {
+                  text: 'Buy',
+                  id: 'Buy',
+                  disabled: false,
+                },
+                { text: 'Sell', id: 'Sell', disabled: false },
               ]}
             >
               {orderType}
@@ -148,7 +160,7 @@ export function TradeForm(props) {
         close={closePreviewModal}
         qty={quantity}
         asset={selectedOption.value}
-        side={orderType}
+        side={orderSide}
         assetPrice={assetPrice}
         fiatBalance={fiatBalance}
       />

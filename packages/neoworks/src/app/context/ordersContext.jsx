@@ -55,13 +55,17 @@ const OrderProvider = ({ children }) => {
   };
 
   const currentOrder = async (body) => {
-    setNewOrderLoading(true);
-    const result = await createOrder(sessionInfo.accessToken, body);
-    setOrders([...orders, result]);
+    try {
+      setNewOrderLoading(true);
+      const result = await createOrder(sessionInfo.accessToken, body);
+      setOrders([...orders, result]);
 
-    // setLastOrder(result);
-    setOrderDetail(result);
-    setNewOrderLoading(false);
+      // setLastOrder(result);
+      setOrderDetail(result);
+      setNewOrderLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const state = {

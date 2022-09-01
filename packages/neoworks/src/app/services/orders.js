@@ -105,6 +105,8 @@ const sleep = (ms) => {
       console.log(createOrderResponse)
       return createOrderResponse;
     } catch (e) {
+      console.log('caught an error', e)
+
       return e;
     }
   }

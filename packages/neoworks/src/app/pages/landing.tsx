@@ -4,15 +4,27 @@ import { Grid, Input, Button, Container, TopNavigation, SpaceBetween } from "@cl
 
 import { AuthContext } from '../context/authContext';
 
+
 export function Landing() {
   const navigate = useNavigate()
   const { signInWithEmail } = useContext(AuthContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const handleSignIn = () => {
-    signInWithEmail(username, password);
-    navigate('/home')
+  const [loginFailure, setLoginFailure] = useState(false);
+
+  let failureResponse;
+  
+  const handleSignIn = async () => {
+    try {
+      await signInWithEmail(username, password);
+      navigate('/home')
+    } catch (e) {
+      setLoginFailure(true)
+       failureResponse = e
+         
+    }
   };
+
   return (
     <SpaceBetween direction="vertical" size="xxl">
     
@@ -55,6 +67,7 @@ export function Landing() {
         onChange={({detail}) => setPassword(detail.value)}
       />
       <br />
+      {loginFailure ? ( <p style={{color: "red"}}>Login Error: {failureResponse} please try again.</p> ) : ('' )}
       <Button onClick={handleSignIn}>Sign In</Button>
     </div>
 
