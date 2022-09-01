@@ -32,7 +32,7 @@ export function TradeForm(props) {
   } = useContext(PortfolioContext);
 
   const [quantity, setQuantity] = React.useState(1);
-  const [orderType, setOrderType] = React.useState('Buy');
+  const [orderType, setOrderType] = React.useState('ORDER_SIDE_BUY');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
 
@@ -100,8 +100,8 @@ export function TradeForm(props) {
             <ButtonDropdown
               onItemClick={displayOrderType}
               items={[
-                { text: 'Buy', id: 'Buy', disabled: false },
-                { text: 'Sell', id: 'Sell', disabled: false },
+                { text: 'Buy', id: 'ORDER_SIDE_BUY', disabled: false },
+                { text: 'Sell', id: 'ORDER_SIDE_SELL', disabled: false },
               ]}
             >
               {orderType}

@@ -67,7 +67,7 @@ export function TradeModal(props) {
                     Close
                   </Button>
                   <Button
-                    href={`#/activity/orders/${orderDetail?.clientOrderId}`}
+                    href={`#/activity/orders/${orderDetail?.orderId}`}
                     variant="primary"
                   >
                     Order Details

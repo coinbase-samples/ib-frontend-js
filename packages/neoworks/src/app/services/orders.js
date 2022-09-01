@@ -70,7 +70,7 @@ const sleep = (ms) => {
 
   export async function fetchOrderDetails(token, orderId) {
     await sleep(1000);
-        const url = `http://localhost:3001/v1/order/${orderId}`;
+        const url = `http://localhost:8443/v1/order/${orderId}`;
 
     try {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
@@ -85,20 +85,18 @@ const sleep = (ms) => {
 
   export async function createOrder(token, body) {
     await sleep(1000);
-        const url = `http://localhost:3001/v1/order`;
+        const url = `http://localhost:8443/v1/order`;
 
 
   const payload = JSON.stringify({
     "productId": body.productId,
     "side": body.side,
-    "orderType": body.type,
     "quantity": parseFloat(body.quantity),
     "limitPrice": parseFloat(body.quantity),
-    "timeInForce": "GOOD_UNTIL_CANCELLED"
+    "type":"ORDER_TYPE_LIMIT",
+    "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
 });
 
-
-  console.log(payload)
 
     try {
       const placeNewOrder = await makeCall(token, 'POST', url, payload);

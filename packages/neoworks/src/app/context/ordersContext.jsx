@@ -36,7 +36,7 @@ const OrderProvider = ({ children }) => {
       setOrderLoading(false);
     }
     setOrderLoading(true);
-    const updateOrderDetail = orders?.find((o) => o.clientOrderId === orderId);
+    const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
     setOrderDetail(updateOrderDetail);
     setFetchingOrderDetail(false);
     setOrderLoading(false);

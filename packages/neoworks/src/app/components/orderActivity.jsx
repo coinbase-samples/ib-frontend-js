@@ -15,7 +15,7 @@ import {
 } from '@cloudscape-design/components';
 
 export function OrderActivity(props) {
-  let searchOptions = false;
+  let searchOptions = true;
   let filteredOrders;
   const {
     orders,
@@ -37,10 +37,11 @@ export function OrderActivity(props) {
     filteredOrders = _.filter(orders, { productId: props.asset });
     searchOptions = false;
   }
-
+  console.log(searchOptions);
   if (filteringText) {
     console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
+    console.log(filteredOrders);
   }
 
   return [
@@ -86,9 +87,7 @@ export function OrderActivity(props) {
             id: 'details',
             header: '',
             cell: (e) => (
-              <Link href={`#/activity/orders/${e.clientOrderId}`}>
-                View Order
-              </Link>
+              <Link href={`#/activity/orders/${e.orderId}`}>View Order</Link>
             ),
           },
         ]}
