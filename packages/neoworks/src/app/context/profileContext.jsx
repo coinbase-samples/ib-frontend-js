@@ -2,10 +2,7 @@ import React, { useContext, useState, useEffect, createContext } from 'react';
 
 import { AuthContext } from '../context/authContext';
 
-import {
-  //this is your imports for services
-  fetchProfile,
-} from '../services/profile';
+import { fetchProfile, updateProfile } from '../services/profile';
 
 const defaultState = {};
 
@@ -14,6 +11,7 @@ export const ProfileContext = createContext(defaultState);
 const ProfileProvider = ({ children, userId }) => {
   const [loading, setLoading] = useState(true);
   const [fetching, setFetching] = useState(false);
+  const [updatingProfile, setUpdatingProfile] = useState(false);
 
   const [userProfile, setUserProfile] = useState({});
   const { sessionInfo, attrInfo } = useContext(AuthContext);
@@ -34,7 +32,30 @@ const ProfileProvider = ({ children, userId }) => {
     getProfile();
   }, [userId, sessionInfo.accessToken]);
 
-  const state = { userProfile, loading };
+  const updateUserProfile = async (body) => {
+    try {
+      setUpdatingProfile(true);
+      const result = await updateProfile(
+        sessionInfo.accessToken,
+        body,
+        userProfile.userId
+      );
+      setUserProfile(result);
+      setUpdatingProfile(false);
+      return result;
+    } catch (e) {
+      console.log(e);
+      setUpdatingProfile(false);
+    }
+  };
+
+  const state = {
+    userProfile,
+    loading,
+    updateUserProfile,
+    updatingProfile,
+    setUpdatingProfile,
+  };
 
   return (
     <ProfileContext.Provider value={state}>{children}</ProfileContext.Provider>

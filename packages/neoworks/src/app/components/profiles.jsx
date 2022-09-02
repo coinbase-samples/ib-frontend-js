@@ -41,11 +41,14 @@ export function PureProfile({
         </Header>
       }
     >
-      <UpdateProfileModal
-        open={showUpdateProfileModal}
-        close={close}
-        userProfile={userProfile}
-      />
+      {!profileLoading && (
+        <UpdateProfileModal
+          open={showUpdateProfileModal}
+          close={close}
+          userProfile={userProfile}
+        />
+      )}
+
       <Cards
         loading={profileLoading}
         loadingText="Loading Your Profile"

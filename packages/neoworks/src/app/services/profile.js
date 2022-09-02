@@ -18,9 +18,22 @@ export async function fetchProfile(token, userId) {
   }
 }
 
-export async function updateProfile() {
-  console.log('updated profile')
-} 
+export async function updateProfile(token, body, userId) {
+  await sleep(1000);
+        const url = `http://localhost:8443/v1/profile/${userId}`;
+
+        const payload = JSON.stringify(body)
+
+    try {
+      const submitUpdatedProfile = await makeCall(token, 'POST', url, payload);
+
+      const UpdatedProfileResponse = await submitUpdatedProfile.json();
+      console.log(UpdatedProfileResponse)
+      return UpdatedProfileResponse;
+    } catch (e) {
+      return e;
+    }
+  }
 
 export async function editProfilePhoto() {
   console.log('Photo Updated')

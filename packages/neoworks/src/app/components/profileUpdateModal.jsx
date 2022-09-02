@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { ProfileContext } from '../context/profileContext';
+import { useNavigate } from 'react-router-dom';
+
 import {
   Modal,
   SpaceBetween,
@@ -17,13 +19,19 @@ export function PureUpdateProfileModal({
   submitUpdateProfile,
   userProfile,
   handlePreviewSubmit,
-  setProfileUserName,
-  setProfileName,
   setUpdatePreview,
   updatePreview,
   cancelUpdateProfile,
   closeModal,
   props,
+  profileName,
+  setProfileName,
+  setEmail,
+  email,
+  userName,
+  setUserName,
+  updatingProfile,
+  updateProfileResponse,
 }) {
   return (
     <Modal
@@ -49,20 +57,24 @@ export function PureUpdateProfileModal({
             >
               <FormField label="Name:" id="name">
                 <Input
-                  onChange={({ detail }) => setProfileName(detail.name)}
-                  value={props?.userProfile?.name}
+                  onChange={({ detail }) => {
+                    setProfileName(detail.value);
+                    console.log(detail.value);
+                    console.log(profileName);
+                  }}
+                  value={profileName}
                 />
               </FormField>
               <FormField label="Username:" id="userName">
                 <Input
-                  onChange={({ detail }) => setProfileUserName(detail.userName)}
-                  value={props?.userProfile?.userName}
+                  onChange={({ detail }) => setUserName(detail.value)}
+                  value={userName}
                 />
               </FormField>
               <FormField label="Email:" id="email">
                 <Input
-                  onChange={({ detail }) => setProfileUserName(detail.email)}
-                  value={props?.userProfile?.email}
+                  onChange={({ detail }) => setEmail(detail.value)}
+                  value={email}
                 />
               </FormField>
             </Form>
@@ -71,8 +83,8 @@ export function PureUpdateProfileModal({
       ) : (
         <Container>
           <HelpPanel
-            // loading={newOrderLoading}
-            loadingText="Placing your Order."
+            loading={updatingProfile}
+            loadingText="Updating Your Profile..."
             footer={
               <Box float="right">
                 <SpaceBetween direction="horizontal" size="xxs">
@@ -85,7 +97,7 @@ export function PureUpdateProfileModal({
           >
             <div>
               <ul>
-                <p>fix me</p>
+                <p>{updateProfileResponse}</p>
               </ul>
             </div>
           </HelpPanel>
@@ -96,21 +108,54 @@ export function PureUpdateProfileModal({
 }
 
 export function UpdateProfileModal(props) {
-  const { userProfile } = useContext(ProfileContext);
+  const { userProfile, updateUserProfile, updatingProfile } =
+    useContext(ProfileContext);
   const [updatePreview, setUpdatePreview] = React.useState(true);
+  const [profileName, setProfileName] = React.useState(
+    props?.userProfile?.name
+  );
+  const [userName, setUserName] = React.useState(props?.userProfile?.userName);
+  const [email, setEmail] = React.useState(props?.userProfile?.email);
+  const [updateProfileResponse, setUpdateProfileResponse] = React.useState();
 
-  console.log(props);
-  const closeModal = () => {
+  const navigate = useNavigate();
+
+  const closeModal = (e) => {
+    e.preventDefault();
     setUpdatePreview(true);
+    setProfileName(props?.userProfile?.name);
     props.close();
   };
-  const cancelUpdateProfile = () => {
-    window.location.reload(false);
+  const cancelUpdateProfile = (e) => {
+    e.preventDefault();
+    props.close();
   };
 
-  const submitUpdateProfile = () => {
+  const submitUpdateProfile = async () => {
     setUpdatePreview(false);
-    console.log(updatePreview);
+    console.log('name being submitted', profileName);
+    const body = {
+      userId: props?.userProfile?.Id,
+      email: props?.userProfile?.email,
+      name: profileName,
+      legalName: props?.userProfile?.legalName,
+      userName: props?.userProfile?.userName,
+      address: props?.userProfile?.address,
+      dateOfBirth: props?.userProfile?.dateOfBirth,
+    };
+    try {
+      const submitProfile = await updateUserProfile(body);
+      if (submitProfile.code) {
+        setUpdateProfileResponse(
+          'Sorry, could not update your Profile.  Please try again later.'
+        );
+      }
+      setUpdateProfileResponse('Your profile was successfully updated.');
+      // navigate('/profile');
+      return submitProfile;
+    } catch (e) {
+      console.log(e);
+    }
   };
   return (
     <PureUpdateProfileModal
@@ -121,6 +166,14 @@ export function UpdateProfileModal(props) {
       props={props}
       updatePreview={updatePreview}
       setUpdatePreview={setUpdatePreview}
+      userName={userName}
+      setUserName={setUserName}
+      profileName={profileName}
+      setProfileName={setProfileName}
+      email={email}
+      setEmail={setEmail}
+      updatingProfile={updatingProfile}
+      updateProfileResponse={updateProfileResponse}
     />
   );
 }
