@@ -24,7 +24,6 @@ export const makeCall = async (token, method, url, body) => {
       });
       return callAmp;
     } else {
-      console.log('else hit')
       const callAmp = await fetch(url, {
         mode: 'cors',
         method,

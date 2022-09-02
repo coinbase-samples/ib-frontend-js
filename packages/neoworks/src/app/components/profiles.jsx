@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { ProfileContext } from '../context/profileContext';
-import { AuthContext } from '../context/authContext';
 
 import {
   Container,
@@ -21,8 +20,9 @@ export function PureProfile({
   profileLoading,
   updateClicked,
   editClicked,
-  closeUpdateProfileModal,
+  close,
   showUpdateProfileModal,
+  setshowUpdateProfileModal,
 }) {
   return (
     <Container
@@ -43,7 +43,8 @@ export function PureProfile({
     >
       <UpdateProfileModal
         open={showUpdateProfileModal}
-        close={closeUpdateProfileModal}
+        close={close}
+        userProfile={userProfile}
       />
       <Cards
         loading={profileLoading}
@@ -66,10 +67,10 @@ export function PureProfile({
                     <div>{userProfile?.name}</div>
                     <br />
                     <div>
-                      <h4>UserId:</h4>
+                      <h4>User Name:</h4>
                     </div>
                     <div>
-                      <p>{userProfile?.username}</p>
+                      <p>{userProfile?.userName}</p>
                     </div>
                     <br />
 
@@ -131,6 +132,7 @@ export function PureProfile({
 }
 export function Profile() {
   const { userProfile, loading: profileLoading } = useContext(ProfileContext);
+
   const [showUpdateProfileModal, setshowUpdateProfileModal] =
     React.useState(false);
 
@@ -141,7 +143,7 @@ export function Profile() {
   const updateClicked = (e) => {
     e.preventDefault();
     setshowUpdateProfileModal(true);
-    console.log(showUpdateProfileModal);
+    console.log(showUpdateProfileModal, showUpdateProfileModal);
   };
 
   const editClicked = () => {
@@ -154,7 +156,8 @@ export function Profile() {
       editClicked={editClicked}
       updateClicked={updateClicked}
       close={closeUpdateProfileModal}
-      open={showUpdateProfileModal}
+      showUpdateProfileModal={showUpdateProfileModal}
+      setshowUpdateProfileModal={setshowUpdateProfileModal}
     />
   );
 }

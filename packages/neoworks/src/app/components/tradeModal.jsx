@@ -51,7 +51,6 @@ export function TradeModal(props) {
 
   const orderResponse = () => {
     if (orderDetail?.code) {
-      console.log(orderDetail);
       return orderDetail?.message;
     }
     return (

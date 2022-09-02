@@ -1,10 +1,9 @@
-import React, { useContext, useState, createContext } from 'react';
+import { useContext, useState, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
-
 import {
   //this is your imports for services
   fetchOrderDetails,
-  // fetchOrdersList,
+  fetchOrdersList,
   createOrder,
 } from '../services/orders';
 
@@ -46,10 +45,9 @@ const OrderProvider = ({ children }) => {
     if (ordersLoading) {
       return;
     }
-
     setOrdersLoading(true);
-    const result = orders;
-    console.log(ordersLoading);
+    // const result = orders;
+    const result = await fetchOrdersList(sessionInfo.accessToken);
     setOrders(result);
     setOrdersLoading(false);
   };

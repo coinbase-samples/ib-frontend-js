@@ -15,8 +15,6 @@ import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
 
-// const [value, setValue] = React.useState('');
-
 export function TradeForm(props) {
   const {
     asset,
