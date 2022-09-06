@@ -12,10 +12,11 @@ import {
   Box,
   SpaceBetween,
   TextFilter,
+  Pagination,
 } from '@cloudscape-design/components';
 
 export function OrderActivity(props) {
-  let searchOptions = false;
+  let searchOptions = true;
   let filteredOrders;
   const {
     orders,
@@ -26,6 +27,7 @@ export function OrderActivity(props) {
   const { sessionInfo, attrInfo } = useContext(AuthContext);
   const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
+  const [currentPageIndex, setCurrentPageIndex] = React.useState(1);
 
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
@@ -37,10 +39,11 @@ export function OrderActivity(props) {
     filteredOrders = _.filter(orders, { productId: props.asset });
     searchOptions = false;
   }
-
+  console.log(searchOptions);
   if (filteringText) {
     console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
+    console.log(filteredOrders);
   }
 
   return [
@@ -86,9 +89,7 @@ export function OrderActivity(props) {
             id: 'details',
             header: '',
             cell: (e) => (
-              <Link href={`#/activity/orders/${e.clientOrderId}`}>
-                View Order
-              </Link>
+              <Link href={`#/activity/orders/${e.orderId}`}>View Order</Link>
             ),
           },
         ]}
@@ -102,6 +103,17 @@ export function OrderActivity(props) {
           </Box>
         }
         header={<Header> Order History </Header>}
+      />
+      <Pagination
+        ariaLabels={{
+          nextPageLabel: 'Next page',
+          previousPageLabel: 'Previous page',
+          pageLabel: (pageNumber) => `Page ${pageNumber} of all pages`,
+        }}
+        currentPageIndex={currentPageIndex}
+        onChange={({ detail }) => setCurrentPageIndex(detail.currentPageIndex)}
+        openEnd
+        pagesCount={5}
       />
     </SpaceBetween>,
   ];

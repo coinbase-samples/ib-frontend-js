@@ -48,12 +48,25 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
+
+  const orderResponse = () => {
+    if (orderDetail?.code) {
+      return orderDetail?.message;
+    }
+    return (
+      <p>
+        {' '}
+        Congrats, we successfully submitted your order for {props.qty}{' '}
+        {props.asset}.
+      </p>
+    );
+  };
   return (
     <Modal
       visible={props.open}
       onDismiss={closeModal}
       closeAriaLabel="Close modal"
-      header={orderPreview ? 'Order Preview' : 'Order Confirmed'}
+      header={orderPreview ? 'Order Preview' : 'Order Status'}
     >
       {!orderPreview ? (
         <Container>
@@ -67,7 +80,7 @@ export function TradeModal(props) {
                     Close
                   </Button>
                   <Button
-                    href={`#/activity/orders/${orderDetail?.clientOrderId}`}
+                    href={`#/activity/orders/${orderDetail?.orderId}`}
                     variant="primary"
                   >
                     Order Details
@@ -79,9 +92,7 @@ export function TradeModal(props) {
             <Icons asset={props.asset} />
             <div>
               <ul>
-                <h5>
-                  You have successfully purchased {props.qty} {props.asset}
-                </h5>
+                <p>{orderResponse()}</p>
               </ul>
             </div>
           </HelpPanel>

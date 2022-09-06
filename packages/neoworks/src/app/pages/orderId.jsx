@@ -29,8 +29,8 @@ export function OrderId() {
     await fetchOrderById(orderId);
   };
 
-  const currentOrderDetail = orderDetail?.clientOrderId;
-  const currentOrderId = currentOrderDetail?.clientOrderId;
+  const currentOrderDetail = orderDetail?.orderId;
+  const currentOrderId = currentOrderDetail?.orderId;
   const orderMatch = orderId === currentOrderId;
   console.log(currentOrderDetail, orderId, currentOrderDetail, orderMatch);
 
@@ -95,7 +95,7 @@ export function OrderId() {
                   >
                     <h5>Transaction Id: </h5>
 
-                    <p>{orderDetail?.clientOrderId}</p>
+                    <p>{orderDetail?.orderId}</p>
                     <h5>Created At:</h5>
 
                     <p>{orderDetail?.createdAt}</p>
