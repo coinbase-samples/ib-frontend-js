@@ -20,7 +20,7 @@ const OrderProvider = ({ children }) => {
   const { sessionInfo } = useContext(AuthContext);
   const [orderLoading, setOrderLoading] = useState(false);
   const [newOrderLoading, setNewOrderLoading] = useState(false);
-
+  const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
     console.log('are we fetching order detail? ' + fetchingOrderDetail);
     console.log('is orderDetail loading? ' + orderLoading);
@@ -54,13 +54,20 @@ const OrderProvider = ({ children }) => {
   };
 
   const sortOrders = async (event) => {
+    let sortedOrders;
     if (ordersLoading) {
       return;
     }
     setOrdersLoading(true);
+    setSorting(true);
     const sortedType = event.detail.sortingColumn.sortingField;
-    const sortedOrders = _.sortBy(orders, [sortedType]);
-    console.log(sortedOrders);
+    if (sorting) {
+      sortedOrders = _.orderBy(orders, [sortedType], ['asc']);
+      setSorting(false);
+    } else {
+      sortedOrders = _.orderBy(orders, [sortedType], ['desc']);
+      setSorting(true);
+    }
     setOrders(sortedOrders);
     setOrdersLoading(false);
   };
