@@ -20,6 +20,7 @@ export function OrderActivity(props) {
   let filteredOrders;
   const {
     orders,
+    sortOrders,
     ordersLoading: ordersLoaded,
     fetchOrders,
   } = useContext(OrderContext);
@@ -39,16 +40,20 @@ export function OrderActivity(props) {
     filteredOrders = _.filter(orders, { productId: props.asset });
     searchOptions = false;
   }
-  console.log(searchOptions);
   if (filteringText) {
-    console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
     console.log(filteredOrders);
   }
 
+  const handleSort = (event) => {
+    sortOrders(event);
+  };
+
   return [
     <SpaceBetween size="l">
       <Table
+        sortingDescending
+        onSortingChange={handleSort}
         filter={
           searchOptions ? (
             <TextFilter
@@ -61,11 +66,16 @@ export function OrderActivity(props) {
           )
         }
         columnDefinitions={[
+          // {
+          //   id: 'orderId',
+          //   header: 'Order Id',
+          //   cell: (item) => item.orderId || '-',
+          // },
           {
-            id: 'product_id',
+            id: 'productId',
             header: 'Asset',
             cell: (e) => <Icons asset={e.productId} />,
-            sortingField: 'product_id',
+            sortingField: 'productId',
           },
           {
             id: 'side',
@@ -74,17 +84,17 @@ export function OrderActivity(props) {
             sortingField: 'side',
           },
           {
-            id: 'filled_quantity',
+            id: 'quantity',
             header: 'Qty',
             cell: (item) => item.quantity || '-',
-            sortingField: 'filled_quantity',
+            sortingField: 'quantity',
           },
           {
-            id: 'created_at',
+            id: 'createdAt',
             header: 'Order Date',
             cell: (item) => item.createdAt || '-',
+            sortingField: 'createdAt',
           },
-
           {
             id: 'details',
             header: '',
@@ -96,7 +106,7 @@ export function OrderActivity(props) {
         items={filteredOrders ? filteredOrders : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
-        sortingDisabled
+        trackBy="orderId"
         empty={
           <Box textAlign="center" color="inherit">
             <b>No Orders Found</b>

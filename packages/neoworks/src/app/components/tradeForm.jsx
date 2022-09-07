@@ -134,9 +134,7 @@ export function TradeForm(props) {
               />
             </FormField>
             <div>
-              <p>
-                <h4>Asset Price:</h4> ${assetPrice}
-              </p>
+              <h4>Asset Price:</h4> ${assetPrice}
             </div>
 
             <FormField label="Quantity" id="quantity">

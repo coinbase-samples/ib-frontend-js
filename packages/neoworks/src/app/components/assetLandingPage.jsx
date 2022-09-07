@@ -6,7 +6,7 @@ import { TradeForm } from '../components/tradeForm';
 import { Container, Grid, Header } from '@cloudscape-design/components';
 import { OrderActivity } from './orderActivity';
 
-export function AssetLanding() {
+export function PureAssetLanding() {
   const { asset } = useParams();
   return (
     <Grid
@@ -36,4 +36,7 @@ export function AssetLanding() {
   );
 }
 
+export function AssetLanding() {
+  return <PureAssetLanding />;
+}
 export default AssetLanding;

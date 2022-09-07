@@ -1,11 +1,11 @@
-import AssetLanding from './assetLandingPage';
+import { PureAssetLanding } from './assetLandingPage';
 
 export default {
-  component: AssetLanding,
+  component: PureAssetLanding,
   title: 'AssetLanding',
 };
 
-const Template = (args) => <AssetLanding {...args} />;
+const Template = (args) => <PureAssetLanding {...args} />;
 
 export const Primary = Template.bind({});
 Primary.args = {};

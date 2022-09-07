@@ -146,7 +146,6 @@ export function Profile() {
   const updateClicked = (e) => {
     e.preventDefault();
     setshowUpdateProfileModal(true);
-    console.log(showUpdateProfileModal, showUpdateProfileModal);
   };
 
   const editClicked = () => {

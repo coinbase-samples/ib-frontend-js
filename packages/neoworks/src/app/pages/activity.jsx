@@ -8,12 +8,12 @@ export function Activity() {
       tabs={[
         {
           label: 'Orders',
-          id: 'first',
+          id: 'ActivityPage-1',
           content: <OrderActivity />,
         },
         {
           label: 'Transfers',
-          id: 'second',
+          id: 'TransfersPage-2',
           content: 'Second tab content area',
         },
       ]}

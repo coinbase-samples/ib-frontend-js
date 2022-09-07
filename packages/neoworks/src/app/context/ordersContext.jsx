@@ -6,6 +6,7 @@ import {
   fetchOrdersList,
   createOrder,
 } from '../services/orders';
+import _ from 'lodash';
 
 const defaultState = {};
 
@@ -52,6 +53,18 @@ const OrderProvider = ({ children }) => {
     setOrdersLoading(false);
   };
 
+  const sortOrders = async (event) => {
+    if (ordersLoading) {
+      return;
+    }
+    setOrdersLoading(true);
+    const sortedType = event.detail.sortingColumn.sortingField;
+    const sortedOrders = _.sortBy(orders, [sortedType]);
+    console.log(sortedOrders);
+    setOrders(sortedOrders);
+    setOrdersLoading(false);
+  };
+
   const currentOrder = async (body) => {
     try {
       setNewOrderLoading(true);
@@ -76,6 +89,7 @@ const OrderProvider = ({ children }) => {
     ordersLoading,
     currentOrder,
     newOrderLoading,
+    sortOrders,
   };
 
   return (
