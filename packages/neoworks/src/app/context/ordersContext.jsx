@@ -49,7 +49,8 @@ const OrderProvider = ({ children }) => {
     setOrdersLoading(true);
     // const result = orders;
     const result = await fetchOrdersList(sessionInfo.accessToken);
-    setOrders(result);
+    const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
+    setOrders(fetchedOrders);
     setOrdersLoading(false);
   };
 
