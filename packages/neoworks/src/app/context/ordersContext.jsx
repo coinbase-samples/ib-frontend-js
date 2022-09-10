@@ -22,11 +22,6 @@ const OrderProvider = ({ children }) => {
   const [newOrderLoading, setNewOrderLoading] = useState(false);
   const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
-    console.log('are we fetching order detail? ' + fetchingOrderDetail);
-    console.log('is orderDetail loading? ' + orderLoading);
-
-    console.log('are orders loading? ' + ordersLoading);
-
     if (!orderLoading && fetchingOrderDetail) {
       console.log('api hit');
       setOrderLoading(true);
