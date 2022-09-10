@@ -28,13 +28,14 @@ export function OrderId() {
 
   const getOrderDetails = async () => {
     try {
-      const result = await fetchOrderById(orderId);
-      console.log('order detail context ', result);
-      if (result?.orderId) {
-        setOrderInvalid(false);
-      } else {
-        console.log('no order found');
+      const orderDetailResponse = await fetchOrderById(orderId);
+      console.log('order detail context ', orderDetailResponse);
+      if (!orderDetail) {
+        console.log('no order found', orderDetailResponse);
         setOrderInvalid(true);
+      } else {
+        console.log('order found', orderDetailResponse);
+        setOrderInvalid(false);
       }
     } catch (e) {
       console.log(e);
@@ -44,6 +45,9 @@ export function OrderId() {
   const currentOrderId = currentOrderDetail?.orderId;
   const orderMatch = orderId === currentOrderId;
   console.log(currentOrderDetail, orderId, currentOrderId, orderMatch);
+  // const orderSide = orderDetail?.side;
+  // const side = orderSide?.split('_');
+  // const formattedSide = side[2];
 
   useEffect(() => {
     if (orderMatch) {
@@ -182,7 +186,44 @@ export function OrderId() {
       />
     </Container>
   ) : (
-    <p>No order found</p>
+    <Container
+      header={
+        <Header variant="h3" description="">
+          <Icons asset={orderDetail?.productId} /> Order Details
+        </Header>
+      }
+    >
+      <Cards
+        loading={orderLoading}
+        loadingText="Searching for Order"
+        ariaLabels={{
+          itemSelectionLabel: (e, t) => `select ${t.name}`,
+          selectionGroupLabel: 'Item selection',
+        }}
+        cardDefinition={{
+          sections: [
+            {
+              id: 'NoOrder',
+              name: 'NoOrder',
+              content: (item) => (
+                <ColumnLayout columns={3}>
+                  <h3>Order {orderId} Not Found </h3>
+                </ColumnLayout>
+              ),
+            },
+          ],
+        }}
+        cardsPerRow={[{ cards: 1 }, { minWidth: 300, cards: 1 }]}
+        items={[
+          {
+            size: 'Small',
+            id: 'Fees',
+            name: 'Fees',
+          },
+        ]}
+        empty={<p>No profile info</p>}
+      />
+    </Container>
   );
 }
 

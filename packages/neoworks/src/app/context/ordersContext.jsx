@@ -26,13 +26,18 @@ const OrderProvider = ({ children }) => {
       console.log('api hit');
       setOrderLoading(true);
       const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
+      console.log('result updated ', result);
       setOrderDetail(result);
+
       setFetchingOrderDetail(false);
       setOrderLoading(false);
+    } else {
+      console.log('searchign state');
+      setOrderLoading(true);
+      const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
+      setOrderDetail(updateOrderDetail);
     }
-    setOrderLoading(true);
-    const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
-    setOrderDetail(updateOrderDetail);
+
     setFetchingOrderDetail(false);
     setOrderLoading(false);
   };

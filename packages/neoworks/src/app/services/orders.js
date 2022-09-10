@@ -1,4 +1,5 @@
 import { makeCall } from "./ampClient";
+import _ from 'lodash';
 
 const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms)); 
@@ -29,8 +30,29 @@ const sleep = (ms) => {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
 
       const OrderByIdResponse = await fetchOrderById.json();
-      console.log(OrderByIdResponse)
-      return OrderByIdResponse;
+      
+      const result = {
+        orderId: OrderByIdResponse?.orderId,
+        ownerId: OrderByIdResponse?.ownerId,
+        productId: OrderByIdResponse?.productId,
+        side: OrderByIdResponse?.side.slice(),
+        type: OrderByIdResponse.type,
+        quantity: OrderByIdResponse.quantity,
+        limitPrice: OrderByIdResponse.limitPrice,
+        timeInForce: OrderByIdResponse.timeInForce,
+        status: OrderByIdResponse.status,
+        createdAt: OrderByIdResponse.createdAt,
+        updatedAt: OrderByIdResponse.updatedAt,
+        filledQuantity:OrderByIdResponse.filledQuantity,
+        filledValue: OrderByIdResponse.filledQuantity,
+        averageFilledPrice: OrderByIdResponse.averageFilledPrice,
+        commission: OrderByIdResponse.commission,
+        exchangeFee:OrderByIdResponse.exchangeFee 
+      };
+
+      console.log(result)
+
+      return result
     } catch (e) {
       return e;
     }
