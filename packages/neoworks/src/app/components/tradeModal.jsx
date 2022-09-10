@@ -23,9 +23,10 @@ export function TradeModal(props) {
 
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
-  const { qty, assetPrice, fiatBalance, side } = props;
+  const { qty, assetPrice, fiatBalance, side, orderSideType } = props;
   const orderTotal = qty * assetPrice + platformFee;
 
+  console.log(orderSideType);
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -110,7 +111,7 @@ export function TradeModal(props) {
               }
             >
               <Icons asset={props.asset} />
-              {side} {props.asset}
+              {orderSideType} {props.asset}
             </Header>
           }
         >

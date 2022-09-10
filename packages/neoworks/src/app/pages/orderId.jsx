@@ -15,6 +15,8 @@ import {
 import { useParams } from 'react-router-dom';
 
 export function OrderId() {
+  const [orderInvalid, setOrderInvalid] = React.useState(false);
+
   const { orderId } = useParams();
   const {
     orders,
@@ -25,31 +27,44 @@ export function OrderId() {
   } = useContext(OrderContext);
 
   const getOrderDetails = async () => {
-    console.log('fetching orders');
-    await fetchOrderById(orderId);
+    try {
+      const result = await fetchOrderById(orderId);
+      console.log('order detail context ', result);
+      if (result?.orderId) {
+        setOrderInvalid(false);
+      } else {
+        console.log('no order found');
+        setOrderInvalid(true);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
-
-  const currentOrderDetail = orderDetail?.orderId;
+  const currentOrderDetail = orderDetail;
   const currentOrderId = currentOrderDetail?.orderId;
   const orderMatch = orderId === currentOrderId;
-  console.log(currentOrderDetail, orderId, currentOrderDetail, orderMatch);
+  console.log(currentOrderDetail, orderId, currentOrderId, orderMatch);
 
   useEffect(() => {
     if (orderMatch) {
       console.log('order matched');
+      setOrderInvalid(false);
       return;
     } else if (!orderMatch && currentOrderDetail) {
-      console.log('order exists', currentOrderDetail);
+      console.log(
+        'an order in state exists but doesnt match URI ',
+        currentOrderId
+      );
 
       getOrderDetails();
     } else {
       console.log('checking api if order exists.');
       getOrderDetails();
     }
-  }, [orderId, fetchOrderById, orders, orderMatch, currentOrderDetail]);
+  }, [orderId, fetchOrderById, orders, currentOrderDetail]);
 
   const status = 'open';
-  return (
+  return !orderInvalid ? (
     <Container
       header={
         <Header
@@ -166,6 +181,8 @@ export function OrderId() {
         empty={<p>No profile info</p>}
       />
     </Container>
+  ) : (
+    <p>No order found</p>
   );
 }
 

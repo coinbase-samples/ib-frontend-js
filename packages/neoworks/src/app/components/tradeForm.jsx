@@ -80,13 +80,11 @@ export function TradeForm(props) {
   const displayOrderType = (e) => {
     console.log(e);
     if (e.detail.id === 'Buy') {
-      setOrderType('Buy');
-      setOrderSideType('Buy');
-
-      console.log(orderType);
+      setOrderType('BUY');
+      setOrderSideType('ORDER_SIDE_BUY');
     } else {
       setOrderType('Sell');
-      setOrderSideType('ORDER_SIDE_BUY');
+      setOrderSideType('ORDER_SIDE_SELL');
     }
   };
   return (
@@ -159,6 +157,7 @@ export function TradeForm(props) {
         side={orderSide}
         assetPrice={assetPrice}
         fiatBalance={fiatBalance}
+        orderSideType={orderType}
       />
     </div>
   );

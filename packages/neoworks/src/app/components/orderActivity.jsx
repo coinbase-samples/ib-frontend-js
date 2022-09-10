@@ -42,7 +42,6 @@ export function OrderActivity(props) {
   }
   if (filteringText) {
     filteredOrders = _.filter(orders, { productId: filteringText });
-    console.log(filteredOrders);
   }
 
   const handleSort = (event) => {
