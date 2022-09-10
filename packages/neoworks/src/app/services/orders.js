@@ -12,6 +12,8 @@ const sleep = (ms) => {
       const fetchOrders = await makeCall(token, 'GET', url, '');
 
       const fetchOrdersResponse = await fetchOrders.json();
+      // const trimOrders = fetchOrders.map(side => { side.slice(7)})
+      // console.log(trimOrders)
       return fetchOrdersResponse.data;
     } catch (e) {
       return e;
@@ -30,18 +32,21 @@ const sleep = (ms) => {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
 
       const OrderByIdResponse = await fetchOrderById.json();
+      const parseDate = Date(OrderByIdResponse.createdAt)
+      console.log(parseDate)
       
       const result = {
         orderId: OrderByIdResponse?.orderId,
         ownerId: OrderByIdResponse?.ownerId,
         productId: OrderByIdResponse?.productId,
-        side: OrderByIdResponse?.side.slice(),
-        type: OrderByIdResponse.type,
+        side: OrderByIdResponse?.side.slice(11),
+        type: OrderByIdResponse.type.slice(11),
         quantity: OrderByIdResponse.quantity,
         limitPrice: OrderByIdResponse.limitPrice,
         timeInForce: OrderByIdResponse.timeInForce,
-        status: OrderByIdResponse.status,
-        createdAt: OrderByIdResponse.createdAt,
+        status: OrderByIdResponse.status.slice(13),
+        // createdAt: OrderByIdResponse.createdAt.slice(0,19),
+        createdAt: parseDate.slice(0,25),
         updatedAt: OrderByIdResponse.updatedAt,
         filledQuantity:OrderByIdResponse.filledQuantity,
         filledValue: OrderByIdResponse.filledQuantity,

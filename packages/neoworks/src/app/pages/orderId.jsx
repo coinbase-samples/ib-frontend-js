@@ -18,13 +18,8 @@ export function OrderId() {
   const [orderInvalid, setOrderInvalid] = React.useState(false);
 
   const { orderId } = useParams();
-  const {
-    orders,
-    orderLoading,
-    fetchOrderById,
-    fetchOrderDetails,
-    orderDetail,
-  } = useContext(OrderContext);
+  const { orderLoading, fetchOrderById, fetchOrderDetails, orderDetail } =
+    useContext(OrderContext);
 
   const getOrderDetails = async () => {
     try {
@@ -65,10 +60,10 @@ export function OrderId() {
       console.log('checking api if order exists.');
       getOrderDetails();
     }
-  }, [orderId, fetchOrderById, orders, currentOrderDetail]);
+  }, [orderDetail, currentOrderDetail]);
 
   const status = 'open';
-  return !orderInvalid ? (
+  return !orderInvalid && !orderLoading ? (
     <Container
       header={
         <Header

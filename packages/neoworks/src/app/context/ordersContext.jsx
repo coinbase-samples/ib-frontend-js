@@ -36,10 +36,9 @@ const OrderProvider = ({ children }) => {
       setOrderLoading(true);
       const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
       setOrderDetail(updateOrderDetail);
+      setFetchingOrderDetail(false);
+      setOrderLoading(false);
     }
-
-    setFetchingOrderDetail(false);
-    setOrderLoading(false);
   };
 
   const fetchOrders = async () => {
