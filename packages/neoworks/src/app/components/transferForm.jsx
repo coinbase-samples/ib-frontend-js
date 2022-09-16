@@ -83,7 +83,7 @@ export function TransferForm(props) {
             </FormField>
           </SpaceBetween>
           <div>
-            <p> {selectedOption.value} Balance: $12,000</p>
+            <p> {selectedOption.value} Balance: $12,0001</p>
           </div>
         </Form>
       </form>

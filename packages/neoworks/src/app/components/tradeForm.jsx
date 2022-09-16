@@ -59,15 +59,15 @@ export function TradeForm(props) {
   const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
-    asset: selectedOption?.value,
+    currency: selectedOption?.value,
   });
 
   const fiatObject = _.filter(portfolio, {
-    asset: 'USD',
+    curren: 'USD',
   });
 
-  const fiatBalance = fiatObject[0]?.amount;
-  const portfolioPrice = portfolioObject[0]?.amount;
+  const fiatBalance = fiatObject[0]?.balance;
+  const portfolioPrice = portfolioObject[0]?.balance;
 
   const handlePreviewSubmit = (e) => {
     e.preventDefault();

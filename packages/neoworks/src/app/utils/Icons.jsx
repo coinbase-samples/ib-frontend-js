@@ -1,4 +1,5 @@
 import * as React from 'react';
+import USD from '../../assets/USD.png';
 import {
   Cosmos,
   Solana,
@@ -38,6 +39,8 @@ export const Icons = ({ asset }) => {
       return <Cardano height="45px" width="45px" />;
     case 'ATOM':
       return <Cosmos height="45px" width="45px" />;
+    case 'USD':
+      return <img src={USD} alt="USD" />;
     default:
       return;
   }

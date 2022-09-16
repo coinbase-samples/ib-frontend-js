@@ -1,4 +1,5 @@
-import React, { useState, createContext } from 'react';
+import { useContext, useState, createContext } from 'react';
+import { AuthContext } from '../context/authContext';
 
 import {
   //this is your imports for services
@@ -12,6 +13,7 @@ export const PortfolioContext = createContext(defaultState);
 const PortfolioProvider = ({ children }) => {
   const [portfolio, setPortfolio] = useState([]);
   const [portfolioLoading, setPortfolioLoading] = useState(false);
+  const { sessionInfo } = useContext(AuthContext);
 
   const fetchPortfolio = async () => {
     if (portfolioLoading) {
@@ -19,8 +21,9 @@ const PortfolioProvider = ({ children }) => {
     }
 
     setPortfolioLoading(true);
-    const result = await fetchPortfolioList();
-    setPortfolio(result.portfolio);
+    const result = await fetchPortfolioList(sessionInfo.accessToken);
+    console.log(result);
+    setPortfolio(result);
     setPortfolioLoading(false);
   };
 

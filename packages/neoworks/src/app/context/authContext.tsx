@@ -86,6 +86,7 @@ const AuthProvider = ({ children }: Props) => {
           refreshToken: session.refreshToken.token,
           email,
           username: attr?.username,
+          sub: '620E62FD-DAF1-4738-84CE-1DBC4393ED29'
         });
       } catch (err) {
         setAuthStatus(AuthStatus.SignedOut);
