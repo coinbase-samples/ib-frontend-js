@@ -47,14 +47,7 @@ export function TradeForm(props) {
     if (!assetsLoaded && assets?.length === 0) {
       fetchAssets();
     }
-  }, [
-    assets,
-    fetchAssets,
-    portfolio,
-    fetchPortfolio,
-    assetsLoaded,
-    portfolioLoaded,
-  ]);
+  }, []);
 
   const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
   const assetPrice = assetObject[0]?.price;
@@ -63,7 +56,7 @@ export function TradeForm(props) {
   });
 
   const fiatObject = _.filter(portfolio, {
-    curren: 'USD',
+    currency: 'USD',
   });
 
   const fiatBalance = fiatObject[0]?.balance;

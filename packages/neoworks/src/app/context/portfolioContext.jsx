@@ -22,7 +22,6 @@ const PortfolioProvider = ({ children }) => {
 
     setPortfolioLoading(true);
     const result = await fetchPortfolioList(sessionInfo.accessToken);
-    console.log(result);
     setPortfolio(result);
     setPortfolioLoading(false);
   };

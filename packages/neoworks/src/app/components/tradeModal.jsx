@@ -25,8 +25,8 @@ export function TradeModal(props) {
   const platformFee = tradeFee;
   const { qty, assetPrice, fiatBalance, side, orderSideType } = props;
   const orderTotal = qty * assetPrice + platformFee;
+  // const [submitButton, setSubmitButton] = React.useState(true);
 
-  console.log(orderSideType);
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -49,6 +49,8 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
+
+  const overBudget = orderTotal > fiatBalance;
 
   const orderResponse = () => {
     if (orderDetail?.code) {
@@ -122,9 +124,15 @@ export function TradeModal(props) {
                   <Button onClick={cancelOrder} variant="link">
                     Cancel
                   </Button>
-                  <Button onClick={submitOrder} variant="primary">
-                    Submit Order
-                  </Button>
+                  {!overBudget ? (
+                    <Button onClick={submitOrder} variant="primary">
+                      Submit Order
+                    </Button>
+                  ) : (
+                    <Button onClick={submitOrder} disabled variant="primary">
+                      Submit Order
+                    </Button>
+                  )}
                 </SpaceBetween>
               </Box>
             }
@@ -144,14 +152,25 @@ export function TradeModal(props) {
               </div>
               <div>{platformFee}</div>
               <div>
-                <h5>Payment Type: US Dollars:</h5>
+                <h5>Payment Type: </h5>
               </div>
-              <div>Balance: {fiatBalance}</div>
+              <div>USD</div>
+              <div>
+                <h5>USD Balance: </h5>
+              </div>
+              <div>{fiatBalance}</div>
+
               <div>
                 <h5>Total</h5>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <h5>${orderTotal}</h5>
+                {overBudget && side === 'ORDER_SIDE_BUY' ? (
+                  <p style={{ color: 'red' }}>
+                    order is over budget, please modify
+                  </p>
+                ) : (
+                  <h5>${orderTotal}</h5>
+                )}
               </div>
 
               <div>

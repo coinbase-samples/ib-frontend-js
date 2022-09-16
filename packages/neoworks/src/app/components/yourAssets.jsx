@@ -14,7 +14,7 @@ export function YourAssets() {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
     }
-  }, [portfolio, portfolioLoaded, fetchPortfolio]);
+  }, [portfolio]);
   return (
     <Table
       columnDefinitions={[
