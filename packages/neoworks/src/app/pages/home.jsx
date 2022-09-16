@@ -3,6 +3,7 @@ import { Container, Grid, Header, Link } from '@cloudscape-design/components';
 import { BalanceChart } from '../components/balanceChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/yourAssets';
+// const { sessionInfo } = useContext(AuthContext);
 
 export function Home() {
   return (
