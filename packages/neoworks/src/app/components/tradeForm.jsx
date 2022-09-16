@@ -59,8 +59,18 @@ export function TradeForm(props) {
     currency: 'USD',
   });
 
+  let amountHeld;
+  let allowedSale;
   const fiatBalance = fiatObject[0]?.balance;
   const portfolioPrice = portfolioObject[0]?.balance;
+
+  if (portfolioPrice) {
+    amountHeld = portfolioPrice;
+    allowedSale = true;
+  } else {
+    amountHeld = 0;
+    allowedSale = false;
+  }
 
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
@@ -102,7 +112,9 @@ export function TradeForm(props) {
                   id: 'Buy',
                   disabled: false,
                 },
-                { text: 'Sell', id: 'Sell', disabled: false },
+                allowedSale
+                  ? { text: 'Sell', id: 'Sell', disabled: false }
+                  : {},
               ]}
             >
               {orderType}
@@ -137,7 +149,7 @@ export function TradeForm(props) {
           </SpaceBetween>
           <div>
             <p>
-              {selectedOption?.value} Balance: {portfolioPrice}
+              {selectedOption?.value} Balance: {amountHeld}
             </p>
           </div>
         </Form>

@@ -3,10 +3,12 @@ import { makeCall } from "./ampClient";
 const sleep = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms)); 
 }
+const port = process.env.NX_PORT
 
 export async function fetchProfile(token, userId) {
+
   await sleep(1000);
-  const url = `http://localhost:8442/v1/profile/${userId}`;
+  const url = `http://localhost:${port}/v1/profile/${userId}`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
@@ -20,7 +22,7 @@ export async function fetchProfile(token, userId) {
 
 export async function updateProfile(token, body, userId) {
   await sleep(1000);
-        const url = `http://localhost:8442/v1/profile/${userId}`;
+        const url = `http://localhost:${port}/v1/profile/${userId}`;
 
         const payload = JSON.stringify(body)
 
@@ -28,7 +30,6 @@ export async function updateProfile(token, body, userId) {
       const submitUpdatedProfile = await makeCall(token, 'PUT', url, payload);
 
       const UpdatedProfileResponse = await submitUpdatedProfile.json();
-      console.log(UpdatedProfileResponse)
       return UpdatedProfileResponse;
     } catch (e) {
       return e;
