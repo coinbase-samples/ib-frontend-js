@@ -25,8 +25,7 @@ export function TradeModal(props) {
   const platformFee = tradeFee;
   const { qty, assetPrice, fiatBalance, side, orderSideType } = props;
   const orderTotal = qty * assetPrice + platformFee;
-  // const [submitButton, setSubmitButton] = React.useState(true);
-
+  let orderFail = true;
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -54,7 +53,10 @@ export function TradeModal(props) {
 
   const orderResponse = () => {
     if (orderDetail?.code) {
-      return orderDetail?.message;
+      orderFail = true;
+      return (
+        <p>We're sorry, your order Failed. Reason: {orderDetail?.message}</p>
+      );
     }
     return (
       <p>
@@ -82,12 +84,16 @@ export function TradeModal(props) {
                   <Button onClick={cancelOrder} variant="link">
                     Close
                   </Button>
-                  <Button
-                    href={`#/activity/orders/${orderDetail?.orderId}`}
-                    variant="primary"
-                  >
-                    Order Details
-                  </Button>
+                  {!orderFail ? (
+                    <Button
+                      href={`#/activity/orders/${orderDetail?.orderId}`}
+                      variant="primary"
+                    >
+                      Order Details
+                    </Button>
+                  ) : (
+                    ''
+                  )}
                 </SpaceBetween>
               </Box>
             }

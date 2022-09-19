@@ -43,7 +43,7 @@ export function TradeForm(props) {
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
-  console.log(assets);
+
   const [selectedOption, setSelectedOption] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC',
