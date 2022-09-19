@@ -40,6 +40,7 @@ export function TradeForm(props) {
   const [quantity, setQuantity] = React.useState(1);
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
+  const [qtyError, setQtyError] = React.useState('');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
@@ -48,6 +49,17 @@ export function TradeForm(props) {
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC',
   });
+
+  const handleQuantity = (qty) => {
+    console.log(!isNaN(+qty));
+    if (!isNaN(+qty)) {
+      setQuantity(qty);
+      setQtyError('');
+    } else {
+      console.log('not an integer', qty);
+      setQtyError('Please enter an integer value');
+    }
+  };
 
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
@@ -166,9 +178,9 @@ export function TradeForm(props) {
               <h4>Asset Price:</h4> ${assetPrice}
             </div>
 
-            <FormField label="Quantity" id="quantity">
+            <FormField label="Quantity" id="quantity" errorText={qtyError}>
               <Input
-                onChange={({ detail }) => setQuantity(detail.value)}
+                onChange={({ detail }) => handleQuantity(detail.value)}
                 value={quantity}
               />
             </FormField>
