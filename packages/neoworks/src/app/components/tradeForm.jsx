@@ -10,14 +10,22 @@ import {
   Select,
 } from '@cloudscape-design/components';
 import { TradeModal } from './tradeModal';
+import { useParams } from 'react-router-dom';
 import { AssetContext } from '../context/assetsContext';
 import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
 
 export function TradeForm(props) {
+  const tradingOptions = [
+    { label: 'BTC', value: 'BTC' },
+    { label: 'ETH', value: 'ETH' },
+    { label: 'SOL', value: 'SOL' },
+    { label: 'CARDANO', value: 'CARDANO' },
+    { label: 'MATIC', value: 'MATIC' },
+    { label: 'ATOM', value: 'ATOM' },
+  ];
   const {
-    asset,
     assets,
     assetsLoading: assetsLoaded,
     fetchAssets,
@@ -34,10 +42,11 @@ export function TradeForm(props) {
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
-
+  const urlAsset = useParams().asset;
+  console.log(assets);
   const [selectedOption, setSelectedOption] = React.useState({
-    label: asset ? asset : 'BTC',
-    value: asset ? asset : 'BTC',
+    label: urlAsset ? urlAsset : 'BTC',
+    value: urlAsset ? urlAsset : 'BTC',
   });
 
   useEffect(() => {
@@ -77,11 +86,26 @@ export function TradeForm(props) {
     setShowPreviewModal(true);
   };
 
+  const dropDownOptions = () => {
+    console.log(assetObject);
+    if (!urlAsset) {
+      return tradingOptions;
+    } else {
+      console.log(urlAsset);
+
+      const filteredAsset = _.filter(tradingOptions, {
+        label: urlAsset,
+      });
+      console.log(filteredAsset[0]);
+      // setSelectedOption(filteredAsset[0]);
+      return filteredAsset;
+    }
+  };
+
   const closePreviewModal = () => {
     setShowPreviewModal(false);
   };
   const displayOrderType = (e) => {
-    console.log(e);
     if (e.detail.id === 'Buy') {
       setOrderType('BUY');
       setOrderSideType('ORDER_SIDE_BUY');
@@ -120,21 +144,23 @@ export function TradeForm(props) {
               {orderType}
             </ButtonDropdown>
             <FormField label="Asset" id="asset">
-              <Select
-                selectedOption={selectedOption}
-                onChange={({ detail }) =>
-                  setSelectedOption(detail.selectedOption)
-                }
-                required="true"
-                options={[
-                  { label: 'BTC', value: 'BTC' },
-                  { label: 'ETH', value: 'ETH' },
-                  { label: 'SOL', value: 'SOL' },
-                  { label: 'CARDANO', value: 'CARDANO' },
-                  { label: 'MATIC', value: 'MATIC' },
-                  { label: 'ATOM', value: 'ATOM' },
-                ]}
-              />
+              {!urlAsset ? (
+                <Select
+                  selectedOption={selectedOption}
+                  onChange={({ detail }) =>
+                    setSelectedOption(detail.selectedOption)
+                  }
+                  required="true"
+                  options={tradingOptions}
+                />
+              ) : (
+                <Select
+                  selectedOption={selectedOption}
+                  disabled
+                  required="true"
+                  options={dropDownOptions()}
+                />
+              )}
             </FormField>
             <div>
               <h4>Asset Price:</h4> ${assetPrice}
