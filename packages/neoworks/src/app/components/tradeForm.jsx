@@ -18,12 +18,12 @@ import _ from 'lodash';
 
 export function TradeForm(props) {
   const tradingOptions = [
-    { label: 'BTC', value: 'BTC' },
-    { label: 'ETH', value: 'ETH' },
-    { label: 'SOL', value: 'SOL' },
-    { label: 'CARDANO', value: 'CARDANO' },
-    { label: 'MATIC', value: 'MATIC' },
-    { label: 'ATOM', value: 'ATOM' },
+    { label: 'BTC', value: 'BTC_USD' },
+    { label: 'ETH', value: 'ETH_USD' },
+    { label: 'SOL', value: 'SOL_USD' },
+    { label: 'ADA', value: 'ADA_USD' },
+    { label: 'MATIC', value: 'MATIC_USD' },
+    { label: 'ATOM', value: 'ATOM_USD' },
   ];
   const {
     assets,
@@ -47,11 +47,10 @@ export function TradeForm(props) {
 
   const [selectedOption, setSelectedOption] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
-    value: urlAsset ? urlAsset : 'BTC',
+    value: urlAsset ? urlAsset : 'BTC_USD',
   });
 
   const handleQuantity = (qty) => {
-    console.log(!isNaN(+qty));
     if (!isNaN(+qty)) {
       setQuantity(qty);
       setQtyError('');
@@ -69,13 +68,14 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
-
+  console.log(assets, selectedOption.value);
   const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
+  console.log(assetObject);
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
-    currency: selectedOption?.value,
+    currency: selectedOption?.label,
   });
-
+  console.log(portfolio, portfolioObject);
   const fiatObject = _.filter(portfolio, {
     currency: 'USD',
   });
@@ -83,7 +83,9 @@ export function TradeForm(props) {
   let amountHeld;
   let allowedSale;
   const fiatBalance = fiatObject[0]?.balance;
+
   const portfolioPrice = portfolioObject[0]?.balance;
+  console.log(fiatObject, fiatBalance, portfolioPrice, portfolioObject);
 
   if (portfolioPrice) {
     amountHeld = portfolioPrice;
@@ -134,7 +136,7 @@ export function TradeForm(props) {
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               <Button variant="primary">
-                {orderType} {selectedOption.value}
+                {orderType} {selectedOption.label}
               </Button>
             </SpaceBetween>
           }
@@ -187,7 +189,7 @@ export function TradeForm(props) {
           </SpaceBetween>
           <div>
             <p>
-              {selectedOption?.value} Balance: {amountHeld}
+              {selectedOption?.label} Balance: {amountHeld}
             </p>
           </div>
         </Form>

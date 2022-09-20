@@ -6,7 +6,7 @@ const sleep = (ms) => {
     return {
       "assets":[
         {
-            name: 'BTC',
+            name: 'BTC_USD',
             price: 24000,
             alt: 'BTC',
             change: 'up',
@@ -16,7 +16,7 @@ const sleep = (ms) => {
             activity: '100 Buy',
           },
           {
-            name: 'ETH',
+            name: 'ETH_USD',
             price: 16000,
             alt: 'eth',
             change: 'up',
@@ -26,7 +26,7 @@ const sleep = (ms) => {
             activity: '100 Buy',
           },
           {
-            name: 'SOL',
+            name: 'SOL_USD',
             price: 100,
             alt: 'SOL',
             change: 'up',
@@ -36,7 +36,7 @@ const sleep = (ms) => {
             activity: '100 Buy',
           },
           {
-            name: 'CARDANO',
+            name: 'ADA_USD',
             price: 1.50,
             alt: 'cardano',
             change: 'up',
@@ -46,7 +46,7 @@ const sleep = (ms) => {
             activity: '100 Buy',
           },
           {
-            name: 'MATIC',
+            name: 'MATIC_USD',
             price: 50,
             alt: 'matic',
             change: 'up',
@@ -56,7 +56,7 @@ const sleep = (ms) => {
             activity: '100 Sell',
           },
           {
-            name: 'ATOM',
+            name: 'ATOM_USD',
             price: 5,
             alt: 'atom',
             change: 'up',

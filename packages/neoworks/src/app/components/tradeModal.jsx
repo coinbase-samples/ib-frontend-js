@@ -25,7 +25,7 @@ export function TradeModal(props) {
   const platformFee = tradeFee;
   const { qty, assetPrice, fiatBalance, side, orderSideType } = props;
   const orderTotal = qty * assetPrice + platformFee;
-  let orderFail = true;
+  let orderFail = false;
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
