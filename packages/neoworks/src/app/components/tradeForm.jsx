@@ -84,8 +84,7 @@ export function TradeForm(props) {
   let allowedSale;
   const fiatBalance = fiatObject[0]?.balance;
 
-  const portfolioPrice = portfolioObject[0]?.balance;
-  console.log(fiatObject, fiatBalance, portfolioPrice, portfolioObject);
+  const portfolioPrice = portfolioObject[0]?.available;
 
   if (portfolioPrice) {
     amountHeld = portfolioPrice;
