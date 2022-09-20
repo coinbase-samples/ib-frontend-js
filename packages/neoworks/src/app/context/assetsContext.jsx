@@ -1,5 +1,5 @@
-import React, { useState, createContext } from 'react';
-
+import React, { useState, createContext, useContext } from 'react';
+import { AuthContext } from './authContext';
 import {
   //this is your imports for services
   fetchAssetsList,
@@ -10,6 +10,7 @@ const defaultState = {};
 export const AssetContext = createContext(defaultState);
 
 const AssetProvider = ({ children }) => {
+  const { sessionInfo, authStatus } = useContext(AuthContext);
   const [assets, setAssets] = useState([]);
   const [assetsLoading, setAssetsLoading] = useState(false);
 
@@ -17,9 +18,9 @@ const AssetProvider = ({ children }) => {
     if (assetsLoading) {
       return;
     }
-
+    //check authStatus first
     setAssetsLoading(true);
-    const result = await fetchAssetsList();
+    const result = await fetchAssetsList(sessionInfo.accessToken);
     setAssets(result);
     setAssetsLoading(false);
   };
