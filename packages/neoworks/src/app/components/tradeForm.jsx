@@ -37,7 +37,7 @@ export function TradeForm(props) {
     fetchPortfolio,
   } = useContext(PortfolioContext);
 
-  const [quantity, setQuantity] = React.useState(1);
+  const [quantity, setQuantity] = React.useState('1');
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
   const [qtyError, setQtyError] = React.useState('');
@@ -68,14 +68,14 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
-  console.log(assets, selectedOption.value);
+  // console.log(assets, selectedOption.value);
   const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
-  console.log(assetObject);
+  // console.log(assetObject);
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
   });
-  console.log(portfolio, portfolioObject);
+  // console.log(portfolio, portfolioObject);
   const fiatObject = _.filter(portfolio, {
     currency: 'USD',
   });
@@ -109,8 +109,6 @@ export function TradeForm(props) {
       const filteredAsset = _.filter(tradingOptions, {
         label: urlAsset,
       });
-      console.log(filteredAsset[0]);
-      // setSelectedOption(filteredAsset[0]);
       return filteredAsset;
     }
   };

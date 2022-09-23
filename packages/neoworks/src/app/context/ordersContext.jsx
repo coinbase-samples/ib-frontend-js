@@ -32,7 +32,7 @@ const OrderProvider = ({ children }) => {
       setFetchingOrderDetail(false);
       setOrderLoading(false);
     } else {
-      console.log('searchign state');
+      console.log('searching state');
       setOrderLoading(true);
       const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
       setOrderDetail(updateOrderDetail);
@@ -48,9 +48,15 @@ const OrderProvider = ({ children }) => {
     setOrdersLoading(true);
     // const result = orders;
     const result = await fetchOrdersList(sessionInfo.accessToken);
-    const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
-    setOrders(fetchedOrders);
-    setOrdersLoading(false);
+    if (!result.length) {
+      setOrders([]);
+      setOrdersLoading(false);
+    } else {
+      const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
+
+      setOrders(fetchedOrders);
+      setOrdersLoading(false);
+    }
   };
 
   const sortOrders = async (event) => {

@@ -36,7 +36,7 @@ export function YourAssets() {
           id: 'amount',
           header: 'Amount',
           width: 50,
-          cell: (item) => item.balance || '-',
+          cell: (item) => item.available || '-',
         },
       ]}
       items={portfolio}

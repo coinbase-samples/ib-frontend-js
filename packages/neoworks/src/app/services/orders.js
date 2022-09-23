@@ -6,14 +6,12 @@ const sleep = (ms) => {
   }
   export async function fetchOrdersList(token) {
     await sleep(1000);
-    const url = `http://localhost:${port}/v1/orders`;
+    const url = `http://localhost:8442/v1/orders`;
 
     try {
       const fetchOrders = await makeCall(token, 'GET', url, '');
 
       const fetchOrdersResponse = await fetchOrders.json();
-      // const trimOrders = fetchOrders.map(side => { side.slice(7)})
-      // console.log(trimOrders)
       return fetchOrdersResponse.data;
     } catch (e) {
       return e;
@@ -26,7 +24,7 @@ const sleep = (ms) => {
 
   export async function fetchOrderDetails(token, orderId) {
     await sleep(1000);
-        const url = `http://localhost:${port}/v1/order/${orderId}`;
+        const url = `http://localhost:8442/v1/order/${orderId}`;
 
     try {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
@@ -65,15 +63,14 @@ const sleep = (ms) => {
 
   export async function createOrder(token, body) {
     await sleep(1000);
-        const url = `http://localhost:${port}/v1/order`;
-
+        const url = `http://localhost:8442/v1/order`;
+    
 
   const payload = JSON.stringify({
     "productId": body.productId,
     "side": body.side,
-    "quantity": parseFloat(body.quantity),
-    "limitPrice": parseFloat(body.quantity),
-    "type":"ORDER_TYPE_LIMIT",
+    "quantity": body.quantity,
+    "type":"ORDER_TYPE_MARKET",
     "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
 });
 
