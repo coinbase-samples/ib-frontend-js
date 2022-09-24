@@ -30,6 +30,10 @@ export interface V1Asset {
 
   /** @format date-time */
   createdAt?: string;
+  marketCap?: string;
+  volume?: string;
+  supply?: string;
+  direction?: string;
 }
 
 export interface V1GetAssetResponse {

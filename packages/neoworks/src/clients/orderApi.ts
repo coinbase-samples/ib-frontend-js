@@ -24,12 +24,8 @@ export interface V1CreateOrderRequest {
   productId?: string;
   side?: V1OrderSide;
   type?: V1OrderType;
-
-  /** @format float */
-  quantity?: number;
-
-  /** @format float */
-  limitPrice?: number;
+  quantity?: string;
+  limitPrice?: string;
   timeInForce?: V1OrderTimeInForce;
 }
 
@@ -39,12 +35,8 @@ export interface V1CreateOrderResponse {
   productId?: string;
   side?: V1OrderSide;
   type?: V1OrderType;
-
-  /** @format float */
-  quantity?: number;
-
-  /** @format float */
-  limitPrice?: number;
+  quantity?: string;
+  limitPrice?: string;
   timeInForce?: V1OrderTimeInForce;
   status?: V1OrderStatus;
 
@@ -53,21 +45,11 @@ export interface V1CreateOrderResponse {
 
   /** @format date-time */
   updatedAt?: string;
-
-  /** @format float */
-  filledQuantity?: number;
-
-  /** @format float */
-  filledValue?: number;
-
-  /** @format float */
-  averageFilledPrice?: number;
-
-  /** @format float */
-  commission?: number;
-
-  /** @format float */
-  exchangeFee?: number;
+  filledQuantity?: string;
+  filledValue?: string;
+  averageFilledPrice?: string;
+  commission?: string;
+  exchangeFee?: string;
 }
 
 export interface V1ListOrdersResponse {
@@ -115,12 +97,8 @@ export interface V1ReadOrderResponse {
   productId?: string;
   side?: V1OrderSide;
   type?: V1OrderType;
-
-  /** @format float */
-  quantity?: number;
-
-  /** @format float */
-  limitPrice?: number;
+  quantity?: string;
+  limitPrice?: string;
   timeInForce?: V1OrderTimeInForce;
   status?: V1OrderStatus;
 
@@ -129,21 +107,11 @@ export interface V1ReadOrderResponse {
 
   /** @format date-time */
   updatedAt?: string;
-
-  /** @format float */
-  filledQuantity?: number;
-
-  /** @format float */
-  filledValue?: number;
-
-  /** @format float */
-  averageFilledPrice?: number;
-
-  /** @format float */
-  commission?: number;
-
-  /** @format float */
-  exchangeFee?: number;
+  filledQuantity?: string;
+  filledValue?: string;
+  averageFilledPrice?: string;
+  commission?: string;
+  exchangeFee?: string;
 }
 
 export enum V1SortDirection {
@@ -160,12 +128,8 @@ export interface V1UpdateOrderResponse {
   productId?: string;
   side?: V1OrderSide;
   type?: V1OrderType;
-
-  /** @format float */
-  quantity?: number;
-
-  /** @format float */
-  limitPrice?: number;
+  quantity?: string;
+  limitPrice?: string;
   timeInForce?: V1OrderTimeInForce;
   status?: V1OrderStatus;
 
@@ -174,21 +138,11 @@ export interface V1UpdateOrderResponse {
 
   /** @format date-time */
   updatedAt?: string;
-
-  /** @format float */
-  filledQuantity?: number;
-
-  /** @format float */
-  filledValue?: number;
-
-  /** @format float */
-  averageFilledPrice?: number;
-
-  /** @format float */
-  commission?: number;
-
-  /** @format float */
-  exchangeFee?: number;
+  filledQuantity?: string;
+  filledValue?: string;
+  averageFilledPrice?: string;
+  commission?: string;
+  exchangeFee?: string;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -448,11 +402,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       orderId: string,
       body: {
         status?: V1OrderStatus;
-        filledQuantity?: number;
-        filledValue?: number;
-        averageFilledPrice?: number;
-        commission?: number;
-        exchangeFee?: number;
+        filledQuantity?: string;
+        filledValue?: string;
+        averageFilledPrice?: string;
+        commission?: string;
+        exchangeFee?: string;
       },
       params: RequestParams = {},
     ) =>
