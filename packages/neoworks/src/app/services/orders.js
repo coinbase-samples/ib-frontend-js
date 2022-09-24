@@ -6,7 +6,7 @@ const sleep = (ms) => {
 };
 export async function fetchOrdersList(token) {
   await sleep(1000);
-  const url = `http://${baseUrl}/v1/orders`;
+  const url = `${baseUrl}v1/orders`;
 
   try {
     const fetchOrders = await makeCall(token, 'GET', url, '');
@@ -20,7 +20,7 @@ export async function fetchOrdersList(token) {
 
 export async function fetchOrderDetails(token, orderId) {
   await sleep(1000);
-  const url = `http://${baseUrl}/v1/order/${orderId}`;
+  const url = `${baseUrl}v1/order/${orderId}`;
 
   try {
     const fetchOrderById = await makeCall(token, 'GET', url, '');
@@ -35,7 +35,7 @@ export async function fetchOrderDetails(token, orderId) {
 
 export async function createOrder(token, body) {
   await sleep(1000);
-  const url = `http://${baseUrl}/v1/order`;
+  const url = `${baseUrl}v1/order`;
 
   const payload = JSON.stringify({
     productId: body.productId,
