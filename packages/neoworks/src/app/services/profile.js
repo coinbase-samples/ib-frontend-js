@@ -1,12 +1,12 @@
-import { makeCall } from "./ampClient";
-
+import { makeCall } from './ampClient';
+import { baseUrl } from '../../constants';
 const sleep = (ms) => {
-  return new Promise(resolve => setTimeout(resolve, ms)); 
-}
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
 
 export async function fetchProfile(token, userId) {
   await sleep(1000);
-  const url = `http://localhost:8443/v1/profile/${userId}`;
+  const url = `http://${baseUrl}/v1/profile/${userId}`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
@@ -20,21 +20,21 @@ export async function fetchProfile(token, userId) {
 
 export async function updateProfile(token, body, userId) {
   await sleep(1000);
-        const url = `http://localhost:8443/v1/profile/${userId}`;
+  const url = `http://${baseUrl}/v1/profile/${userId}`;
 
-        const payload = JSON.stringify(body)
+  const payload = JSON.stringify(body);
 
-    try {
-      const submitUpdatedProfile = await makeCall(token, 'POST', url, payload);
+  try {
+    const submitUpdatedProfile = await makeCall(token, 'POST', url, payload);
 
-      const UpdatedProfileResponse = await submitUpdatedProfile.json();
-      console.log(UpdatedProfileResponse)
-      return UpdatedProfileResponse;
-    } catch (e) {
-      return e;
-    }
+    const UpdatedProfileResponse = await submitUpdatedProfile.json();
+    console.log(UpdatedProfileResponse);
+    return UpdatedProfileResponse;
+  } catch (e) {
+    return e;
   }
+}
 
 export async function editProfilePhoto() {
-  console.log('Photo Updated')
-} 
+  console.log('Photo Updated');
+}
