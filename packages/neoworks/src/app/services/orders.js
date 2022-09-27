@@ -36,7 +36,7 @@ export async function createOrder(token, body) {
   const url = `${baseUrl}v1/order`;
 
   const payload = JSON.stringify({
-    productId: body.productId,
+    productId: body.productId + '_USD',
     side: body.side,
     quantity: '0.001', //parseFloat(body.quantity),
     //limitPrice: parseFloat(body.quantity),
