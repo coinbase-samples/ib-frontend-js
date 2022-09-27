@@ -5,12 +5,10 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 export async function fetchOrdersList(token) {
-  await sleep(1000);
   const url = `${baseUrl}v1/orders`;
 
   try {
     const fetchOrders = await makeCall(token, 'GET', url, '');
-
     const fetchOrdersResponse = await fetchOrders.json();
     return fetchOrdersResponse.data;
   } catch (e) {
@@ -40,10 +38,10 @@ export async function createOrder(token, body) {
   const payload = JSON.stringify({
     productId: body.productId,
     side: body.side,
-    quantity: parseFloat(body.quantity),
-    limitPrice: parseFloat(body.quantity),
-    type: 'ORDER_TYPE_LIMIT',
-    timeInForce: 'ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED',
+    quantity: '0.001', //parseFloat(body.quantity),
+    //limitPrice: parseFloat(body.quantity),
+    type: 'ORDER_TYPE_MARKET',
+    //timeInForce: 'ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED',
   });
 
   try {
