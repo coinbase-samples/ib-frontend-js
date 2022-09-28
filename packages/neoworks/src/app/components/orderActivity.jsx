@@ -51,6 +51,8 @@ export function OrderActivity(props) {
   return [
     <SpaceBetween size="l">
       <Table
+        resizableColumns={true}
+        trackBy="orderId"
         sortingDescending
         onSortingChange={handleSort}
         filter={
@@ -65,16 +67,20 @@ export function OrderActivity(props) {
           )
         }
         columnDefinitions={[
-          // {
-          //   id: 'orderId',
-          //   header: 'Order Id',
-          //   cell: (item) => item.orderId || '-',
-          // },
+          {
+            id: 'orderId',
+            header: 'Order Id',
+            cell: (e) => (
+              <Link href={`#/activity/orders/${e.orderId}`}>{e.orderId}</Link>
+            ),
+          },
           {
             id: 'productId',
             header: 'Asset',
             cell: (e) => <Icons asset={e.productId} />,
             sortingField: 'productId',
+            width: 85,
+            minWidth: 85,
           },
           {
             id: 'side',
@@ -87,6 +93,8 @@ export function OrderActivity(props) {
             header: 'Qty',
             cell: (item) => item.quantity || '-',
             sortingField: 'quantity',
+            width: 85,
+            minWidth: 85,
           },
           {
             id: 'createdAt',
@@ -94,18 +102,10 @@ export function OrderActivity(props) {
             cell: (item) => item.createdAt || '-',
             sortingField: 'createdAt',
           },
-          {
-            id: 'details',
-            header: '',
-            cell: (e) => (
-              <Link href={`#/activity/orders/${e.orderId}`}>View Order</Link>
-            ),
-          },
         ]}
         items={filteredOrders ? filteredOrders : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
-        trackBy="orderId"
         empty={
           <Box textAlign="center" color="inherit">
             <b>No Orders Found</b>

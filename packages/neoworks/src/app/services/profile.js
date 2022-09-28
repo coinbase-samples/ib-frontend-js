@@ -8,7 +8,7 @@ const port = process.env.NX_PORT
 export async function fetchProfile(token, userId) {
 
   await sleep(1000);
-  const url = `http://localhost:${port}/v1/profile/${userId}`;
+  const url = `http://localhost:8443/v1/profile/${userId}`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
@@ -22,7 +22,7 @@ export async function fetchProfile(token, userId) {
 
 export async function updateProfile(token, body, userId) {
   await sleep(1000);
-        const url = `http://localhost:${port}/v1/profile/${userId}`;
+        const url = `http://localhost:8443/v1/profile/${userId}`;
 
         const payload = JSON.stringify(body)
 

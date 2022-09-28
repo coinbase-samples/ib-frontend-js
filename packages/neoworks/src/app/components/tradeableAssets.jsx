@@ -24,6 +24,8 @@ export function TradeableAssets() {
 
   return (
     <Table
+      resizableColumns={true}
+      trackBy="name"
       sortingDescending
       onSortingChange={handleSort}
       variant="container"

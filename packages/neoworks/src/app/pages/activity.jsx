@@ -11,11 +11,11 @@ export function Activity() {
           id: 'ActivityPage-1',
           content: <OrderActivity />,
         },
-        {
-          label: 'Transfers',
-          id: 'TransfersPage-2',
-          content: 'Second tab content area',
-        },
+        // {
+        //   label: 'Transfers',
+        //   id: 'TransfersPage-2',
+        //   content: 'Second tab content area',
+        // },
       ]}
       variant="container"
     />
