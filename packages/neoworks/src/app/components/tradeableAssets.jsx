@@ -24,7 +24,7 @@ export function TradeableAssets() {
         {
           id: 'icon',
           header: '',
-          cell: (e) => <Icons asset={e.name} />,
+          cell: (e) => <Icons asset={e.ticker} />,
           width: 100,
           minWidth: 100,
         },
@@ -34,7 +34,6 @@ export function TradeableAssets() {
           cell: (e) => <Link href={`#/assets/${e.name}`}>{e.name}</Link>,
           width: 100,
           minWidth: 100,
-          sortingField: 'name',
         },
         {
           id: 'price',
@@ -44,27 +43,33 @@ export function TradeableAssets() {
           minWidth: 90,
         },
         {
-          id: 'change',
-          header: 'Change',
-          cell: (e) => e.change,
+          id: 'volume',
+          header: 'Volume',
+          cell: (e) => e.volume,
           width: 110,
           minWidth: 90,
         },
         {
-          id: 'mktCap',
-          header: 'Mkt Cap',
-          cell: (e) => e.mktCap,
+          id: 'marketCap',
+          header: 'Market Cap',
+          cell: (e) => e.marketCap,
           width: 50,
           minWidth: 50,
-          sortingField: 'mktCap',
+          sortingField: 'marketCap',
         },
         {
-          id: 'activity',
-          header: 'Activity',
-          cell: (e) => e.activity,
-          width: 150,
-          minWidth: 150,
-          sortingField: 'activity',
+          id: 'direction',
+          header: 'Direction',
+          cell: (e) => e.direction,
+          width: 50,
+          minWidth: 50,
+        },
+        {
+          id: 'supply',
+          header: 'Supply',
+          cell: (e) => e.supply,
+          width: 110,
+          minWidth: 90,
         },
         {
           id: 'trade',
@@ -74,7 +79,7 @@ export function TradeableAssets() {
           minWidth: 170,
         },
       ]}
-      items={assets.assets}
+      items={assets.data}
       loading={assetsLoaded}
       loadingText="Loading Assets"
     />
