@@ -30,15 +30,7 @@ export default function TopNav() {
         {
           type: 'button',
           text: 'Buy/Sell',
-          href: '#/trades',
-        },
-        {
-          type: 'button',
-          iconName: 'notification',
-          title: 'Notifications',
-          ariaLabel: 'Notifications (unread)',
-          badge: true,
-          disableUtilityCollapse: false,
+          href: '#/assets',
         },
 
         {

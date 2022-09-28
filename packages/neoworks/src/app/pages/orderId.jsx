@@ -102,32 +102,33 @@ export function OrderId() {
                   loadingText="Loading Order Details"
                 >
                   <ColumnLayout
+                    variant="text-grid"
                     borders="horizontal"
-                    columns={3}
+                    columns={2}
                     loading={orderLoading}
                     loadingText="Loading Order Details"
                   >
                     <h5>Transaction Id: </h5>
 
-                    <p>{orderDetail?.orderId}</p>
+                    {orderDetail?.orderId}
                     <h5>Created At:</h5>
 
-                    <p>{orderDetail?.createdAt}</p>
+                    {orderDetail?.createdAt}
                     <h5>Side:</h5>
 
-                    <p>{orderDetail?.side}</p>
+                    {orderDetail?.side}
                     <h5>Type</h5>
 
-                    <p>{orderDetail?.type}</p>
+                    {orderDetail?.type}
                     <h5> Base Quantity:</h5>
 
-                    <p>{orderDetail?.quantity}</p>
+                    {orderDetail?.quantity}
                     <h5> Filled Quantity:</h5>
 
-                    <p>{orderDetail?.filledQuantity}</p>
+                    {orderDetail?.filledQuantity}
                     <h5>Status:</h5>
 
-                    <p>{orderDetail?.status}</p>
+                    {orderDetail?.status}
                   </ColumnLayout>
                 </HelpPanel>
               ),
@@ -158,11 +159,15 @@ export function OrderId() {
               name: 'Fees',
               content: (item) => (
                 <HelpPanel header={<h5>Fees</h5>}>
-                  <ColumnLayout borders="horizontal" columns={3}>
+                  <ColumnLayout
+                    variant="text-grid"
+                    borders="horizontal"
+                    columns={2}
+                  >
                     <h5>Commission: </h5>
-                    <p>{orderDetail?.commission}</p>
+                    {orderDetail?.commission}
                     <h5>Exchange Fee: </h5>
-                    <p>{orderDetail?.exchangeFee}</p>
+                    {orderDetail?.exchangeFee}
                   </ColumnLayout>
                 </HelpPanel>
               ),

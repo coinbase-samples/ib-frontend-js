@@ -44,7 +44,7 @@ export function Home() {
         loadingText="Fetching Porfolio Balance..."
         header={
           <Header variant="h2" description={loadedBalance}>
-            Total Balance
+            Portfolio Balance
           </Header>
         }
       >
