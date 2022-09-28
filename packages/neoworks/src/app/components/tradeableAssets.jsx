@@ -7,6 +7,7 @@ import { Icons } from '../utils/Icons';
 export function TradeableAssets() {
   const {
     assets,
+    sortAssets,
     assetsLoading: assetsLoaded,
     fetchAssets,
   } = useContext(AssetContext);
@@ -17,8 +18,14 @@ export function TradeableAssets() {
     }
   }, [assets, assetsLoaded, fetchAssets]);
 
+  const handleSort = (event) => {
+    sortAssets(event);
+  };
+
   return (
     <Table
+      sortingDescending
+      onSortingChange={handleSort}
       variant="container"
       columnDefinitions={[
         {
@@ -41,6 +48,7 @@ export function TradeableAssets() {
           cell: (e) => e.price,
           width: 90,
           minWidth: 90,
+          sortingField: 'price',
         },
         {
           id: 'volume',
@@ -48,6 +56,7 @@ export function TradeableAssets() {
           cell: (e) => e.volume,
           width: 110,
           minWidth: 90,
+          sortingField: 'volume',
         },
         {
           id: 'marketCap',
@@ -63,6 +72,7 @@ export function TradeableAssets() {
           cell: (e) => e.direction,
           width: 50,
           minWidth: 50,
+          sortingField: 'direction',
         },
         {
           id: 'supply',
@@ -79,7 +89,7 @@ export function TradeableAssets() {
           minWidth: 170,
         },
       ]}
-      items={assets.data}
+      items={assets}
       loading={assetsLoaded}
       loadingText="Loading Assets"
     />
