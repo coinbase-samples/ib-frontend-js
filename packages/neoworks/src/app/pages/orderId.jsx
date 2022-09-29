@@ -13,10 +13,11 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 import { useParams } from 'react-router-dom';
+import CancelOrderModal from '../components/cancelOrderModal';
 
 export function OrderId() {
   const [orderInvalid, setOrderInvalid] = React.useState(false);
-
+  const [showCancelModal, setShowCancelModal] = React.useState(false);
   const { orderId } = useParams();
   const { orderLoading, fetchOrderById, fetchOrderDetails, orderDetail } =
     useContext(OrderContext);
@@ -63,6 +64,13 @@ export function OrderId() {
   }, [orderDetail, currentOrderDetail]);
 
   const status = 'open';
+  const openCancelModal = () => {
+    console.log('cancel clicked');
+    setShowCancelModal(true);
+  };
+  const closeCancelModal = () => {
+    setShowCancelModal(false);
+  };
   return !orderInvalid && !orderLoading ? (
     <Container
       header={
@@ -72,7 +80,9 @@ export function OrderId() {
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               {status === 'open' ? (
-                <Button variant="primary">Cancel</Button>
+                <Button onClick={openCancelModal} variant="secondary">
+                  Cancel Order
+                </Button>
               ) : (
                 ''
               )}
@@ -184,6 +194,7 @@ export function OrderId() {
         ]}
         empty={<p>No profile info</p>}
       />
+      <CancelOrderModal open={showCancelModal} close={closeCancelModal} />
     </Container>
   ) : (
     <Container

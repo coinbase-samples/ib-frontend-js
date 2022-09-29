@@ -5,6 +5,7 @@ import {
   fetchOrderDetails,
   fetchOrdersList,
   createOrder,
+  cancelOrder,
 } from '../services/orders';
 import _ from 'lodash';
 
@@ -20,6 +21,7 @@ const OrderProvider = ({ children }) => {
   const { sessionInfo } = useContext(AuthContext);
   const [orderLoading, setOrderLoading] = useState(false);
   const [newOrderLoading, setNewOrderLoading] = useState(false);
+  const [cancelOrderLoading, setCancelOrderLoading] = useState(false);
   const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
     if (!orderLoading && fetchingOrderDetail) {
@@ -92,6 +94,19 @@ const OrderProvider = ({ children }) => {
     }
   };
 
+  const placeCancelOrder = async (body) => {
+    try {
+      setCancelOrderLoading(true);
+      const result = await cancelOrder(sessionInfo.accessToken, body);
+      setOrders([...orders, result]);
+
+      setOrderDetail(result);
+      setCancelOrderLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const state = {
     orderDetail,
     orderLoading,
@@ -103,6 +118,7 @@ const OrderProvider = ({ children }) => {
     currentOrder,
     newOrderLoading,
     sortOrders,
+    placeCancelOrder,
   };
 
   return (
