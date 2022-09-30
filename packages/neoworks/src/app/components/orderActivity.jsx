@@ -20,6 +20,7 @@ export function OrderActivity(props) {
   let filteredOrders;
   const {
     orders,
+    sortOrders,
     ordersLoading: ordersLoaded,
     fetchOrders,
   } = useContext(OrderContext);
@@ -39,16 +40,21 @@ export function OrderActivity(props) {
     filteredOrders = _.filter(orders, { productId: props.asset });
     searchOptions = false;
   }
-  console.log(searchOptions);
   if (filteringText) {
-    console.log(filteringText);
     filteredOrders = _.filter(orders, { productId: filteringText });
-    console.log(filteredOrders);
   }
+
+  const handleSort = (event) => {
+    sortOrders(event);
+  };
 
   return [
     <SpaceBetween size="l">
       <Table
+        resizableColumns={true}
+        trackBy="orderId"
+        sortingDescending
+        onSortingChange={handleSort}
         filter={
           searchOptions ? (
             <TextFilter
@@ -62,10 +68,19 @@ export function OrderActivity(props) {
         }
         columnDefinitions={[
           {
-            id: 'product_id',
+            id: 'orderId',
+            header: 'Order Id',
+            cell: (e) => (
+              <Link href={`#/activity/orders/${e.orderId}`}>{e.orderId}</Link>
+            ),
+          },
+          {
+            id: 'productId',
             header: 'Asset',
             cell: (e) => <Icons asset={e.productId} />,
-            sortingField: 'product_id',
+            sortingField: 'productId',
+            width: 85,
+            minWidth: 85,
           },
           {
             id: 'side',
@@ -74,29 +89,23 @@ export function OrderActivity(props) {
             sortingField: 'side',
           },
           {
-            id: 'filled_quantity',
+            id: 'quantity',
             header: 'Qty',
             cell: (item) => item.quantity || '-',
-            sortingField: 'filled_quantity',
+            sortingField: 'quantity',
+            width: 85,
+            minWidth: 85,
           },
           {
-            id: 'created_at',
+            id: 'createdAt',
             header: 'Order Date',
             cell: (item) => item.createdAt || '-',
-          },
-
-          {
-            id: 'details',
-            header: '',
-            cell: (e) => (
-              <Link href={`#/activity/orders/${e.orderId}`}>View Order</Link>
-            ),
+            sortingField: 'createdAt',
           },
         ]}
         items={filteredOrders ? filteredOrders : orders}
         loading={ordersLoaded}
         loadingText="Loading Orders"
-        sortingDisabled
         empty={
           <Box textAlign="center" color="inherit">
             <b>No Orders Found</b>

@@ -23,17 +23,18 @@ export function TradeModal(props) {
 
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
-  const { qty, assetPrice, fiatBalance, side } = props;
+  const { qty, assetPrice, fiatBalance, side, orderSideType, orderType } =
+    props;
   const orderTotal = qty * assetPrice + platformFee;
-
+  let orderFail = false;
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
       productId: props.asset,
       side,
-      orderType: 'limit',
       quantity: qty,
       limitPrice: assetPrice,
+      orderType,
     };
 
     await currentOrder(body);
@@ -48,10 +49,16 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
+  console.log(orderType);
+  const overBudget = orderTotal > fiatBalance;
 
   const orderResponse = () => {
     if (orderDetail?.code) {
-      return orderDetail?.message;
+      orderFail = true;
+      console.log('should be true ', orderFail);
+      return (
+        <p>We're sorry, your order Failed. Reason: {orderDetail?.message}</p>
+      );
     }
     return (
       <p>
@@ -79,12 +86,16 @@ export function TradeModal(props) {
                   <Button onClick={cancelOrder} variant="link">
                     Close
                   </Button>
-                  <Button
-                    href={`#/activity/orders/${orderDetail?.orderId}`}
-                    variant="primary"
-                  >
-                    Order Details
-                  </Button>
+                  {orderFail ? (
+                    ''
+                  ) : (
+                    <Button
+                      href={`#/activity/orders/${orderDetail?.orderId}`}
+                      variant="primary"
+                    >
+                      Order Details
+                    </Button>
+                  )}
                 </SpaceBetween>
               </Box>
             }
@@ -110,7 +121,7 @@ export function TradeModal(props) {
               }
             >
               <Icons asset={props.asset} />
-              {side} {props.asset}
+              {orderType} {orderSideType} {props.asset}
             </Header>
           }
         >
@@ -121,14 +132,20 @@ export function TradeModal(props) {
                   <Button onClick={cancelOrder} variant="link">
                     Cancel
                   </Button>
-                  <Button onClick={submitOrder} variant="primary">
-                    Submit Order
-                  </Button>
+                  {!overBudget ? (
+                    <Button onClick={submitOrder} variant="primary">
+                      Submit Order
+                    </Button>
+                  ) : (
+                    <Button onClick={submitOrder} disabled variant="primary">
+                      Submit Order
+                    </Button>
+                  )}
                 </SpaceBetween>
               </Box>
             }
           >
-            <ColumnLayout borders="horizontal" columns={3}>
+            <ColumnLayout variant="text-grid" borders="horizontal" columns={3}>
               <div>
                 <h5>Asset:</h5>
               </div>
@@ -143,14 +160,25 @@ export function TradeModal(props) {
               </div>
               <div>{platformFee}</div>
               <div>
-                <h5>Payment Type: US Dollars:</h5>
+                <h5>Payment Type: </h5>
               </div>
-              <div>Balance: {fiatBalance}</div>
+              <div>USD</div>
+              <div>
+                <h5>USD Balance: </h5>
+              </div>
+              <div>{fiatBalance}</div>
+
               <div>
                 <h5>Total</h5>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <h5>${orderTotal}</h5>
+                {overBudget && side === 'ORDER_SIDE_BUY' ? (
+                  <p style={{ color: 'red' }}>
+                    order is over budget, please modify
+                  </p>
+                ) : (
+                  <h5>${orderTotal}</h5>
+                )}
               </div>
 
               <div>

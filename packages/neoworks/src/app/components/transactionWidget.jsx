@@ -12,11 +12,11 @@ export function TransactionWidget() {
             id: 'first',
             content: <TradeForm />,
           },
-          {
-            label: 'Transfer',
-            id: 'second',
-            content: <TransferForm />,
-          },
+          // {
+          //   label: 'Transfer',
+          //   id: 'second',
+          //   content: <TransferForm />,
+          // },
         ]}
       />
     </div>

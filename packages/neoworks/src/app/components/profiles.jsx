@@ -33,7 +33,6 @@ export function PureProfile({
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               <Button onClick={updateClicked}>Update</Button>
-              <Button onClick={editClicked}>Edit Profile Photo</Button>
             </SpaceBetween>
           }
         >
@@ -63,26 +62,20 @@ export function PureProfile({
               name: 'Personal Info',
               content: (item) => (
                 <HelpPanel header={<h3>Personal Info</h3>}>
-                  <ColumnLayout borders="horizontal" columns={3}>
-                    <div>
-                      <h4>Name:</h4>
-                    </div>
-                    <div>{userProfile?.name}</div>
-                    <br />
-                    <div>
-                      <h4>User Name:</h4>
-                    </div>
-                    <div>
-                      <p>{userProfile?.userName}</p>
-                    </div>
-                    <br />
+                  <ColumnLayout
+                    variant="text-grid"
+                    borders="horizontal"
+                    columns={2}
+                  >
+                    <h4>Name:</h4>
+                    {userProfile?.name}
 
-                    <div>
-                      <h4>Date of Birth:</h4>
-                    </div>
-                    <div>
-                      <p>{userProfile?.dateOfBirth}</p>
-                    </div>
+                    <h4>User Name:</h4>
+
+                    {userProfile?.userName}
+
+                    <h4>Date of Birth:</h4>
+                    {userProfile?.dateOfBirth}
                   </ColumnLayout>
                 </HelpPanel>
               ),
@@ -111,9 +104,13 @@ export function PureProfile({
               name: 'Contact Info',
               content: (item) => (
                 <HelpPanel header={<h2>Contact Info</h2>}>
-                  <ColumnLayout borders="horizontal" columns={3}>
-                    <h4>Email: </h4> <p>{userProfile?.email}</p>
-                    <h4>Address: </h4> <p>{userProfile?.address}</p>
+                  <ColumnLayout
+                    variant="text-grid"
+                    borders="horizontal"
+                    columns={2}
+                  >
+                    <h4>Email: </h4> {userProfile?.email}
+                    <h4>Address: </h4> {userProfile?.address}
                   </ColumnLayout>
                 </HelpPanel>
               ),
@@ -146,17 +143,12 @@ export function Profile() {
   const updateClicked = (e) => {
     e.preventDefault();
     setshowUpdateProfileModal(true);
-    console.log(showUpdateProfileModal, showUpdateProfileModal);
   };
 
-  const editClicked = () => {
-    return editProfilePhoto();
-  };
   return (
     <PureProfile
       userProfile={userProfile}
       profileLoading={profileLoading}
-      editClicked={editClicked}
       updateClicked={updateClicked}
       close={closeUpdateProfileModal}
       showUpdateProfileModal={showUpdateProfileModal}

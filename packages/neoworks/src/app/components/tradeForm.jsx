@@ -10,14 +10,22 @@ import {
   Select,
 } from '@cloudscape-design/components';
 import { TradeModal } from './tradeModal';
+import { useParams } from 'react-router-dom';
 import { AssetContext } from '../context/assetsContext';
 import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
 
 export function TradeForm(props) {
+  const tradingOptions = [
+    { label: 'BTC', value: 'BTC_USD' },
+    { label: 'ETH', value: 'ETH_USD' },
+    { label: 'SOL', value: 'SOL_USD' },
+    { label: 'ADA', value: 'ADA_USD' },
+    { label: 'MATIC', value: 'MATIC_USD' },
+    { label: 'ATOM', value: 'ATOM_USD' },
+  ];
   const {
-    asset,
     assets,
     assetsLoading: assetsLoaded,
     fetchAssets,
@@ -29,16 +37,32 @@ export function TradeForm(props) {
     fetchPortfolio,
   } = useContext(PortfolioContext);
 
-  const [quantity, setQuantity] = React.useState(1);
+  const [quantity, setQuantity] = React.useState('1');
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
+  const [qtyError, setQtyError] = React.useState('');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
+  const urlAsset = useParams().asset;
 
   const [selectedOption, setSelectedOption] = React.useState({
-    label: asset ? asset : 'BTC',
-    value: asset ? asset : 'BTC',
+    label: urlAsset ? urlAsset : 'BTC',
+    value: urlAsset ? urlAsset : 'BTC_USD',
   });
+  const [selectedOrderedType, setSelectedOrderedType] = React.useState({
+    label: 'Market',
+    value: 'MARKET',
+  });
+
+  const handleQuantity = (qty) => {
+    if (!isNaN(+qty)) {
+      setQuantity(qty);
+      setQtyError('');
+    } else {
+      console.log('not an integer', qty);
+      setQtyError('Please enter an integer value');
+    }
+  };
 
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
@@ -47,46 +71,62 @@ export function TradeForm(props) {
     if (!assetsLoaded && assets?.length === 0) {
       fetchAssets();
     }
-  }, [
-    assets,
-    fetchAssets,
-    portfolio,
-    fetchPortfolio,
-    assetsLoaded,
-    portfolioLoaded,
-  ]);
-
+  }, []);
+  // console.log(assets, selectedOption.value);
   const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
+  // console.log(assetObject);
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
-    asset: selectedOption?.value,
+    currency: selectedOption?.label,
   });
-
+  // console.log(portfolio, portfolioObject);
   const fiatObject = _.filter(portfolio, {
-    asset: 'USD',
+    currency: 'USD',
   });
 
-  const fiatBalance = fiatObject[0]?.amount;
-  const portfolioPrice = portfolioObject[0]?.amount;
+  let amountHeld;
+  let allowedSale;
+  const fiatBalance = fiatObject[0]?.balance;
+
+  const portfolioPrice = portfolioObject[0]?.available;
+
+  if (portfolioPrice) {
+    amountHeld = portfolioPrice;
+    allowedSale = true;
+  } else {
+    amountHeld = 0;
+    allowedSale = false;
+  }
 
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
     setShowPreviewModal(true);
   };
 
+  const dropDownOptions = () => {
+    console.log(assetObject);
+    if (!urlAsset) {
+      return tradingOptions;
+    } else {
+      console.log(urlAsset);
+
+      const filteredAsset = _.filter(tradingOptions, {
+        label: urlAsset,
+      });
+      return filteredAsset;
+    }
+  };
+
   const closePreviewModal = () => {
     setShowPreviewModal(false);
   };
   const displayOrderType = (e) => {
-    console.log(e);
     if (e.detail.id === 'Buy') {
-      setOrderType('Buy');
-      setOrderSideType('Buy');
-
-      console.log(orderType);
+      setOrderType('BUY');
+      setOrderSideType('ORDER_SIDE_BUY');
     } else {
       setOrderType('Sell');
-      setOrderSideType('ORDER_SIDE_BUY');
+      setOrderSideType('ORDER_SIDE_SELL');
     }
   };
   return (
@@ -97,7 +137,7 @@ export function TradeForm(props) {
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               <Button variant="primary">
-                {orderType} {selectedOption.value}
+                {orderType} {selectedOption.label}
               </Button>
             </SpaceBetween>
           }
@@ -111,44 +151,57 @@ export function TradeForm(props) {
                   id: 'Buy',
                   disabled: false,
                 },
-                { text: 'Sell', id: 'Sell', disabled: false },
+                allowedSale
+                  ? { text: 'Sell', id: 'Sell', disabled: false }
+                  : {},
               ]}
             >
               {orderType}
             </ButtonDropdown>
+            <Select
+              selectedOption={selectedOrderedType}
+              onChange={({ detail }) =>
+                setSelectedOrderedType(detail.selectedOption)
+              }
+              options={[
+                { label: 'Market', value: 'MARKET' },
+                { label: 'Limit', value: 'LIMIT' },
+              ]}
+              selectedAriaLabel="Selected Order Type"
+            />
             <FormField label="Asset" id="asset">
-              <Select
-                selectedOption={selectedOption}
-                onChange={({ detail }) =>
-                  setSelectedOption(detail.selectedOption)
-                }
-                required="true"
-                options={[
-                  { label: 'BTC', value: 'BTC' },
-                  { label: 'ETH', value: 'ETH' },
-                  { label: 'SOL', value: 'SOL' },
-                  { label: 'CARDANO', value: 'CARDANO' },
-                  { label: 'MATIC', value: 'MATIC' },
-                  { label: 'ATOM', value: 'ATOM' },
-                ]}
-              />
+              {!urlAsset ? (
+                <Select
+                  selectedOption={selectedOption}
+                  onChange={({ detail }) =>
+                    setSelectedOption(detail.selectedOption)
+                  }
+                  required="true"
+                  options={tradingOptions}
+                />
+              ) : (
+                <Select
+                  selectedOption={selectedOption}
+                  disabled
+                  required="true"
+                  options={dropDownOptions()}
+                />
+              )}
             </FormField>
             <div>
-              <p>
-                <h4>Asset Price:</h4> ${assetPrice}
-              </p>
+              <h4>Asset Price:</h4> ${assetPrice}
             </div>
 
-            <FormField label="Quantity" id="quantity">
+            <FormField label="Quantity" id="quantity" errorText={qtyError}>
               <Input
-                onChange={({ detail }) => setQuantity(detail.value)}
+                onChange={({ detail }) => handleQuantity(detail.value)}
                 value={quantity}
               />
             </FormField>
           </SpaceBetween>
           <div>
             <p>
-              {selectedOption?.value} Balance: {portfolioPrice}
+              {selectedOption?.label} Balance: {amountHeld}
             </p>
           </div>
         </Form>
@@ -160,7 +213,9 @@ export function TradeForm(props) {
         asset={selectedOption.value}
         side={orderSide}
         assetPrice={assetPrice}
+        orderType={selectedOrderedType.value}
         fiatBalance={fiatBalance}
+        orderSideType={orderType}
       />
     </div>
   );

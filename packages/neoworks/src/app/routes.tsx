@@ -5,7 +5,7 @@ import { Layout } from './layout';
 import { AuthContext, AuthStatus } from './context/authContext';
 
 import { Home } from './pages/home';
-import { Trades } from './pages/trades';
+import { Trades } from './pages/assets';
 import { Profile } from './components/profiles';
 import { Activity } from './pages/activity';
 import { AssetId } from './pages/assetId';
@@ -23,7 +23,7 @@ export const Router = () => {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/trades" element={<Trades />} />
+            <Route path="/assets" element={<Trades />} />
             <Route path="/assets/:asset" element={<AssetId />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/portfolio" element={<Portfolio />} />

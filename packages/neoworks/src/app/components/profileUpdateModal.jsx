@@ -136,10 +136,10 @@ export function UpdateProfileModal(props) {
     console.log('name being submitted', profileName);
     const body = {
       userId: props?.userProfile?.Id,
-      email: props?.userProfile?.email,
+      email,
       name: profileName,
       legalName: props?.userProfile?.legalName,
-      userName: props?.userProfile?.userName,
+      userName,
       address: props?.userProfile?.address,
       dateOfBirth: props?.userProfile?.dateOfBirth,
     };

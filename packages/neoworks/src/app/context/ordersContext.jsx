@@ -5,7 +5,9 @@ import {
   fetchOrderDetails,
   fetchOrdersList,
   createOrder,
+  cancelOrder,
 } from '../services/orders';
+import _ from 'lodash';
 
 const defaultState = {};
 
@@ -19,26 +21,26 @@ const OrderProvider = ({ children }) => {
   const { sessionInfo } = useContext(AuthContext);
   const [orderLoading, setOrderLoading] = useState(false);
   const [newOrderLoading, setNewOrderLoading] = useState(false);
-
+  const [cancelOrderLoading, setCancelOrderLoading] = useState(false);
+  const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
-    console.log('are we fetching order detail? ' + fetchingOrderDetail);
-    console.log('is orderDetail loading? ' + orderLoading);
-
-    console.log('are orders loading? ' + ordersLoading);
-
     if (!orderLoading && fetchingOrderDetail) {
       console.log('api hit');
       setOrderLoading(true);
       const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
+      console.log('result updated ', result);
       setOrderDetail(result);
+
+      setFetchingOrderDetail(false);
+      setOrderLoading(false);
+    } else {
+      console.log('searching state');
+      setOrderLoading(true);
+      const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
+      setOrderDetail(updateOrderDetail);
       setFetchingOrderDetail(false);
       setOrderLoading(false);
     }
-    setOrderLoading(true);
-    const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
-    setOrderDetail(updateOrderDetail);
-    setFetchingOrderDetail(false);
-    setOrderLoading(false);
   };
 
   const fetchOrders = async () => {
@@ -48,7 +50,33 @@ const OrderProvider = ({ children }) => {
     setOrdersLoading(true);
     // const result = orders;
     const result = await fetchOrdersList(sessionInfo.accessToken);
-    setOrders(result);
+    if (!result.length) {
+      setOrders([]);
+      setOrdersLoading(false);
+    } else {
+      const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
+
+      setOrders(fetchedOrders);
+      setOrdersLoading(false);
+    }
+  };
+
+  const sortOrders = async (event) => {
+    let sortedOrders;
+    if (ordersLoading) {
+      return;
+    }
+    setOrdersLoading(true);
+    setSorting(true);
+    const sortedType = event.detail.sortingColumn.sortingField;
+    if (sorting) {
+      sortedOrders = _.orderBy(orders, [sortedType], ['asc']);
+      setSorting(false);
+    } else {
+      sortedOrders = _.orderBy(orders, [sortedType], ['desc']);
+      setSorting(true);
+    }
+    setOrders(sortedOrders);
     setOrdersLoading(false);
   };
 
@@ -66,6 +94,19 @@ const OrderProvider = ({ children }) => {
     }
   };
 
+  const placeCancelOrder = async (body) => {
+    try {
+      setCancelOrderLoading(true);
+      const result = await cancelOrder(sessionInfo.accessToken, body);
+      setOrders([...orders, result]);
+
+      setOrderDetail(result);
+      setCancelOrderLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const state = {
     orderDetail,
     orderLoading,
@@ -76,6 +117,8 @@ const OrderProvider = ({ children }) => {
     ordersLoading,
     currentOrder,
     newOrderLoading,
+    sortOrders,
+    placeCancelOrder,
   };
 
   return (

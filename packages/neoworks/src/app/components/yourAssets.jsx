@@ -14,7 +14,7 @@ export function YourAssets() {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
     }
-  }, [portfolio, portfolioLoaded, fetchPortfolio]);
+  }, [portfolio]);
   return (
     <Table
       columnDefinitions={[
@@ -22,25 +22,21 @@ export function YourAssets() {
           id: 'icon',
           header: '',
           width: 30,
-          cell: (e) => <Icons asset={e.asset} />,
+          cell: (e) => <Icons asset={e.currency} />,
         },
         {
           id: 'asset',
           header: 'Asset',
           width: 30,
-          cell: (e) => <Link href={`#/assets/${e.asset}`}>{e.asset}</Link>,
+          cell: (e) => (
+            <Link href={`#/assets/${e.currency}`}>{e.currency}</Link>
+          ),
         },
         {
           id: 'amount',
           header: 'Amount',
           width: 50,
-          cell: (item) => item.amount || '-',
-        },
-        {
-          id: 'qty',
-          header: 'quantity',
-          width: 50,
-          cell: (item) => item.qty || '-',
+          cell: (item) => item.available || '-',
         },
       ]}
       items={portfolio}
