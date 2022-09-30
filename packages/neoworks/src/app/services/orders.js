@@ -1,67 +1,45 @@
-import { makeCall } from "./ampClient";
-const { NX_PORT, NX_HOST } = process.env
+
+import { makeCall } from './ampClient';
+import { baseUrl } from '../../constants';
+
+
 const sleep = (ms) => {
-    return new Promise(resolve => setTimeout(resolve, ms)); 
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+export async function fetchOrdersList(token) {
+  const url = `${baseUrl}v1/orders`;
+
+  try {
+    const fetchOrders = await makeCall(token, 'GET', url, '');
+    const fetchOrdersResponse = await fetchOrders.json();
+    return fetchOrdersResponse.data;
+  } catch (e) {
+    return e;
   }
-  export async function fetchOrdersList(token) {
-    await sleep(1000);
-    const url = `http://${NX_HOST}:${NX_PORT}/v1/orders`;
+}
+ 
 
-    try {
-      const fetchOrders = await makeCall(token, 'GET', url, '');
 
-      const fetchOrdersResponse = await fetchOrders.json();
-      return fetchOrdersResponse.data;
-    } catch (e) {
-      return e;
-    }
+export async function fetchOrderDetails(token, orderId) {
+  await sleep(1000);
+  const url = `${baseUrl}v1/order/${orderId}`;
+
+  try {
+    const fetchOrderById = await makeCall(token, 'GET', url, '');
+
+    const OrderByIdResponse = await fetchOrderById.json();
+    return OrderByIdResponse;
+  } catch (e) {
+    return e;
   }
-  
-
-      
+} 
     
 
-  export async function fetchOrderDetails(token, orderId) {
-    await sleep(1000);
-        const url = `http://${NX_HOST}:${NX_PORT}/v1/order/${orderId}`;
-
-    try {
-      const fetchOrderById = await makeCall(token, 'GET', url, '');
-
-      const OrderByIdResponse = await fetchOrderById.json();
-      const parseDate = Date(OrderByIdResponse.createdAt)
-      console.log(parseDate)
-      
-      const result = {
-        orderId: OrderByIdResponse?.orderId,
-        ownerId: OrderByIdResponse?.ownerId,
-        productId: OrderByIdResponse?.productId,
-        side: OrderByIdResponse?.side.slice(11),
-        type: OrderByIdResponse.type.slice(11),
-        quantity: OrderByIdResponse.quantity,
-        limitPrice: OrderByIdResponse.limitPrice,
-        timeInForce: OrderByIdResponse.timeInForce,
-        status: OrderByIdResponse.status.slice(13),
-        // createdAt: OrderByIdResponse.createdAt.slice(0,19),
-        createdAt: parseDate.slice(0,25),
-        updatedAt: OrderByIdResponse.updatedAt,
-        filledQuantity:OrderByIdResponse.filledQuantity,
-        filledValue: OrderByIdResponse.filledQuantity,
-        averageFilledPrice: OrderByIdResponse.averageFilledPrice,
-        commission: OrderByIdResponse.commission,
-        exchangeFee:OrderByIdResponse.exchangeFee 
-      };
-
-
-      return result
-    } catch (e) {
-      return e;
-    }
-  }
+  
 
   export async function createOrder(token, body) {
     await sleep(1000);
-        const url = `http://${NX_HOST}:${NX_PORT}/v1/order`;
+        const url = `${baseUrl}/v1/order`;
     
 
   const payload = JSON.stringify({
@@ -85,8 +63,8 @@ const sleep = (ms) => {
 
 
   export async function cancelOrder(token, body) {
-//     await sleep(1000);
-//         const url = `http://${NX_HOST}:${NX_PORT}/v1/order`;
+    await sleep(1000);
+        //const url = `${baseUrl}/v1/order`;
     
 
 //   const payload = JSON.stringify({
@@ -98,7 +76,7 @@ const sleep = (ms) => {
 // });
 
 
-    //try {
+    // try {
       // const placeCancelOrder = await makeCall(token, 'POST', url, payload);
 
       // const cancelOrderResponse = await placeCancelOrder.json();
@@ -122,4 +100,5 @@ const sleep = (ms) => {
       }
     // } catch (e) {
     //   return e;
-    }
+    // }
+  }
