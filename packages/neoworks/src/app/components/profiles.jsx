@@ -149,7 +149,6 @@ export function Profile() {
     <PureProfile
       userProfile={userProfile}
       profileLoading={profileLoading}
-      editClicked={editClicked}
       updateClicked={updateClicked}
       close={closeUpdateProfileModal}
       showUpdateProfileModal={showUpdateProfileModal}
