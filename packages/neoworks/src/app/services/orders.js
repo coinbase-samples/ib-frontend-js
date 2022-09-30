@@ -1,5 +1,4 @@
 import { makeCall } from "./ampClient";
-// import _ from 'lodash';
 const { NX_PORT, NX_HOST } = process.env
 const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms)); 
