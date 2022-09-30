@@ -33,7 +33,6 @@ export function PureProfile({
           actions={
             <SpaceBetween direction="horizontal" size="xs">
               <Button onClick={updateClicked}>Update</Button>
-              <Button onClick={editClicked}>Edit Profile Photo</Button>
             </SpaceBetween>
           }
         >
@@ -146,9 +145,6 @@ export function Profile() {
     setshowUpdateProfileModal(true);
   };
 
-  const editClicked = () => {
-    return editProfilePhoto();
-  };
   return (
     <PureProfile
       userProfile={userProfile}
