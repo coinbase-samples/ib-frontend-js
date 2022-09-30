@@ -79,13 +79,14 @@ const AuthProvider = ({ children }: Props) => {
         const attr: any = await getAttributes();
         setAttrInfo(attr);
         setAuthStatus(AuthStatus.SignedIn);
-
+        console.log('session', session);
         const email = attr.find((i: any) => i.Name === 'email')?.Value;
         setSessionInfo({
           accessToken: session.accessToken.jwtToken,
           refreshToken: session.refreshToken.token,
           email,
           username: attr?.username,
+          sub: session.accessToken?.payload?.sub,
         });
       } catch (err) {
         setAuthStatus(AuthStatus.SignedOut);
@@ -124,8 +125,8 @@ const AuthProvider = ({ children }: Props) => {
   }
 
   function signOut() {
-    signOutCognito()
-    setAuthStatus(AuthStatus.SignedOut)
+    signOutCognito();
+    setAuthStatus(AuthStatus.SignedOut);
   }
 
   const state: IAuth = {
