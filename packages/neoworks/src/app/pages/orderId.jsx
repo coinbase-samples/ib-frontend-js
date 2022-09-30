@@ -40,10 +40,7 @@ export function OrderId() {
   const currentOrderDetail = orderDetail;
   const currentOrderId = currentOrderDetail?.orderId;
   const orderMatch = orderId === currentOrderId;
-  console.log(currentOrderDetail, orderId, currentOrderId, orderMatch);
-  // const orderSide = orderDetail?.side;
-  // const side = orderSide?.split('_');
-  // const formattedSide = side[2];
+  // console.log(currentOrderDetail, orderId, currentOrderId, orderMatch);
 
   useEffect(() => {
     if (orderMatch) {
@@ -107,7 +104,7 @@ export function OrderId() {
               name: 'Details',
               content: (item) => (
                 <HelpPanel
-                  header="Trade Details"
+                  // header="Trade Details"
                   loading={orderLoading}
                   loadingText="Loading Order Details"
                 >
