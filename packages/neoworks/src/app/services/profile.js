@@ -9,7 +9,7 @@ const sleep = (ms) => {
 export async function fetchProfile(token, userId) {
 
   await sleep(1000);
-  const url = `http://${baseUrl}/v1/profile/${userId}`;
+  const url = `${baseUrl}/v1/profile/${userId}`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
