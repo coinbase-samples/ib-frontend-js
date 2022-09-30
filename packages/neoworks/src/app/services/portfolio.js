@@ -1,12 +1,12 @@
 import { makeCall } from "./ampClient";
-const {NX_HOST, NX_PORT} = process.env.NX_PORT
+import { baseUrl } from '../../constants';
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 export async function fetchPortfolioList(token) {
   await sleep(1000);
-  const url = `http://${NX_HOST}:${NX_PORT}/v1/balances/4f5a6336-8101-4634-a458-73b7f6fcf49f`;
+  const url = `${baseUrl}}}/v1/balances/4f5a6336-8101-4634-a458-73b7f6fcf49f`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
