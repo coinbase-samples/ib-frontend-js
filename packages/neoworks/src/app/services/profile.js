@@ -1,14 +1,15 @@
 import { makeCall } from "./ampClient";
+import { baseUrl } from '../../constants';
+
 
 const sleep = (ms) => {
   return new Promise(resolve => setTimeout(resolve, ms)); 
 }
-const {NX_HOST, NX_PORT} = process.env
 
 export async function fetchProfile(token, userId) {
 
   await sleep(1000);
-  const url = `http://${NX_HOST}:${NX_PORT}/v1/profile/${userId}`;
+  const url = `http://${baseUrl}/v1/profile/${userId}`;
 
   try {
     const fetchProfile = await makeCall(token, 'GET', url, '');
@@ -22,7 +23,7 @@ export async function fetchProfile(token, userId) {
 
 export async function updateProfile(token, body, userId) {
   await sleep(1000);
-        const url = `http://${NX_HOST}:${NX_PORT}/v1/profile/${userId}`;
+        const url = `http://${baseUrl}/v1/profile/${userId}`;
 
         const payload = JSON.stringify(body)
 
