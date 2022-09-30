@@ -49,6 +49,10 @@ export function TradeForm(props) {
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
   });
+  const [selectedOrderedType, setSelectedOrderedType] = React.useState({
+    label: 'Market',
+    value: 'MARKET',
+  });
 
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
@@ -154,6 +158,17 @@ export function TradeForm(props) {
             >
               {orderType}
             </ButtonDropdown>
+            <Select
+              selectedOption={selectedOrderedType}
+              onChange={({ detail }) =>
+                setSelectedOrderedType(detail.selectedOption)
+              }
+              options={[
+                { label: 'Market', value: 'MARKET' },
+                { label: 'Limit', value: 'LIMIT' },
+              ]}
+              selectedAriaLabel="Selected Order Type"
+            />
             <FormField label="Asset" id="asset">
               {!urlAsset ? (
                 <Select
@@ -198,6 +213,7 @@ export function TradeForm(props) {
         asset={selectedOption.value}
         side={orderSide}
         assetPrice={assetPrice}
+        orderType={selectedOrderedType.value}
         fiatBalance={fiatBalance}
         orderSideType={orderType}
       />

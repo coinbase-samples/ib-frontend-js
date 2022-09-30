@@ -4,11 +4,11 @@ const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms)); 
   }
 
-  const port = process.env.NX_PORT
+  const {NX_HOST, NX_PORT} = process.env.NX_PORT
 
   export async function fetchAssetsList(token) {
     await sleep(1000);
-  const url = `http://localhost:${port}/v1/assets`;
+  const url = `http://${NX_HOST}:${NX_PORT}/v1/assets`;
 
   try {
     const fetchAssets = await makeCall(token, 'GET', url, '');

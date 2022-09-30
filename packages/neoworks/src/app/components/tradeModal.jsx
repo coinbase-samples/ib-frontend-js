@@ -23,7 +23,8 @@ export function TradeModal(props) {
 
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
-  const { qty, assetPrice, fiatBalance, side, orderSideType } = props;
+  const { qty, assetPrice, fiatBalance, side, orderSideType, orderType } =
+    props;
   const orderTotal = qty * assetPrice + platformFee;
   let orderFail = false;
   const submitOrder = async () => {
@@ -31,9 +32,9 @@ export function TradeModal(props) {
     const body = {
       productId: props.asset,
       side,
-      orderType: 'limit',
       quantity: qty,
       limitPrice: assetPrice,
+      orderType,
     };
 
     await currentOrder(body);
@@ -48,7 +49,7 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
-
+  console.log(orderType);
   const overBudget = orderTotal > fiatBalance;
 
   const orderResponse = () => {
@@ -120,7 +121,7 @@ export function TradeModal(props) {
               }
             >
               <Icons asset={props.asset} />
-              {orderSideType} {props.asset}
+              {orderType} {orderSideType} {props.asset}
             </Header>
           }
         >
@@ -144,7 +145,7 @@ export function TradeModal(props) {
               </Box>
             }
           >
-            <ColumnLayout borders="horizontal" columns={3}>
+            <ColumnLayout variant="text-grid" borders="horizontal" columns={3}>
               <div>
                 <h5>Asset:</h5>
               </div>
