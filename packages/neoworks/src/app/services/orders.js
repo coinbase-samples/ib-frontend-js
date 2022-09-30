@@ -1,12 +1,12 @@
 import { makeCall } from "./ampClient";
 // import _ from 'lodash';
-const port = process.env.NX_PORT
+const { NX_PORT, NX_HOST } = process.env
 const sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms)); 
   }
   export async function fetchOrdersList(token) {
     await sleep(1000);
-    const url = `http://localhost:8442/v1/orders`;
+    const url = `http://${NX_HOST}:${NX_PORT}/v1/orders`;
 
     try {
       const fetchOrders = await makeCall(token, 'GET', url, '');
@@ -24,7 +24,7 @@ const sleep = (ms) => {
 
   export async function fetchOrderDetails(token, orderId) {
     await sleep(1000);
-        const url = `http://localhost:8442/v1/order/${orderId}`;
+        const url = `http://${NX_HOST}:${NX_PORT}/v1/order/${orderId}`;
 
     try {
       const fetchOrderById = await makeCall(token, 'GET', url, '');
@@ -53,7 +53,6 @@ const sleep = (ms) => {
         exchangeFee:OrderByIdResponse.exchangeFee 
       };
 
-      console.log(result)
 
       return result
     } catch (e) {
@@ -63,14 +62,14 @@ const sleep = (ms) => {
 
   export async function createOrder(token, body) {
     await sleep(1000);
-        const url = `http://localhost:8442/v1/order`;
+        const url = `http://${NX_HOST}:${NX_PORT}/v1/order`;
     
 
   const payload = JSON.stringify({
     "productId": body.productId,
     "side": body.side,
     "quantity": body.quantity,
-    "type":"ORDER_TYPE_MARKET",
+    "type": "ORDER_TYPE_" + body.orderType,
     "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
 });
 
@@ -88,7 +87,7 @@ const sleep = (ms) => {
 
   export async function cancelOrder(token, body) {
 //     await sleep(1000);
-//         const url = `http://localhost:8442/v1/order`;
+//         const url = `http://${NX_HOST}:${NX_PORT}/v1/order`;
     
 
 //   const payload = JSON.stringify({
