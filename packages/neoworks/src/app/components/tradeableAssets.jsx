@@ -40,7 +40,7 @@ export function TradeableAssets() {
         {
           id: 'name',
           header: 'Name',
-          cell: (e) => <Link href={`#/assets/${e.name}`}>{e.name}</Link>,
+          cell: (e) => <Link href={`#/assets/${e.ticker}`}>{e.name}</Link>,
           width: 100,
           minWidth: 100,
         },

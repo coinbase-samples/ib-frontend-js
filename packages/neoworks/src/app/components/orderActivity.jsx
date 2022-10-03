@@ -37,7 +37,9 @@ export function OrderActivity(props) {
   }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
 
   if (props.asset) {
-    filteredOrders = _.filter(orders, { productId: props.asset });
+    const filter = props.asset + '_USD';
+    console.log(filter, orders);
+    filteredOrders = _.filter(orders, { productId: filter });
     searchOptions = false;
   }
   if (filteringText) {
