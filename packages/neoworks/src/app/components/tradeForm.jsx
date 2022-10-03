@@ -38,9 +38,11 @@ export function TradeForm(props) {
   } = useContext(PortfolioContext);
 
   const [quantity, setQuantity] = React.useState('1');
+  const [limitPrice, setLimitPrice] = React.useState(0);
+
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
-  const [qtyError, setQtyError] = React.useState('');
+  const [error, setError] = React.useState('');
 
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
@@ -53,13 +55,22 @@ export function TradeForm(props) {
     label: 'Market',
     value: 'MARKET',
   });
-
+  console.log(selectedOrderedType);
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
       setQuantity(qty);
-      setQtyError('');
+      setError('');
     } else {
-      setQtyError('Please enter an integer value');
+      setError('Please enter an integer value');
+    }
+  };
+
+  const handleLimitPrice = (lp) => {
+    if (!isNaN(+lp)) {
+      setLimitPrice(lp);
+      setError('');
+    } else {
+      setError('Please enter an integer value');
     }
   };
 
@@ -71,9 +82,8 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
-  console.log(assets, selectedOption.value);
-  const assetObject = _.filter(assets, { currency: selectedOption.value });
-  console.log(assetObject);
+  console.log(assets);
+  const assetObject = _.filter(assets.data, { name: selectedOption.value });
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
@@ -168,6 +178,17 @@ export function TradeForm(props) {
               ]}
               selectedAriaLabel="Selected Order Type"
             />
+
+            {selectedOrderedType.value === 'LIMIT' ? (
+              <FormField label="Limit Price" id="limitPrice" errorText={error}>
+                <Input
+                  onChange={({ detail }) => handleLimitPrice(detail.value)}
+                  value={limitPrice}
+                />
+              </FormField>
+            ) : (
+              ''
+            )}
             <FormField label="Asset" id="asset">
               {!urlAsset ? (
                 <Select
@@ -191,7 +212,7 @@ export function TradeForm(props) {
               <h4>Asset Price:</h4> ${assetPrice}
             </div>
 
-            <FormField label="Quantity" id="quantity" errorText={qtyError}>
+            <FormField label="Quantity" id="quantity" errorText={error}>
               <Input
                 onChange={({ detail }) => handleQuantity(detail.value)}
                 value={quantity}

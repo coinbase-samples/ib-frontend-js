@@ -15,6 +15,7 @@ export const Icons = ({ asset }) => {
       return <Bitcoin height="45px" width="45px" />;
     case 'BTC_USD':
       return <Bitcoin height="45px" width="45px" />;
+
     case 'ETH':
       return <Ethereum height="45px" width="45px" />;
     case 'ETH_USD':

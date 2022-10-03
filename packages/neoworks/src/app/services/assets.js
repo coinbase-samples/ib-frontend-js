@@ -9,82 +9,18 @@ const sleep = (ms) => {
 
   export async function fetchAssetsList(token) {
     await sleep(1000);
-  // const url = `${baseUrl}/v1/assets`;
+  const url = `${baseUrl}/v1/assets`;
 
-  // try {
-  //   const fetchAssets = await makeCall(token, 'GET', url, '');
+  try {
+    const fetchAssets = await makeCall(token, 'GET', url, '');
 
-  //   const fetchAssetsResponse = await fetchAssets.json();
-  //   return fetchAssetsResponse;
-  // } catch (e) {
-  //   return e;
-  // }
-console.log('assets hit')
-  return {
-    assets: [
-      {
-        currency: 'BTC_USD',
-        price: 24000,
-        alt: 'BTC',
-        change: 'up',
-        mktCap: '100000000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Buy',
-      },
-      {
-        currency: 'ETH_USD',
-        price: 16000,
-        alt: 'eth',
-        change: 'up',
-        mktCap: '100000000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Buy',
-      },
-      {
-        currency: 'SOL',
-        price: 100,
-        alt: 'SOL',
-        change: 'up',
-        mktCap: '100000000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Buy',
-      },
-      {
-        currency: 'CARDANO',
-        price: 1.5,
-        alt: 'cardano',
-        change: 'up',
-        mktCap: '400000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Buy',
-      },
-      {
-        currency: 'MATIC',
-        price: 50,
-        alt: 'matic',
-        change: 'up',
-        mktCap: '50000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Sell',
-      },
-      {
-        currency: 'ATOM',
-        price: 5,
-        alt: 'atom',
-        change: 'up',
-        mktCap: '780000',
-        volume: '18.9B',
-        supply: '19.0M',
-        activity: '100 Buy',
-      },
-    ],
+    const fetchAssetsResponse = await fetchAssets.json();
+    return fetchAssetsResponse;
+  } catch (e) {
+    return e;
+  }
+
   };
-}
-    
+
 
   
