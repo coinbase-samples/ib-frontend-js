@@ -7,7 +7,7 @@ const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 export async function fetchOrdersList(token) {
-  const url = `${baseUrl}v1/orders`;
+  const url = `${baseUrl}/v1/orders`;
 
   try {
     const fetchOrders = await makeCall(token, 'GET', url, '');
@@ -22,7 +22,7 @@ export async function fetchOrdersList(token) {
 
 export async function fetchOrderDetails(token, orderId) {
   await sleep(1000);
-  const url = `${baseUrl}v1/order/${orderId}`;
+  const url = `${baseUrl}/v1/orders/${orderId}`;
 
   try {
     const fetchOrderById = await makeCall(token, 'GET', url, '');

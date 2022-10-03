@@ -19,11 +19,11 @@ const sleep = (ms) => {
   // } catch (e) {
   //   return e;
   // }
-
+console.log('assets hit')
   return {
     assets: [
       {
-        name: 'BTC',
+        currency: 'BTC_USD',
         price: 24000,
         alt: 'BTC',
         change: 'up',
@@ -33,7 +33,7 @@ const sleep = (ms) => {
         activity: '100 Buy',
       },
       {
-        name: 'ETH',
+        currency: 'ETH_USD',
         price: 16000,
         alt: 'eth',
         change: 'up',
@@ -43,7 +43,7 @@ const sleep = (ms) => {
         activity: '100 Buy',
       },
       {
-        name: 'SOL',
+        currency: 'SOL',
         price: 100,
         alt: 'SOL',
         change: 'up',
@@ -53,7 +53,7 @@ const sleep = (ms) => {
         activity: '100 Buy',
       },
       {
-        name: 'CARDANO',
+        currency: 'CARDANO',
         price: 1.5,
         alt: 'cardano',
         change: 'up',
@@ -63,7 +63,7 @@ const sleep = (ms) => {
         activity: '100 Buy',
       },
       {
-        name: 'MATIC',
+        currency: 'MATIC',
         price: 50,
         alt: 'matic',
         change: 'up',
@@ -73,7 +73,7 @@ const sleep = (ms) => {
         activity: '100 Sell',
       },
       {
-        name: 'ATOM',
+        currency: 'ATOM',
         price: 5,
         alt: 'atom',
         change: 'up',
