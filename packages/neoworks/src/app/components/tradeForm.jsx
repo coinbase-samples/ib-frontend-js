@@ -59,7 +59,6 @@ export function TradeForm(props) {
       setQuantity(qty);
       setQtyError('');
     } else {
-      console.log('not an integer', qty);
       setQtyError('Please enter an integer value');
     }
   };
@@ -72,9 +71,9 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
-  // console.log(assets, selectedOption.value);
-  const assetObject = _.filter(assets?.assets, { name: selectedOption.value });
-  // console.log(assetObject);
+  console.log(assets, selectedOption.value);
+  const assetObject = _.filter(assets, { name: selectedOption.value });
+  console.log(assetObject);
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
