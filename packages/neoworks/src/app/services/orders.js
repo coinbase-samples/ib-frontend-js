@@ -22,7 +22,7 @@ export async function fetchOrdersList(token) {
 
 export async function fetchOrderDetails(token, orderId) {
   await sleep(1000);
-  const url = `${baseUrl}/v1/orders/${orderId}`;
+  const url = `${baseUrl}/v1/order/${orderId}`;
 
   try {
     const fetchOrderById = await makeCall(token, 'GET', url, '');
