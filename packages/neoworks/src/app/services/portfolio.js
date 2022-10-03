@@ -4,9 +4,9 @@ import { baseUrl } from '../../constants';
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
-export async function fetchPortfolioList(token) {
+export async function fetchPortfolioList(token, sub) {
   await sleep(1000);
-  const url = `${baseUrl}/v1/balances/c5af3271-7185-4a52-9d0c-1c4b418317d8
+  const url = `${baseUrl}/v1/balances/${sub}
   `;
 
   try {

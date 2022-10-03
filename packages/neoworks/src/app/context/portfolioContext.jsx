@@ -13,15 +13,15 @@ export const PortfolioContext = createContext(defaultState);
 const PortfolioProvider = ({ children }) => {
   const [portfolio, setPortfolio] = useState([]);
   const [portfolioLoading, setPortfolioLoading] = useState(false);
-  const { sessionInfo } = useContext(AuthContext);
-
+  const { sessionInfo, attrInfo } = useContext(AuthContext);
+  const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const fetchPortfolio = async () => {
     if (portfolioLoading) {
       return;
     }
 
     setPortfolioLoading(true);
-    const result = await fetchPortfolioList(sessionInfo.accessToken);
+    const result = await fetchPortfolioList(sessionInfo.accessToken, sub);
     setPortfolio(result);
     setPortfolioLoading(false);
   };
