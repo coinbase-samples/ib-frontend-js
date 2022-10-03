@@ -184,7 +184,7 @@ export function TradeForm(props) {
               <FormField label="Limit Price" id="limitPrice" errorText={error}>
                 <Input
                   onChange={({ detail }) => handleLimitPrice(detail.value)}
-                  value={limitPrice}
+                  value={assetPrice}
                 />
               </FormField>
             ) : (
