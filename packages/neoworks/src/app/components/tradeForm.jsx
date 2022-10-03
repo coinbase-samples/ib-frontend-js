@@ -72,7 +72,7 @@ export function TradeForm(props) {
     }
   }, []);
   console.log(assets, selectedOption.value);
-  const assetObject = _.filter(assets, { name: selectedOption.value });
+  const assetObject = _.filter(assets, { currency: selectedOption.value });
   console.log(assetObject);
   const assetPrice = assetObject[0]?.price;
   const portfolioObject = _.filter(portfolio, {
