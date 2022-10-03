@@ -82,9 +82,10 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
-  console.log(assets);
-  const assetObject = _.filter(assets.data, { name: selectedOption.value });
-  const assetPrice = assetObject[0]?.price;
+
+  const assetObject = _.filter(assets, { ticker: selectedOption.label });
+
+  const assetPrice = assetObject[0]?.lowBid;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
   });
