@@ -95,7 +95,7 @@ export function TradeableAssets() {
           minWidth: 170,
         },
       ]}
-      items={assets}
+      items={assetFeed}
       loading={assetsLoaded}
       loadingText="Loading Assets"
     />
