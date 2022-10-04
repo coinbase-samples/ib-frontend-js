@@ -16,7 +16,7 @@ import {
 } from '@cloudscape-design/components';
 
 export function CancelOrderModal(props) {
-  const { currentOrder, cancelOrderLoading, orderDetail, placeCancelOrder } =
+  const { cancelOrderLoading, orderDetail, placeCancelOrder } =
     useContext(OrderContext);
 
   const [cancelOrderPreview, setCancelOrderPreview] = React.useState(false);
@@ -24,14 +24,14 @@ export function CancelOrderModal(props) {
 
   let orderFail = false;
   const submitCancelOrder = async () => {
-    setCancelOrderPreview(false);
+    setCancelOrderPreview(true);
 
     await placeCancelOrder(orderId);
   };
 
   const closeModal = () => {
     //add an if check to ensure api finishes
-    setCancelOrderPreview(true);
+    setCancelOrderPreview(false);
     props.close();
   };
 
@@ -69,7 +69,7 @@ export function CancelOrderModal(props) {
         cancelOrderPreview ? 'Order Cancellation Confirm' : 'Order Status'
       }
     >
-      {!cancelOrderPreview ? (
+      {cancelOrderPreview ? (
         <Container>
           <HelpPanel
             loading={cancelOrderLoading}

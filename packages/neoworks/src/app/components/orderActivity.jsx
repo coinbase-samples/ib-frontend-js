@@ -72,8 +72,10 @@ export function OrderActivity(props) {
           {
             id: 'orderId',
             header: 'Order Id',
+            width: 100,
+            minWidth: 100,
             cell: (e) => (
-              <Link href={`#/activity/orders/${e.orderId}`}>{e.orderId}</Link>
+              <Link href={`#/activity/orders/${e.orderId}`}>View</Link>
             ),
           },
           {
@@ -89,6 +91,8 @@ export function OrderActivity(props) {
             header: 'Side',
             cell: (item) => item.side || '-',
             sortingField: 'side',
+            width: 200,
+            minWidth: 200,
           },
           {
             id: 'quantity',
@@ -103,6 +107,16 @@ export function OrderActivity(props) {
             header: 'Order Date',
             cell: (item) => item.createdAt || '-',
             sortingField: 'createdAt',
+            width: 150,
+            minWidth: 125,
+          },
+          {
+            id: 'status',
+            header: 'Order Status',
+            cell: (item) => item.status || '-',
+            sortingField: 'status',
+            width: 150,
+            minWidth: 125,
           },
         ]}
         items={filteredOrders ? filteredOrders : orders}

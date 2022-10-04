@@ -99,6 +99,7 @@ export function TradeForm(props) {
     currency: 'USD',
   });
 
+  console.log(fiatObject);
   let amountHeld;
   let allowedSale;
   const fiatBalance = fiatObject[0]?.balance;
