@@ -43,14 +43,20 @@ export function TradeForm(props) {
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
   const [error, setError] = React.useState('');
-
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
+  let homePage;
+  if (urlAsset) {
+    homePage = false;
+  } else {
+    homePage = true;
+  }
 
   const [selectedOption, setSelectedOption] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
   });
+
   const [selectedOrderedType, setSelectedOrderedType] = React.useState({
     label: 'Market',
     value: 'MARKET',
@@ -89,7 +95,6 @@ export function TradeForm(props) {
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
   });
-  // console.log(portfolio, portfolioObject);
   const fiatObject = _.filter(portfolio, {
     currency: 'USD',
   });
@@ -118,8 +123,6 @@ export function TradeForm(props) {
     if (!urlAsset) {
       return tradingOptions;
     } else {
-      console.log(urlAsset);
-
       const filteredAsset = _.filter(tradingOptions, {
         label: urlAsset,
       });
@@ -184,7 +187,7 @@ export function TradeForm(props) {
               <FormField label="Limit Price" id="limitPrice" errorText={error}>
                 <Input
                   onChange={({ detail }) => handleLimitPrice(detail.value)}
-                  value={assetPrice}
+                  value={limitPrice}
                 />
               </FormField>
             ) : (
@@ -237,6 +240,8 @@ export function TradeForm(props) {
         orderType={selectedOrderedType.value}
         fiatBalance={fiatBalance}
         orderSideType={orderType}
+        limitPrice={limitPrice}
+        homePage={homePage}
       />
     </div>
   );

@@ -23,17 +23,38 @@ export function TradeModal(props) {
 
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
-  const { qty, assetPrice, fiatBalance, side, orderSideType, orderType } =
-    props;
-  const orderTotal = qty * assetPrice + platformFee;
+  const {
+    qty,
+    assetPrice,
+    fiatBalance,
+    side,
+    orderSideType,
+    orderType,
+    limitPrice,
+    homePage,
+    asset,
+  } = props;
+
+  let orderPrice = assetPrice;
+
+  if (limitPrice) {
+    orderPrice = limitPrice;
+  }
+  let productId = asset;
+  if (!homePage) {
+    productId = asset + '_USD';
+  }
+
+  console.log(homePage);
+  const orderTotal = qty * orderPrice + platformFee;
   let orderFail = false;
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
-      productId: props.asset,
+      productId,
       side,
       quantity: qty,
-      limitPrice: assetPrice,
+      limitPrice: orderPrice,
       orderType,
     };
 
