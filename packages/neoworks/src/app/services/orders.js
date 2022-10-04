@@ -72,43 +72,23 @@ export async function fetchOrderDetails(token, orderId) {
   }
 
 
-  export async function cancelOrder(token, body) {
+  export async function cancelOrder(token, orderId) {
     await sleep(1000);
-        //const url = `${baseUrl}/v1/order`;
+      const url = `${baseUrl}/v1/order/${orderId}`;
     
 
-//   const payload = JSON.stringify({
-//     "productId": body.productId,
-//     "side": body.side,
-//     "quantity": body.quantity,
-//     "type":"ORDER_TYPE_MARKET",
-//     "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
-// });
+  const payload = JSON.stringify({
+    "status":"ORDER_STATUS_CANCELLED",
+    
+});
 
 
-    // try {
-      // const placeCancelOrder = await makeCall(token, 'POST', url, payload);
+    try {
+      const placeCancelOrder = await makeCall(token, 'PUT', url, payload);
 
-      // const cancelOrderResponse = await placeCancelOrder.json();
-      return {
-        "orderId": "05af41ba-c5d9-419f-b1b6-695e32ca38ae",
-        "ownerId": "4f5a6336-8101-4634-a458-73b7f6fcf49f",
-        "productId": "BTC_USD",
-        "side": "ORDER_SIDE_BUY",
-        "type": "ORDER_TYPE_MARKET",
-        "quantity": "0.001",
-        "limitPrice": "",
-        "timeInForce": "ORDER_TIME_IN_FORCE_UNSPECIFIED",
-        "status": "ORDER_STATUS_CANCELLED",
-        "createdAt": "2022-09-28T20:24:40.701Z",
-        "updatedAt": "2022-09-28T20:24:40.701Z",
-        "filledQuantity": "",
-        "filledValue": "",
-        "averageFilledPrice": "",
-        "commission": "",
-        "exchangeFee": ""
-      }
-    // } catch (e) {
-    //   return e;
-    // }
+      const cancelOrderResponse = await placeCancelOrder.json();
+      return cancelOrderResponse
+    } catch (e) {
+      return e;
+    }
   }

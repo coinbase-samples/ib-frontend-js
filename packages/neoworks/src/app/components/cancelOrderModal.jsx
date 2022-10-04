@@ -2,6 +2,8 @@ import * as React from 'react';
 import { Icons } from '../utils/Icons';
 import { OrderContext } from '../context/ordersContext';
 import { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+
 import {
   Modal,
   HelpPanel,
@@ -18,11 +20,13 @@ export function CancelOrderModal(props) {
     useContext(OrderContext);
 
   const [cancelOrderPreview, setCancelOrderPreview] = React.useState(false);
+  const orderId = useParams().orderId;
+
   let orderFail = false;
   const submitCancelOrder = async () => {
     setCancelOrderPreview(false);
 
-    await placeCancelOrder();
+    await placeCancelOrder(orderId);
   };
 
   const closeModal = () => {

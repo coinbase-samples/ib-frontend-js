@@ -94,10 +94,10 @@ const OrderProvider = ({ children }) => {
     }
   };
 
-  const placeCancelOrder = async (body) => {
+  const placeCancelOrder = async (orderId) => {
     try {
       setCancelOrderLoading(true);
-      const result = await cancelOrder(sessionInfo.accessToken, body);
+      const result = await cancelOrder(sessionInfo.accessToken, orderId);
       setOrders([...orders, result]);
 
       setOrderDetail(result);

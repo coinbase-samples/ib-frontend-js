@@ -60,9 +60,8 @@ export function OrderId() {
     }
   }, [orderDetail, currentOrderDetail]);
 
-  const status = 'open';
+  const status = orderDetail?.status;
   const openCancelModal = () => {
-    console.log('cancel clicked');
     setShowCancelModal(true);
   };
   const closeCancelModal = () => {
@@ -76,7 +75,7 @@ export function OrderId() {
           description=""
           actions={
             <SpaceBetween direction="horizontal" size="xs">
-              {status === 'open' ? (
+              {status === 'ORDER_STATUS_PENDING' ? (
                 <Button onClick={openCancelModal} variant="secondary">
                   Cancel Order
                 </Button>
