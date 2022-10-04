@@ -37,6 +37,13 @@ export function TradeModal(props) {
 
   let orderPrice = assetPrice;
 
+  const formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  });
+
+  const USDbalance = formatter.format(fiatBalance);
+
   if (limitPrice) {
     orderPrice = limitPrice;
   }
@@ -69,8 +76,8 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
-  console.log(orderType);
-  const overBudget = orderTotal > fiatBalance;
+  console.log(orderTotal, USDbalance);
+  const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {
     if (orderDetail?.code) {
@@ -186,7 +193,7 @@ export function TradeModal(props) {
               <div>
                 <h5>USD Balance: </h5>
               </div>
-              <div>{fiatBalance}</div>
+              <div>{USDbalance}</div>
 
               <div>
                 <h5>Total</h5>

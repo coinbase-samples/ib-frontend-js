@@ -23,7 +23,6 @@ const WebsocketProvider = ({ children }) => {
 
   const { sendMessage, lastMessage, readyState } = useWebSocket(websocketUrl);
   const { sessionInfo } = useContext(AuthContext);
-  console.log(!lastMessage?.data);
   useEffect(() => {
     // console.log('hit use effect', lastMessage);
     if (!lastMessage?.data) return;
