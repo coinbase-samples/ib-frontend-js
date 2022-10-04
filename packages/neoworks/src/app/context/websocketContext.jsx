@@ -3,7 +3,7 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { AuthContext } from './authContext';
 
-const wsUrl = 'ws://api-dev.neoworks.xyz/ws?alias=';
+const wsUrl = 'wss://api-dev.neoworks.xyz/ws?alias=';
 
 const defaultState = {
   assetFeed: [],
@@ -24,12 +24,13 @@ const WebsocketProvider = ({ children }) => {
   const { sendMessage, lastMessage, readyState } = useWebSocket(websocketUrl);
 
   const { sessionInfo } = useContext(AuthContext);
-
+  console.log(!lastMessage?.data);
   useEffect(() => {
+    console.log('hit use effect', lastMessage);
     if (!lastMessage?.data) return;
     console.log('lastMessage', lastMessage);
-    const rawMessage = JSON.parse(lastMessage.data);
-    if (rawMessage?.type === 'assets') {
+    const rawMessage = JSON.parse(lastMessage?.body);
+    if (rawMessage?.type === 'asset') {
       const newAssets = JSON.parse(rawMessage.body);
       console.log('updated assets', newAssets);
       setAssetFeed(newAssets);
