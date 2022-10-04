@@ -38,19 +38,29 @@ export async function fetchOrderDetails(token, orderId) {
   
 
   export async function createOrder(token, body) {
+    let orderType;
+    let payload = JSON.stringify({
+      "productId": body.productId,
+      "side": body.side,
+      "quantity": body.quantity,
+      "type": "ORDER_TYPE_" + body.orderType,
+      "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
+  });
     await sleep(1000);
         const url = `${baseUrl}/v1/order`;
     
+    if(body?.orderType === 'LIMIT'){
+      payload = JSON.stringify({
+        "productId": body.productId,
+        "side": body.side,
+        "limitPrice": body.limitPrice,
+        "quantity": body.quantity,
+        "type": "ORDER_TYPE_" + body.orderType,
+        "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
+    });
+    }
 
-  const payload = JSON.stringify({
-    "productId": body.productId,
-    "side": body.side,
-    "quantity": body.quantity,
-    "type": "ORDER_TYPE_" + body.orderType,
-    "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
-});
-
-
+    
     try {
       const placeNewOrder = await makeCall(token, 'POST', url, payload);
 
