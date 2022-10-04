@@ -45,7 +45,6 @@ export function TradeModal(props) {
     productId = asset + '_USD';
   }
 
-  console.log(homePage);
   const orderTotal = qty * orderPrice + platformFee;
   let orderFail = false;
   const submitOrder = async () => {
