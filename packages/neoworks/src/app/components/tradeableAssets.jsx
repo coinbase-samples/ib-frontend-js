@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Table, Link } from '@cloudscape-design/components';
 import { AssetContext } from '../context/assetsContext';
+import { WebsocketContext } from '../context/websocketContext';
+
 import { useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
 
@@ -12,6 +14,8 @@ export function TradeableAssets() {
     fetchAssets,
   } = useContext(AssetContext);
 
+  const { assetFeed, connected } = useContext(WebsocketContext);
+  console.log(assetFeed, connected);
   useEffect(() => {
     if (!assetsLoaded && assets?.length === 0) {
       fetchAssets();

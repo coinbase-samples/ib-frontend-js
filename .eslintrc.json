@@ -46,6 +46,7 @@
   ],
   "rules": {
     "prefer-const": "error",
-    "object-shorthand": "error"
+    "object-shorthand": "error",
+    "react-hooks/exhaustive-deps": "off"
   }
 }
