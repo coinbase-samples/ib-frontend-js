@@ -93,7 +93,7 @@ export function TradeForm(props) {
     }
   }, []);
 
-  const assetObject = _.filter(assets, { ticker: selectedOption.label });
+  // const assetObject = _.filter(assets, { ticker: selectedOption.label });
 
   const assetPriceFilter = _.filter(assetFeed, {
     ticker: selectedOption.label,

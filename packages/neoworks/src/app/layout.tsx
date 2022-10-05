@@ -26,8 +26,12 @@ export const Layout = () => {
             }}
             items={[
               { type: 'link', text: 'Home', href: '/' },
+              { type: 'divider' },
               { type: 'link', text: 'Assets', href: '/assets' },
+              { type: 'divider' },
               { type: 'link', text: 'Activity', href: '/activity' },
+              { type: 'divider' },
+
             ]}
           />
         }

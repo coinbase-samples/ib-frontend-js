@@ -36,22 +36,26 @@ export function TradeModal(props) {
   } = props;
 
   let orderPrice = assetPrice;
-
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
   });
 
+  console.log(assetPrice);
+
   const USDbalance = formatter.format(fiatBalance);
 
-  if (limitPrice) {
+  if (orderType === 'LIMIT') {
     orderPrice = limitPrice;
+  }
+
+  if (orderType === 'MARKET') {
+    orderPrice = assetPrice;
   }
   let productId = asset;
   if (!homePage) {
     productId = asset + '_USD';
   }
-
   const orderTotal = qty * orderPrice + platformFee;
   let orderFail = false;
   const submitOrder = async () => {
@@ -171,31 +175,17 @@ export function TradeModal(props) {
             }
           >
             <ColumnLayout variant="text-grid" borders="horizontal" columns={3}>
-              <div>
-                <h5>Asset:</h5>
-              </div>
-              <div>{props.asset}</div>
-
-              <div>
-                <h5>Quantity: </h5>
-              </div>
-              <div>{props.qty}</div>
-              <div>
-                <h5>Platform Fee:</h5>
-              </div>
-              <div>{platformFee}</div>
-              <div>
-                <h5>Payment Type: </h5>
-              </div>
-              <div>USD</div>
-              <div>
-                <h5>USD Balance: </h5>
-              </div>
-              <div>{USDbalance}</div>
-
-              <div>
-                <h5>Total</h5>
-              </div>
+              <h5>Asset:</h5>
+              {props.asset}
+              <h5>Quantity: </h5>
+              {props.qty}
+              <h5>Platform Fee:</h5>
+              {platformFee}
+              <h5>Payment Type: </h5>
+              USD
+              <h5>USD Balance: </h5>
+              {USDbalance}
+              <h5>Total</h5>
               <div style={{ textAlign: 'right' }}>
                 {overBudget && side === 'ORDER_SIDE_BUY' ? (
                   <p style={{ color: 'red' }}>
@@ -205,7 +195,6 @@ export function TradeModal(props) {
                   <h5>${orderTotal}</h5>
                 )}
               </div>
-
               <div>
                 <Popover
                   position="top"
