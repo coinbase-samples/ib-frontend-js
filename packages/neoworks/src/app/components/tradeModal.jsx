@@ -76,7 +76,6 @@ export function TradeModal(props) {
   const cancelOrder = () => {
     window.location.reload(false);
   };
-  console.log(orderTotal, USDbalance);
   const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {

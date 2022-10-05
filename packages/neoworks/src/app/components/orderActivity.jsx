@@ -34,7 +34,7 @@ export function OrderActivity(props) {
     if (!ordersLoaded && orders?.length === 0) {
       fetchOrders(sessionInfo.accessToken, sub);
     }
-  }, [orders, ordersLoaded, fetchOrders, sessionInfo.accessToken, sub]);
+  }, []);
 
   if (props.asset) {
     const filter = props.asset + '_USD';

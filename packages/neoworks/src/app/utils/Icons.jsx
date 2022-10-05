@@ -34,6 +34,8 @@ export const Icons = ({ asset }) => {
       return <Cardano height="45px" width="45px" />;
     case 'Atom':
       return <Cosmos height="45px" width="45px" />;
+    case 'MATIC_USD':
+      return <Polygon height="45px" width="45px" />;
     case 'MATIC':
       return <Polygon height="45px" width="45px" />;
     case 'ADA_USD':

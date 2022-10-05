@@ -12,6 +12,8 @@ import {
 import { TradeModal } from './tradeModal';
 import { useParams } from 'react-router-dom';
 import { AssetContext } from '../context/assetsContext';
+import { WebsocketContext } from '../context/websocketContext';
+
 import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
@@ -25,6 +27,10 @@ export function TradeForm(props) {
     { label: 'MATIC', value: 'MATIC_USD' },
     { label: 'ATOM', value: 'ATOM_USD' },
   ];
+
+  const { assetFeed, connected } = useContext(WebsocketContext);
+  console.log(assetFeed, connected);
+
   const {
     assets,
     assetsLoading: assetsLoaded,
@@ -91,7 +97,13 @@ export function TradeForm(props) {
 
   const assetObject = _.filter(assets, { ticker: selectedOption.label });
 
-  const assetPrice = assetObject[0]?.lowBid;
+  const assetPriceFilter = _.filter(assetFeed, {
+    ticker: selectedOption.label,
+  });
+
+  const assetPrice = assetPriceFilter[0]?.lowBid;
+
+  console.log(assetPrice);
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
   });

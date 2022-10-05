@@ -48,8 +48,8 @@ const OrderProvider = ({ children }) => {
       return;
     }
     setOrdersLoading(true);
-    // const result = orders;
     const result = await fetchOrdersList(sessionInfo.accessToken);
+    console.log('client context result ', result);
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);

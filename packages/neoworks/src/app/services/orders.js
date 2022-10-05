@@ -1,18 +1,26 @@
-
+import { Api } from '../clients/orderApi'
 import { makeCall } from './ampClient';
 import { baseUrl } from '../../constants';
-
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
 };
 export async function fetchOrdersList(token) {
-  const url = `${baseUrl}/v1/orders`;
+
+  const api = new Api({
+    baseUrl,
+    baseApiParams: {
+      headers: { Authorization: 'Bearer ' + token },
+    },
+  });
+  // const url = `${baseUrl}/v1/orders`;
 
   try {
-    const fetchOrders = await makeCall(token, 'GET', url, '');
-    const fetchOrdersResponse = await fetchOrders.json();
-    return fetchOrdersResponse.data;
+    // const fetchOrders = await makeCall(token, 'GET', url, '');
+    // const fetchOrdersResponse = await fetchOrders.json();
+   const fetchOrdersClient = await api.v1.orderServiceListOrders()
+    console.log('client response' + fetchOrdersClient)
+    return fetchOrdersClient.data.data
   } catch (e) {
     return e;
   }
