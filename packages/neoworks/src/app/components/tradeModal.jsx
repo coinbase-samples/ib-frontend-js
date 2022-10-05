@@ -81,7 +81,6 @@ export function TradeModal(props) {
   const orderResponse = () => {
     if (orderDetail?.code) {
       orderFail = true;
-      console.log('should be true ', orderFail);
       return (
         <p>We're sorry, your order Failed. Reason: {orderDetail?.message}</p>
       );

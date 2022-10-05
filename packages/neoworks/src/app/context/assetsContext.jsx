@@ -45,7 +45,6 @@ const AssetProvider = ({ children }) => {
 
     setAssetsLoading(true);
     const result = await fetchAssetsList(sessionInfo.accessToken);
-    console.log('api response ', result.data);
     setAssets(result.data);
     setAssetsLoading(false);
   };

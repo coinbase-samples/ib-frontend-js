@@ -20,16 +20,13 @@ export function Home() {
       calculatedBalance = element.balance;
     });
     // const calculatedBalance = '14';
-    console.log('calculated Balance ' + calculatedBalance);
     return calculatedBalance;
   };
 
   if (portfolio) {
     loadedBalance = calculateBalance();
-    console.log('loaded balance ', loadedBalance);
     balanceLoaded = true;
   }
-  console.log(portfolio);
   return (
     //grids hold containers
     <Grid

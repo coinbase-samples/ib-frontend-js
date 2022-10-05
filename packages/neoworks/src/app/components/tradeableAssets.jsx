@@ -14,8 +14,7 @@ export function TradeableAssets() {
     fetchAssets,
   } = useContext(AssetContext);
 
-  const { assetFeed, connected } = useContext(WebsocketContext);
-  console.log(assetFeed, connected);
+  const { assetFeed } = useContext(WebsocketContext);
   useEffect(() => {
     if (!assetsLoaded && assets?.length === 0) {
       fetchAssets();

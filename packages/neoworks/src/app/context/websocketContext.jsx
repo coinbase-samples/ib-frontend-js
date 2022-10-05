@@ -21,28 +21,23 @@ const WebsocketProvider = ({ children }) => {
     { orderId: '1', productId: 'BTC_USD' },
   ]);
 
-  const { sendMessage, lastMessage, readyState } = useWebSocket(websocketUrl);
+  const { lastMessage, readyState } = useWebSocket(websocketUrl);
   const { sessionInfo } = useContext(AuthContext);
   useEffect(() => {
-    // console.log('hit use effect', lastMessage);
     if (!lastMessage?.data) return;
     const rawMessage = JSON.parse(lastMessage?.data);
-    // console.log('lastMessage', lastMessage, 'rawMessage', rawMessage);
 
     if (rawMessage?.type === 'assets') {
       const newAssets = JSON.parse(rawMessage.body);
-      // console.log('updated assets', newAssets);
       setAssetFeed(newAssets);
     }
     if (rawMessage?.type === 'orders') {
       const newOrders = JSON.parse(rawMessage.body);
-      // console.log('updated orders', newOrders);
       setOrderFeed(newOrders);
     }
   }, [lastMessage]);
 
   useEffect(() => {
-    console.log('readystate', readyState);
     if (sessionInfo?.sub && websocketUrl !== wsUrl + sessionInfo.sub) {
       setWebsocketUrl(wsUrl + sessionInfo.sub);
     }

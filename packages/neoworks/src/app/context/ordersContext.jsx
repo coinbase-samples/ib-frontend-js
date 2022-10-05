@@ -25,16 +25,13 @@ const OrderProvider = ({ children }) => {
   const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
     if (!orderLoading && fetchingOrderDetail) {
-      console.log('api hit');
       setOrderLoading(true);
       const result = await fetchOrderDetails(sessionInfo.accessToken, orderId);
-      console.log('result updated ', result);
       setOrderDetail(result);
 
       setFetchingOrderDetail(false);
       setOrderLoading(false);
     } else {
-      console.log('searching state');
       setOrderLoading(true);
       const updateOrderDetail = orders?.find((o) => o.orderId === orderId);
       setOrderDetail(updateOrderDetail);
@@ -49,7 +46,6 @@ const OrderProvider = ({ children }) => {
     }
     setOrdersLoading(true);
     const result = await fetchOrdersList(sessionInfo.accessToken);
-    console.log('client context result ', result);
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);

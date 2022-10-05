@@ -38,7 +38,6 @@ export function OrderActivity(props) {
 
   if (props.asset) {
     const filter = props.asset + '_USD';
-    console.log(filter, orders);
     filteredOrders = _.filter(orders, { productId: filter });
     searchOptions = false;
   }

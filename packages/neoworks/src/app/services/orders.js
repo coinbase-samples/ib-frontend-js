@@ -19,7 +19,6 @@ export async function fetchOrdersList(token) {
     // const fetchOrders = await makeCall(token, 'GET', url, '');
     // const fetchOrdersResponse = await fetchOrders.json();
    const fetchOrdersClient = await api.v1.orderServiceListOrders()
-    console.log('client response' + fetchOrdersClient)
     return fetchOrdersClient.data.data
   } catch (e) {
     return e;
