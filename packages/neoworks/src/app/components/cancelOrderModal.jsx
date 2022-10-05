@@ -42,7 +42,6 @@ export function CancelOrderModal(props) {
   const cancelOrderResponse = () => {
     if (orderDetail?.code) {
       orderFail = true;
-      console.log('should be true ', orderFail);
       return (
         <p>
           We're sorry, your request to Cancel Failed. Reason:{' '}
@@ -59,7 +58,6 @@ export function CancelOrderModal(props) {
     );
   };
 
-  console.log(props.open);
   return (
     <Modal
       visible={props.open}

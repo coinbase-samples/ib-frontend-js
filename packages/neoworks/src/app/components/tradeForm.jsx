@@ -28,8 +28,7 @@ export function TradeForm(props) {
     { label: 'ATOM', value: 'ATOM_USD' },
   ];
 
-  const { assetFeed, connected } = useContext(WebsocketContext);
-  console.log(assetFeed, connected);
+  const { assetFeed } = useContext(WebsocketContext);
 
   const {
     assets,
@@ -67,7 +66,6 @@ export function TradeForm(props) {
     label: 'Market',
     value: 'MARKET',
   });
-  console.log(selectedOrderedType);
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
       setQuantity(qty);
@@ -103,7 +101,6 @@ export function TradeForm(props) {
 
   const assetPrice = assetPriceFilter[0]?.lowBid;
 
-  console.log(assetPrice);
   const portfolioObject = _.filter(portfolio, {
     currency: selectedOption?.label,
   });
@@ -111,7 +108,6 @@ export function TradeForm(props) {
     currency: 'USD',
   });
 
-  console.log(fiatObject);
   let amountHeld;
   let allowedSale;
   const fiatBalance = fiatObject[0]?.available;
@@ -132,7 +128,6 @@ export function TradeForm(props) {
   };
 
   const dropDownOptions = () => {
-    console.log(assetObject);
     if (!urlAsset) {
       return tradingOptions;
     } else {

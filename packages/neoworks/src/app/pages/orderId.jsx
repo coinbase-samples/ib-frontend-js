@@ -25,12 +25,9 @@ export function OrderId() {
   const getOrderDetails = async () => {
     try {
       const orderDetailResponse = await fetchOrderById(orderId);
-      console.log('order detail context ', orderDetailResponse);
       if (!orderDetail) {
-        console.log('no order found', orderDetailResponse);
         setOrderInvalid(true);
       } else {
-        console.log('order found', orderDetailResponse);
         setOrderInvalid(false);
       }
     } catch (e) {
@@ -40,22 +37,14 @@ export function OrderId() {
   const currentOrderDetail = orderDetail;
   const currentOrderId = currentOrderDetail?.orderId;
   const orderMatch = orderId === currentOrderId;
-  // console.log(currentOrderDetail, orderId, currentOrderId, orderMatch);
 
   useEffect(() => {
     if (orderMatch) {
-      console.log('order matched');
       setOrderInvalid(false);
       return;
     } else if (!orderMatch && currentOrderDetail) {
-      console.log(
-        'an order in state exists but doesnt match URI ',
-        currentOrderId
-      );
-
       getOrderDetails();
     } else {
-      console.log('checking api if order exists.');
       getOrderDetails();
     }
   }, [orderDetail, currentOrderDetail]);
