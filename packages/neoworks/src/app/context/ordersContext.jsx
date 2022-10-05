@@ -119,6 +119,7 @@ const OrderProvider = ({ children }) => {
     newOrderLoading,
     sortOrders,
     placeCancelOrder,
+    cancelOrderLoading,
   };
 
   return (

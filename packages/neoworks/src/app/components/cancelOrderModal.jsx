@@ -83,10 +83,7 @@ export function CancelOrderModal(props) {
                   {orderFail ? (
                     ''
                   ) : (
-                    <Button
-                      href={`#/activity/orders/${orderDetail?.orderId}`}
-                      variant="primary"
-                    >
+                    <Button onClick={closeModal} variant="primary">
                       Order Details
                     </Button>
                   )}
