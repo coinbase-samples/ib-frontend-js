@@ -64,7 +64,7 @@ export function OrderActivity(props) {
               onChange={({ detail }) => setFilteringText(detail.filteringText)}
             />
           ) : (
-            <p>searching not available</p>
+            ''
           )
         }
         columnDefinitions={[
