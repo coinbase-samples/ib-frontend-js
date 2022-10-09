@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { Icons } from '../utils/Icons';
+import { WebsocketContext } from '../context/websocketContext';
 import { tradeFee } from '../../constants';
 import { OrderContext } from '../context/ordersContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import _ from 'lodash';
+
 import {
   Modal,
   HelpPanel,
@@ -21,6 +24,9 @@ export function TradeModal(props) {
   const { currentOrder, newOrderLoading, orderDetail } =
     useContext(OrderContext);
 
+  const { orderFeed } = useContext(WebsocketContext);
+  const [statusFound, setStatusFound] = React.useState(false);
+  const [filteredOrderFeed, setFilteredOrderFeed] = React.useState([]);
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
   const {
@@ -34,7 +40,6 @@ export function TradeModal(props) {
     homePage,
     asset,
   } = props;
-
   let orderPrice = assetPrice;
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -44,7 +49,6 @@ export function TradeModal(props) {
   console.log(assetPrice);
 
   const USDbalance = formatter.format(fiatBalance);
-
   if (orderType === 'LIMIT') {
     orderPrice = limitPrice;
   }
@@ -56,6 +60,19 @@ export function TradeModal(props) {
   if (!homePage) {
     productId = asset + '_USD';
   }
+  // console.log('this is the logger ' + orderFeed);
+
+  useEffect(() => {
+    const orderId = orderDetail?.orderId;
+    const filterOrder = _.filter(orderFeed, {
+      clientOrderId: orderId,
+    });
+    setFilteredOrderFeed([...filterOrder]);
+    console.log('this is the filtered ' + filterOrder);
+    console.log('this is the filteredOrderedFeed' + filteredOrderFeed);
+    setStatusFound(true);
+  }, [orderFeed, orderDetail]);
+
   const orderTotal = qty * orderPrice + platformFee;
   let orderFail = false;
   const submitOrder = async () => {
@@ -129,12 +146,18 @@ export function TradeModal(props) {
               </Box>
             }
           >
-            <Icons asset={props.asset} />
-            <div>
-              <ul>
-                <p>{orderResponse()}</p>
-              </ul>
-            </div>
+            <ColumnLayout variant="text-grid" borders="horizontal" columns={4}>
+              <div>
+                <Icons asset={props.asset} />
+                {orderResponse()}
+                <h4>Status: </h4>
+                {statusFound ? (
+                  filteredOrderFeed[0]?.status
+                ) : (
+                  <p>Checking Status</p>
+                )}
+              </div>
+            </ColumnLayout>
           </HelpPanel>
         </Container>
       ) : (

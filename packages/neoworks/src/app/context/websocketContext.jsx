@@ -32,8 +32,11 @@ const WebsocketProvider = ({ children }) => {
       setAssetFeed(newAssets);
     }
     if (rawMessage?.type === 'orders') {
-      const newOrders = JSON.parse(rawMessage.body);
+      const newOrders = JSON.parse(rawMessage?.body);
+      // console.log('orders feed ' + JSON.stringify(newOrders));
       setOrderFeed(newOrders);
+
+      console.log('order feed ', orderFeed);
     }
   }, [lastMessage]);
 

@@ -1,6 +1,7 @@
 import { Api } from '../clients/orderApi'
 import { makeCall } from './ampClient';
 import { baseUrl } from '../../constants';
+import _, { forEach } from 'lodash'
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -13,13 +14,20 @@ export async function fetchOrdersList(token) {
       headers: { Authorization: 'Bearer ' + token },
     },
   });
-  // const url = `${baseUrl}/v1/orders`;
 
   try {
-    // const fetchOrders = await makeCall(token, 'GET', url, '');
-    // const fetchOrdersResponse = await fetchOrders.json();
+   
    const fetchOrdersClient = await api.v1.orderServiceListOrders()
-    return fetchOrdersClient.data.data
+
+   const rename = fetchOrdersClient.data.data.map(o => {
+    o.side = o.side.slice(11);
+    o.status = o.status.slice(13);
+
+    return o;
+   });
+    
+return rename
+
   } catch (e) {
     return e;
   }
@@ -35,6 +43,8 @@ export async function fetchOrderDetails(token, orderId) {
     const fetchOrderById = await makeCall(token, 'GET', url, '');
 
     const OrderByIdResponse = await fetchOrderById.json();
+
+    
     return OrderByIdResponse;
   } catch (e) {
     return e;
