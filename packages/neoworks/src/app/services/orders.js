@@ -42,7 +42,6 @@ export async function fetchOrderDetails(token, orderId) {
     const fetchOrderById = await makeCall(token, 'GET', url, '');
 
     const OrderByIdResponse = await fetchOrderById.json();
-    console.log(OrderByIdResponse)
 
     const resp = {
       "orderId": OrderByIdResponse.orderId,
@@ -75,7 +74,6 @@ export async function fetchOrderDetails(token, orderId) {
   
 
   export async function createOrder(token, body) {
-    let orderType;
     let payload = JSON.stringify({
       "productId": body.productId,
       "side": body.side,

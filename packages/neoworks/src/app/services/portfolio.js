@@ -13,8 +13,17 @@ export async function fetchPortfolioList(token, sub) {
     const fetchProfile = await makeCall(token, 'GET', url, '');
 
     const profileResponse = await fetchProfile.json();
-    return profileResponse.data;
-  } catch (e) {
+    const balances = profileResponse.data.map(o => {
+      o.available = o.available.slice(0,-13);
+      if(o.currency === 'USD'){
+        o.available = o.balance
+      }
+    
+      return o;
+    //return profileResponse.data;
+  })
+  return balances
+ } catch (e) {
     return e;
   }
 }

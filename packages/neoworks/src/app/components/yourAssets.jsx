@@ -42,7 +42,7 @@ export function YourAssets() {
           id: 'balance',
           header: 'Balance',
           width: 50,
-          cell: (item) => `${item.fiatValue}` || '-',
+          cell: (item) => `$${item.fiatValue}` || '-',
         },
       ]}
       items={portfolio}
