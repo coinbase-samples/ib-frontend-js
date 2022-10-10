@@ -29,6 +29,7 @@ export function OrderId() {
         setOrderInvalid(true);
       } else {
         setOrderInvalid(false);
+        return orderDetailResponse;
       }
     } catch (e) {
       console.log(e);
@@ -64,7 +65,7 @@ export function OrderId() {
           description=""
           actions={
             <SpaceBetween direction="horizontal" size="xs">
-              {status === 'ORDER_STATUS_PENDING' ? (
+              {status === 'PENDING' ? (
                 <Button onClick={openCancelModal} variant="secondary">
                   Cancel Order
                 </Button>

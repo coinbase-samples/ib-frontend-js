@@ -38,6 +38,12 @@ export function YourAssets() {
           width: 50,
           cell: (item) => item.available || '-',
         },
+        {
+          id: 'balance',
+          header: 'Balance',
+          width: 50,
+          cell: (item) => `${item.fiatValue}` || '-',
+        },
       ]}
       items={portfolio}
       loading={portfolioLoaded}

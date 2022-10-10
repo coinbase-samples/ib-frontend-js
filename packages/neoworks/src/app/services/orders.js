@@ -1,7 +1,6 @@
 import { Api } from '../clients/orderApi'
 import { makeCall } from './ampClient';
 import { baseUrl } from '../../constants';
-import _, { forEach } from 'lodash'
 
 const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -43,9 +42,30 @@ export async function fetchOrderDetails(token, orderId) {
     const fetchOrderById = await makeCall(token, 'GET', url, '');
 
     const OrderByIdResponse = await fetchOrderById.json();
+    console.log(OrderByIdResponse)
 
-    
-    return OrderByIdResponse;
+    const resp = {
+      "orderId": OrderByIdResponse.orderId,
+      "ownerId": OrderByIdResponse.ownerId,
+      "productId": OrderByIdResponse.productId,
+      "side": OrderByIdResponse.side.slice(11),
+      "type": OrderByIdResponse.type.slice(11),
+      "quantity": OrderByIdResponse.quantity,
+      "limitPrice": OrderByIdResponse.limitPrice,
+      "timeInForce": OrderByIdResponse.timeInForce,
+      "status": OrderByIdResponse.status.slice(13),
+      "createdAt": OrderByIdResponse.createdAt,
+      "updatedAt": OrderByIdResponse.updatedAt,
+      "filledQuantity": OrderByIdResponse.filledQuantity,
+      "filledValue": OrderByIdResponse.filledValue,
+      "averageFilledPrice": OrderByIdResponse.averageFilledPrice,
+      "commission": OrderByIdResponse.commission,
+      "exchangeFee": OrderByIdResponse.exchangeFee,
+      "cancelReason": OrderByIdResponse.cancelReason,
+      "failureReason": OrderByIdResponse.failureReason
+  }
+
+    return resp;
   } catch (e) {
     return e;
   }
