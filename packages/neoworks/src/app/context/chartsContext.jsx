@@ -13,10 +13,8 @@ const ChartProvider = ({ children }) => {
     if (assetChartLoading) {
       return;
     }
-    setAssetChartLoading(true);
-
     const result = await fetchAssetChart(asset);
-
+    setAssetChartLoading(true);
     setAssetChart(result);
     setAssetChartLoading(false);
   };
