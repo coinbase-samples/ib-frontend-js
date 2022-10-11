@@ -13,14 +13,15 @@ import { useContext, useEffect } from 'react';
 // startDate.setDate(startDate.getDate() - 5 * 1000);
 
 // console.log(startDate.getTime(), endDate.getTime());
-
 export function BalanceChart(props) {
+  console.log(props.asset);
+
   const { assetChart, assetChartLoading, fetchChart } =
     useContext(ChartContext);
 
   useEffect(() => {
     if (!assetChartLoading && assetChart?.length === 0) {
-      fetchChart();
+      fetchChart(props.asset);
     }
   }, [assetChart]);
 

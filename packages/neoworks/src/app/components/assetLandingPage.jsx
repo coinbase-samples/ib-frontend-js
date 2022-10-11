@@ -24,7 +24,7 @@ export function PureAssetLanding() {
         }
       >
         {' '}
-        <BalanceChart />
+        <BalanceChart asset={asset} />
       </Container>
       <Container>
         <TradeForm asset={asset} />
