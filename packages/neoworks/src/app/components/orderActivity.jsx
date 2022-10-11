@@ -90,8 +90,8 @@ export function OrderActivity(props) {
             header: 'Side',
             cell: (item) => item.side || '-',
             sortingField: 'side',
-            width: 200,
-            minWidth: 200,
+            width: 100,
+            minWidth: 100,
           },
           {
             id: 'quantity',

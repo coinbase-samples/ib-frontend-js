@@ -37,8 +37,8 @@ export function AssetChart(props) {
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(start?.y * 0.9);
+      setYEnd(end?.y * 1.1);
       // setStatus('finished');
 
       return;
