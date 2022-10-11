@@ -10,45 +10,52 @@ export function AssetChart(props) {
 
   const [yStart, setYStart] = React.useState(0);
   const [yEnd, setYEnd] = React.useState(1000);
-  const [status, setStatus] = React.useState('loading');
+  // const [status, setStatus] = React.useState('loading');
 
   const { asset } = props;
-
   const currentAssetChart = asset;
 
+  const now = Date.now();
+
+  const endDate = new Date(now);
+  const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
+  const apiStart = startDate.getTime();
+  const apiEnd = endDate.getTime();
+
+  console.log(startDate, endDate, apiStart, apiEnd);
   useEffect(() => {
     console.log(!assetChart.length);
     if (!assetChart.length) {
-      fetchChartByAsset(asset);
+      fetchChartByAsset(asset, apiStart, apiEnd);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      setStatus('finished');
+      // setStatus('finished');
     } else if (assetChart[0].asset === currentAssetChart) {
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      setStatus('finished');
+      // setStatus('finished');
 
       return;
     } else {
-      fetchChartByAsset(asset);
+      fetchChartByAsset(asset, apiStart, apiEnd);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      setStatus('finished');
+      // setStatus('finished');
     }
   }, [assetChart]);
 
   return (
     <LineChart
-      statusType={status}
+      statusType={!assetChartLoading ? 'finished' : 'loaded'}
       loadingText="Loading Your Chart Details"
       series={[
         {
@@ -66,7 +73,7 @@ export function AssetChart(props) {
           // },
         },
       ]}
-      xDomain={[new Date(1665076359000), new Date(1665454359000)]}
+      xDomain={[startDate, endDate]}
       yDomain={[yStart, yEnd]}
       i18nStrings={{
         filterLabel: 'Filter displayed data',

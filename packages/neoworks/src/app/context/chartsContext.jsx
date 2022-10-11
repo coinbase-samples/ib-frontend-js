@@ -9,13 +9,13 @@ const ChartProvider = ({ children }) => {
   const [assetChart, setAssetChart] = useState([]);
   const [assetChartLoading, setAssetChartLoading] = useState(false);
 
-  const fetchChartByAsset = async (asset, startDate, endDate) => {
+  const fetchChartByAsset = async (asset, apiStart, apiEnd) => {
     if (assetChartLoading) {
       return;
     }
-    const result = await fetchAssetChart(asset);
+    const result = await fetchAssetChart(asset, apiStart, apiEnd);
     setAssetChartLoading(true);
-    setAssetChart(result);
+    await setAssetChart(result);
     setAssetChartLoading(false);
   };
 
