@@ -9,20 +9,20 @@ const ChartProvider = ({ children }) => {
   const [assetChart, setAssetChart] = useState([]);
   const [assetChartLoading, setAssetChartLoading] = useState(false);
 
-  const fetchChart = async (asset, startDate, endDate) => {
+  const fetchChartByAsset = async (asset, startDate, endDate) => {
     if (assetChartLoading) {
       return;
     }
-
     setAssetChartLoading(true);
-    console.log('about to call asset chart');
+
     const result = await fetchAssetChart(asset);
+
     setAssetChart(result);
     setAssetChartLoading(false);
   };
 
   const state = {
-    fetchChart,
+    fetchChartByAsset,
     assetChart,
     assetChartLoading,
   };

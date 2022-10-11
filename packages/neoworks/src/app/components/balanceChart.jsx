@@ -14,20 +14,30 @@ import { useContext, useEffect } from 'react';
 
 // console.log(startDate.getTime(), endDate.getTime());
 export function BalanceChart(props) {
-  console.log(props.asset);
-
-  const { assetChart, assetChartLoading, fetchChart } =
+  const { assetChart, assetChartLoading, fetchChartByAsset } =
     useContext(ChartContext);
 
+  const { asset } = props;
+
+  const currentAssetChart = asset;
+
+  //const assetMatch = false;
+
   useEffect(() => {
-    if (!assetChartLoading && assetChart?.length === 0) {
-      fetchChart(props.asset);
+    console.log(!assetChart.length);
+    if (!assetChart.length) {
+      fetchChartByAsset(asset);
+    } else if (assetChart[0].asset === currentAssetChart) {
+      return;
+    } else {
+      fetchChartByAsset(asset);
     }
   }, [assetChart]);
 
   console.log(assetChart);
   return (
     <LineChart
+      trackBy={asset}
       loading={assetChartLoading}
       loadingText="Loading Your Chart Details"
       series={[
