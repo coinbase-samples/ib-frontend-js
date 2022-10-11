@@ -13,9 +13,9 @@ const ChartProvider = ({ children }) => {
     if (assetChartLoading) {
       return;
     }
-    const result = await fetchAssetChart(asset, apiStart, apiEnd);
     setAssetChartLoading(true);
-    await setAssetChart(result);
+    const result = await fetchAssetChart(asset, apiStart, apiEnd);
+    setAssetChart(result);
     setAssetChartLoading(false);
   };
 
