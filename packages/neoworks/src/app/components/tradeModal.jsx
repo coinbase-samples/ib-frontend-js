@@ -46,8 +46,6 @@ export function TradeModal(props) {
     currency: 'USD',
   });
 
-  console.log(assetPrice);
-
   const USDbalance = formatter.format(fiatBalance);
   if (orderType === 'LIMIT') {
     orderPrice = limitPrice;
@@ -68,8 +66,6 @@ export function TradeModal(props) {
       clientOrderId: orderId,
     });
     setFilteredOrderFeed([...filterOrder]);
-    console.log('this is the filtered ' + filterOrder);
-    console.log('this is the filteredOrderedFeed' + filteredOrderFeed);
     setStatusFound(true);
   }, [orderFeed, orderDetail]);
 

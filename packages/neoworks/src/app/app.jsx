@@ -4,6 +4,7 @@ import ProfileProvider from './context/profileContext';
 import AssetProvider from './context/assetsContext';
 import PortfolioProvider from './context/portfolioContext';
 import OrderProvider from './context/ordersContext';
+import ChartProvider from './context/chartsContext';
 import WebsocketProvider from './context/websocketContext.jsx';
 import { Router } from './routes';
 
@@ -14,9 +15,11 @@ const InsideAuth = ({ children }) => {
       <WebsocketProvider>
         <PortfolioProvider>
           <AssetProvider>
-            <OrderProvider>
-              <Router />
-            </OrderProvider>
+            <ChartProvider>
+              <OrderProvider>
+                <Router />
+              </OrderProvider>
+            </ChartProvider>
           </AssetProvider>
         </PortfolioProvider>
       </WebsocketProvider>
