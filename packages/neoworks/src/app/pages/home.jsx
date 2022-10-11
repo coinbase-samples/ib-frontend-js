@@ -4,7 +4,6 @@ import { PortfolioChart } from '../components/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
-import _ from 'lodash';
 
 export function Home() {
   const { portfolio } = useContext(PortfolioContext);

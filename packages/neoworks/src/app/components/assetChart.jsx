@@ -1,10 +1,17 @@
+import * as React from 'react';
 import { Box, Button, LineChart } from '@cloudscape-design/components';
 import { ChartContext } from '../context/chartsContext';
 import { useContext, useEffect } from 'react';
+import _ from 'lodash';
 
 export function AssetChart(props) {
   const { assetChart, assetChartLoading, fetchChartByAsset } =
     useContext(ChartContext);
+
+  const [yStart, setYStart] = React.useState(0);
+  const [yEnd, setYEnd] = React.useState(1000);
+  const [status, setStatus] = React.useState('loading');
+
   const { asset } = props;
 
   const currentAssetChart = asset;
@@ -13,17 +20,35 @@ export function AssetChart(props) {
     console.log(!assetChart.length);
     if (!assetChart.length) {
       fetchChartByAsset(asset);
+      const start = _.first(assetChart);
+      const end = assetChart.pop();
+
+      setYStart(start?.y);
+      setYEnd(end?.y);
+      setStatus('finished');
     } else if (assetChart[0].asset === currentAssetChart) {
+      const start = _.first(assetChart);
+      const end = assetChart.pop();
+
+      setYStart(start?.y);
+      setYEnd(end?.y);
+      setStatus('finished');
+
       return;
     } else {
       fetchChartByAsset(asset);
+      const start = _.first(assetChart);
+      const end = assetChart.pop();
+
+      setYStart(start?.y);
+      setYEnd(end?.y);
+      setStatus('finished');
     }
   }, [assetChart]);
 
-  console.log(assetChart);
   return (
     <LineChart
-      loading={assetChartLoading}
+      statusType={status}
       loadingText="Loading Your Chart Details"
       series={[
         {
@@ -42,7 +67,7 @@ export function AssetChart(props) {
         },
       ]}
       xDomain={[new Date(1665076359000), new Date(1665454359000)]}
-      yDomain={[0, 2000]}
+      yDomain={[yStart, yEnd]}
       i18nStrings={{
         filterLabel: 'Filter displayed data',
         filterPlaceholder: 'Filter data',
