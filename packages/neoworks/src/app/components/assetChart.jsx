@@ -10,7 +10,6 @@ export function AssetChart(props) {
 
   const [yStart, setYStart] = React.useState(0);
   const [yEnd, setYEnd] = React.useState(1000);
-  // const [status, setStatus] = React.useState('loading');
 
   const { asset } = props;
   const currentAssetChart = asset;
@@ -21,25 +20,24 @@ export function AssetChart(props) {
   const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
   const apiStart = startDate.getTime();
   const apiEnd = endDate.getTime();
-
+  console.log('should be false ', assetChartLoading);
   console.log(startDate, endDate, apiStart, apiEnd);
   useEffect(() => {
     console.log(!assetChart.length);
-    if (!assetChart.length) {
+    if (!assetChart.length && !assetChartLoading) {
       fetchChartByAsset(asset, apiStart, apiEnd);
+      console.log('should be true ', assetChartLoading);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      // setStatus('finished');
+      console.log('should be false ', assetChartLoading);
     } else if (assetChart[0].asset === currentAssetChart) {
       const start = _.first(assetChart);
       const end = assetChart.pop();
-
       setYStart(start?.y * 0.9);
       setYEnd(end?.y * 1.1);
-      // setStatus('finished');
 
       return;
     } else {
@@ -49,28 +47,18 @@ export function AssetChart(props) {
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      // setStatus('finished');
     }
   }, [assetChart]);
 
   return (
     <LineChart
-      statusType={!assetChartLoading ? 'finished' : 'loaded'}
+      statusType={assetChartLoading ? 'loading' : 'finished'}
       loadingText="Loading Your Chart Details"
       series={[
         {
           title: 'Asset Price',
           type: 'line',
           data: assetChart,
-          // valueFormatter: function o(e) {
-          //   return Math.abs(e) >= 1e9
-          //     ? (e / 1e9).toFixed(1).replace(/\.0$/, '') + 'G'
-          //     : Math.abs(e) >= 1e6
-          //     ? (e / 1e6).toFixed(1).replace(/\.0$/, '') + 'M'
-          //     : Math.abs(e) >= 1e3
-          //     ? (e / 1e3).toFixed(1).replace(/\.0$/, '') + 'K'
-          //     : e.toFixed(2);
-          // },
         },
       ]}
       xDomain={[startDate, endDate]}
