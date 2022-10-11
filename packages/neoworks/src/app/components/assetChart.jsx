@@ -2,26 +2,12 @@ import { Box, Button, LineChart } from '@cloudscape-design/components';
 import { ChartContext } from '../context/chartsContext';
 import { useContext, useEffect } from 'react';
 
-/* eslint-disable-next-line */
-
-// const StyledHome = styled.div`
-//   color: blue;
-// `;
-
-// const endDate = new Date() * 1000;
-// const startDate = new Date();
-// startDate.setDate(startDate.getDate() - 5 * 1000);
-
-// console.log(startDate.getTime(), endDate.getTime());
-export function BalanceChart(props) {
+export function AssetChart(props) {
   const { assetChart, assetChartLoading, fetchChartByAsset } =
     useContext(ChartContext);
-
   const { asset } = props;
 
   const currentAssetChart = asset;
-
-  //const assetMatch = false;
 
   useEffect(() => {
     console.log(!assetChart.length);
@@ -37,7 +23,6 @@ export function BalanceChart(props) {
   console.log(assetChart);
   return (
     <LineChart
-      trackBy={asset}
       loading={assetChartLoading}
       loadingText="Loading Your Chart Details"
       series={[
@@ -106,5 +91,4 @@ export function BalanceChart(props) {
     />
   );
 }
-
-export default BalanceChart;
+export default AssetChart;

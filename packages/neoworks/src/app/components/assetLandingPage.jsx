@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BalanceChart } from '../components/balanceChart';
+import { AssetChart } from './assetChart';
 import { useParams } from 'react-router-dom';
 import { Icons } from '../utils/Icons';
 import { TradeForm } from '../components/tradeForm';
@@ -24,7 +24,7 @@ export function PureAssetLanding() {
         }
       >
         {' '}
-        <BalanceChart asset={asset} />
+        <AssetChart asset={asset} chartType="asset" />
       </Container>
       <Container>
         <TradeForm asset={asset} />

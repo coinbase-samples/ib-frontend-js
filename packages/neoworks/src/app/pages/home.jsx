@@ -1,6 +1,6 @@
 import { Container, Grid, Header, Link } from '@cloudscape-design/components';
 import { useContext } from 'react';
-import { BalanceChart } from '../components/balanceChart';
+import { PortfolioChart } from '../components/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
@@ -45,7 +45,7 @@ export function Home() {
           </Header>
         }
       >
-        <BalanceChart />
+        <PortfolioChart />
       </Container>
       <Container>
         <TransactionWidget />
