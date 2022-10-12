@@ -43,16 +43,16 @@ const OrderProvider = ({ children }) => {
 
   const paginateOrders = (currentPageIndex) => {
     console.log(currentPageIndex);
-    if (currentPageIndex === 0) {
+    if (currentPageIndex === 1) {
       return;
     }
-    if (currentPageIndex === 1) {
+    if (currentPageIndex === 2) {
       const ordersIncrement = paginatedOrders.slice(10, 19);
       setPaginatedOrders(ordersIncrement);
     }
 
-    if (currentPageIndex === 2) {
-      const ordersIncrement = paginatedOrders.slice(20 - 29);
+    if (currentPageIndex === 3) {
+      const ordersIncrement = paginatedOrders.slice(20, 29);
       setPaginatedOrders(ordersIncrement);
     }
   };
