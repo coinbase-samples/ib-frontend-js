@@ -23,18 +23,20 @@ export function OrderActivity(props) {
     sortOrders,
     ordersLoading: ordersLoaded,
     fetchOrders,
+    paginatedOrders,
+    paginateOrders,
   } = useContext(OrderContext);
 
   const { sessionInfo, attrInfo } = useContext(AuthContext);
   const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
-  const [currentPageIndex, setCurrentPageIndex] = React.useState(1);
+  const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
 
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
       fetchOrders(sessionInfo.accessToken, sub);
     }
-  }, []);
+  }, [orders]);
 
   if (props.asset) {
     const filter = props.asset + '_USD';
@@ -45,6 +47,12 @@ export function OrderActivity(props) {
     filteredOrders = _.filter(orders, { productId: filteringText });
   }
 
+  const setPagination = (detail) => {
+    setCurrentPageIndex(detail.currentPageIndex);
+    //setOrdersLength(ordersLength + 1);
+    console.log('page index ', detail.currentPageIndex);
+    paginateOrders(detail.currentPageIndex);
+  };
   const handleSort = (event) => {
     sortOrders(event);
   };
@@ -118,7 +126,7 @@ export function OrderActivity(props) {
             minWidth: 125,
           },
         ]}
-        items={filteredOrders ? filteredOrders : orders}
+        items={filteredOrders ? filteredOrders : paginatedOrders.slice(0, 9)}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         empty={
@@ -135,9 +143,9 @@ export function OrderActivity(props) {
           pageLabel: (pageNumber) => `Page ${pageNumber} of all pages`,
         }}
         currentPageIndex={currentPageIndex}
-        onChange={({ detail }) => setCurrentPageIndex(detail.currentPageIndex)}
+        onChange={({ detail }) => setPagination(detail)}
         openEnd
-        pagesCount={5}
+        pagesCount={3}
       />
     </SpaceBetween>,
   ];

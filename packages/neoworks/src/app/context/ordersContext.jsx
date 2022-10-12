@@ -15,6 +15,7 @@ export const OrderContext = createContext(defaultState);
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
+  const [paginatedOrders, setPaginatedOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [fetchingOrderDetail, setFetchingOrderDetail] = useState(true);
   const [orderDetail, setOrderDetail] = useState({});
@@ -40,6 +41,21 @@ const OrderProvider = ({ children }) => {
     }
   };
 
+  const paginateOrders = (currentPageIndex) => {
+    console.log(currentPageIndex);
+    if (currentPageIndex === 0) {
+      return;
+    }
+    if (currentPageIndex === 1) {
+      const ordersIncrement = paginatedOrders.slice(10, 19);
+      setPaginatedOrders(ordersIncrement);
+    }
+
+    if (currentPageIndex === 2) {
+      const ordersIncrement = paginatedOrders.slice(20 - 29);
+      setPaginatedOrders(ordersIncrement);
+    }
+  };
   const fetchOrders = async () => {
     if (ordersLoading) {
       return;
@@ -51,6 +67,7 @@ const OrderProvider = ({ children }) => {
       setOrdersLoading(false);
     } else {
       const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
+      setPaginatedOrders(fetchedOrders);
 
       setOrders(fetchedOrders);
       setOrdersLoading(false);
@@ -116,6 +133,8 @@ const OrderProvider = ({ children }) => {
     sortOrders,
     placeCancelOrder,
     cancelOrderLoading,
+    paginateOrders,
+    paginatedOrders,
   };
 
   return (
