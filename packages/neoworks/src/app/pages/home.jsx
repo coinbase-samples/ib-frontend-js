@@ -30,9 +30,12 @@ export function Home() {
     //grids hold containers
     <Grid
       gridDefinition={[
-        { colspan: { default: 7, xxs: 8 } },
-        { colspan: { default: 4, xxs: 4 } },
-        { colspan: { default: 12, xxs: 12 } },
+        // { colspan: { default: 8, m: 8, l: 12 } },
+        // { colspan: { default: 4, m: 4, l: 12 } },
+        // { colspan: { default: 12, xxs: 12 } },
+        { colspan: { l: 8, m: 8, default: 12 } },
+        { colspan: { l: 8, m: 4, default: 6 } },
+        { colspan: { l: 8, m: 12, default: 12 } },
       ]}
     >
       <Container
