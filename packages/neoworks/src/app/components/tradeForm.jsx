@@ -154,17 +154,19 @@ export function TradeForm(props) {
     <div>
       <form onSubmit={handlePreviewSubmit}>
         <Form
+          id="tradeForm"
           header={<Header variant="h3">Place Order</Header>}
           actions={
-            <SpaceBetween direction="horizontal" size="xs">
-              <Button variant="primary">
+            <SpaceBetween id="formLabel" direction="horizontal" size="xs">
+              <Button id="submit" variant="primary">
                 {orderType} {selectedOption.label}
               </Button>
             </SpaceBetween>
           }
         >
-          <SpaceBetween direction="vertical" size="l">
+          <SpaceBetween id="formSpaces" direction="vertical" size="l">
             <ButtonDropdown
+              id="type"
               onItemClick={displayOrderType}
               items={[
                 {
@@ -180,6 +182,7 @@ export function TradeForm(props) {
               {orderType}
             </ButtonDropdown>
             <Select
+              id="orderType"
               selectedOption={selectedOrderedType}
               onChange={({ detail }) =>
                 setSelectedOrderedType(detail.selectedOption)
@@ -194,6 +197,7 @@ export function TradeForm(props) {
             {selectedOrderedType.value === 'LIMIT' ? (
               <FormField label="Limit Price" id="limitPrice" errorText={error}>
                 <Input
+                  id="price"
                   onChange={({ detail }) => handleLimitPrice(detail.value)}
                   value={limitPrice}
                 />
@@ -204,6 +208,7 @@ export function TradeForm(props) {
             <FormField label="Asset" id="asset">
               {!urlAsset ? (
                 <Select
+                  id="selectAsset"
                   selectedOption={selectedOption}
                   onChange={({ detail }) =>
                     setSelectedOption(detail.selectedOption)
@@ -213,6 +218,7 @@ export function TradeForm(props) {
                 />
               ) : (
                 <Select
+                  id="assetSelection"
                   selectedOption={selectedOption}
                   disabled
                   required="true"
@@ -226,6 +232,7 @@ export function TradeForm(props) {
 
             <FormField label="Quantity" id="quantity" errorText={error}>
               <Input
+                id="inputQuantity"
                 onChange={({ detail }) => handleQuantity(detail.value)}
                 value={quantity}
               />

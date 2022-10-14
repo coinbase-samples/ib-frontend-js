@@ -57,7 +57,9 @@ const AssetProvider = ({ children }) => {
   };
 
   return (
-    <AssetContext.Provider value={state}>{children}</AssetContext.Provider>
+    <AssetContext.Provider id="assetProvider" value={state}>
+      {children}
+    </AssetContext.Provider>
   );
 };
 

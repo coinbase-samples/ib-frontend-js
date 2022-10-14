@@ -17,6 +17,8 @@ export function YourAssets() {
   }, [portfolio]);
   return (
     <Table
+      id="portFolioTable"
+      trackBy="asset"
       columnDefinitions={[
         {
           id: 'icon',

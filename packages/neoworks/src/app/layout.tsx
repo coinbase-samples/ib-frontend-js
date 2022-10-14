@@ -14,6 +14,7 @@ export const Layout = () => {
         content={<Outlet />}
         navigation={
           <SideNavigation
+            id='sideNav'
             header={{
               href: '/',
               text: 'Neoworks',

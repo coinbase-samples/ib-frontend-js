@@ -29,16 +29,18 @@ export function Home() {
   return (
     //grids hold containers
     <Grid
+      id="homeDashboard"
       gridDefinition={[
         // { colspan: { default: 8, m: 8, l: 12 } },
         // { colspan: { default: 4, m: 4, l: 12 } },
         // { colspan: { default: 12, xxs: 12 } },
-        { colspan: { l: 8, m: 8, default: 12 } },
-        { colspan: { l: 8, m: 4, default: 6 } },
-        { colspan: { l: 8, m: 12, default: 12 } },
+        { colspan: { l: 8, m: 8, default: 8 } },
+        { colspan: { l: 4, m: 8, default: 4 } },
+        { colspan: { l: 12, m: 8, default: 12 } },
       ]}
     >
       <Container
+        className="portfolioBalanceContainer"
         loading={balanceLoaded}
         loadingText="Fetching Porfolio Balance..."
         header={
@@ -49,10 +51,11 @@ export function Home() {
       >
         <PortfolioChart />
       </Container>
-      <Container>
+      <Container className="transactionContainer">
         <TransactionWidget />
       </Container>
       <Container
+        className="portfolioContainer"
         header={
           <Link href="#/portfolio" variant="h2">
             View Full Portfolio
