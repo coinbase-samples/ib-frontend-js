@@ -93,7 +93,7 @@ const AuthProvider = ({ children }: Props) => {
       }
     }
     getSessionInfo();
-  }, [setAuthStatus, authStatus]);
+  }, []);
 
   if (authStatus === AuthStatus.Loading) {
     return null;

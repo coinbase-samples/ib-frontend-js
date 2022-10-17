@@ -16,7 +16,7 @@ export function YourAssets() {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
     }
-  }, [portfolio]);
+  }, []);
   return (
     <Table
       id="portFolioTable"

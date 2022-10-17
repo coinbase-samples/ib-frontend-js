@@ -30,7 +30,7 @@ const ProfileProvider = ({ children, userId }) => {
     };
 
     getProfile();
-  }, [userId, sessionInfo.accessToken]);
+  }, []);
 
   const updateUserProfile = async (body) => {
     try {
