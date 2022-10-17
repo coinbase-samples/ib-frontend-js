@@ -10,6 +10,8 @@ export function YourAssets() {
     fetchPortfolio,
   } = useContext(PortfolioContext);
 
+  const porfolioValues = portfolio.length > 0;
+  console.log(porfolioValues);
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
@@ -47,7 +49,10 @@ export function YourAssets() {
           cell: (item) => `$${item.fiatValue}` || '-',
         },
       ]}
-      items={portfolio}
+      // header={
+      //   cancelOrderPreview ? 'Order Cancellation Confirm' : 'Order Status'
+      // }
+      items={porfolioValues ? { portfolio } : []}
       loading={portfolioLoaded}
       loadingText="Loading Portfolio"
       empty={

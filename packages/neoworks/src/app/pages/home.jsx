@@ -14,10 +14,10 @@ export function Home() {
     // const calculatedBalance = _.sumBy(portfolio, (asset) => {
     //   return asset.balance;
     // });
-    let calculatedBalance;
-    portfolio.forEach((element) => {
-      calculatedBalance = element.balance;
-    });
+    const calculatedBalance = 1000;
+    // portfolio.forEach((element) => {
+    //   calculatedBalance = element.balance;
+    // });
     // const calculatedBalance = '14';
     return calculatedBalance;
   };
