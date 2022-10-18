@@ -3,8 +3,8 @@ import { OrderContext } from '../context/ordersContext';
 import { useContext, useEffect } from 'react';
 import { Icons } from '../utils/Icons';
 import { AuthContext } from '../context/authContext';
-
 import _ from 'lodash';
+
 import {
   Header,
   Table,
@@ -17,30 +17,26 @@ import {
 
 export function OrderActivity(props) {
   let searchOptions = true;
+  let filteredOrders;
+  let assetLanding = false;
   const {
     orders,
     sortOrders,
     ordersLoading: ordersLoaded,
     fetchOrders,
-    paginatedOrders,
   } = useContext(OrderContext);
 
   const { sessionInfo } = useContext(AuthContext);
   //const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
-  const assetLanding = props.asset;
+  const { asset } = props;
+  let orderTotal = orders.length;
+
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
-      let filtered;
-      if (assetLanding) {
-        filtered = true;
-        fetchOrders(sessionInfo.accessToken, props.asset, filtered);
-        searchOptions = false;
-      } else {
-        filtered = false;
-        fetchOrders(sessionInfo.accessToken);
-      }
+      fetchOrders(sessionInfo.accessToken);
+      searchOptions = false;
     }
   }, [orders]);
 
@@ -53,24 +49,34 @@ export function OrderActivity(props) {
   };
 
   let pageCount;
-  const orderTotal = paginatedOrders.length;
+
+  if (props.asset) {
+    assetLanding = true;
+    const filter = asset + '_USD';
+    filteredOrders = _.filter(orders, { productId: filter });
+    searchOptions = false;
+    orderTotal = filteredOrders.length;
+  }
+
   buildPageCount(orderTotal);
   const paginateOrders = (currentPageIndex) => {
+    const type = assetLanding ? filteredOrders : orders;
+
     if (currentPageIndex === 0) {
-      return paginatedOrders.slice(0, 9);
+      return type.slice(0, 9);
     }
     if (currentPageIndex === 1) {
-      return paginatedOrders.slice(10, 19);
+      return type.slice(10, 19);
     }
 
     if (currentPageIndex === 2) {
-      return paginatedOrders.slice(20, 29);
+      return type.slice(20, 29);
     }
     if (currentPageIndex === 3) {
-      return paginatedOrders.slice(30, 39);
+      return type.slice(30, 39);
     }
     if (currentPageIndex === 4) {
-      return paginatedOrders.slice(40, 49);
+      return type.slice(40, 49);
     }
   };
 

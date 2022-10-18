@@ -15,7 +15,6 @@ export const OrderContext = createContext(defaultState);
 
 const OrderProvider = ({ children }) => {
   const [orders, setOrders] = useState([]);
-  const [paginatedOrders, setPaginatedOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   const [fetchingOrderDetail, setFetchingOrderDetail] = useState(true);
   const [orderDetail, setOrderDetail] = useState({});
@@ -41,31 +40,30 @@ const OrderProvider = ({ children }) => {
     }
   };
 
-  const fetchOrders = async (token, asset, filtered) => {
+  const fetchOrders = async (token) => {
     if (ordersLoading) {
       return;
     }
+
     setOrdersLoading(true);
     const result = await fetchOrdersList(token);
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);
+      // } else if (asset) {
+      //   const filter = asset + '_USD';
+      //   const response = !asset
+      //     ? result
+      //     : _.filter(result, { productId: filter });
+      //   console.log('dynamic response', response, filter);
+      //   setOrders(response);
+      //   setOrdersLoading(false);
     } else {
       const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
-      if (filtered) {
-        const filter = asset + '_USD';
-        const filteredOrders = _.filter(fetchedOrders, { productId: filter });
-
-        setPaginatedOrders(filteredOrders);
-        setOrdersLoading(false);
-      } else {
-        setPaginatedOrders(fetchedOrders);
-        setOrders(fetchedOrders);
-        setOrdersLoading(false);
-      }
+      setOrders(fetchedOrders);
+      setOrdersLoading(false);
     }
   };
-
   const sortOrders = async (event) => {
     let sortedOrders;
     if (ordersLoading) {
@@ -125,8 +123,6 @@ const OrderProvider = ({ children }) => {
     sortOrders,
     placeCancelOrder,
     cancelOrderLoading,
-    paginatedOrders,
-    setPaginatedOrders,
   };
 
   return (

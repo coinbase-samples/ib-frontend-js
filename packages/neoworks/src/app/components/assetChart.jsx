@@ -20,19 +20,15 @@ export function AssetChart(props) {
   const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
   const apiStart = startDate.getTime();
   const apiEnd = endDate.getTime();
-  console.log('should be false ', assetChartLoading);
-  console.log(startDate, endDate, apiStart, apiEnd);
+
   useEffect(() => {
-    console.log(!assetChart.length);
     if (!assetChart.length && !assetChartLoading) {
       fetchChartByAsset(asset, apiStart, apiEnd);
-      console.log('should be true ', assetChartLoading);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
-      console.log('should be false ', assetChartLoading);
     } else if (assetChart[0].asset === currentAssetChart) {
       const start = _.first(assetChart);
       const end = assetChart.pop();
