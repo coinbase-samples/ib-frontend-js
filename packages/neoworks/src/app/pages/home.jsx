@@ -31,12 +31,9 @@ export function Home() {
     <Grid
       id="homeDashboard"
       gridDefinition={[
-        // { colspan: { default: 8, m: 8, l: 12 } },
-        // { colspan: { default: 4, m: 4, l: 12 } },
-        // { colspan: { default: 12, xxs: 12 } },
-        { colspan: { l: 8, m: 8, default: 8 } },
-        { colspan: { l: 8, m: 4, default: 4 } },
-        { colspan: { l: 12, m: 8, default: 12 } },
+        { colspan: { default: 8, m: 8, l: 8 } },
+        { colspan: { default: 6, m: 4, l: 6 } },
+        { colspan: { default: 12, m: 12, l: 12 } },
       ]}
     >
       <Container
