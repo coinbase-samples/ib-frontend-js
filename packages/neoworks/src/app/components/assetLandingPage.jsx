@@ -11,9 +11,9 @@ export function PureAssetLanding() {
   return (
     <Grid
       gridDefinition={[
-        { colspan: { default: 7, xxs: 7 } },
-        { colspan: { default: 5, xxs: 5 } },
-        { colspan: { default: 12, xxl: 12 } },
+        { colspan: { default: 8, m: 8, l: 8 } },
+        { colspan: { default: 6, m: 4, l: 8 } },
+        { colspan: { default: 12, m: 12, l: 12 } },
       ]}
     >
       <Container
