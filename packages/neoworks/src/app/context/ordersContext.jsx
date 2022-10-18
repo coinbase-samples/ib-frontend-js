@@ -41,36 +41,28 @@ const OrderProvider = ({ children }) => {
     }
   };
 
-  const paginateOrders = (currentPageIndex) => {
-    console.log(currentPageIndex);
-    if (currentPageIndex === 1) {
-      return;
-    }
-    if (currentPageIndex === 2) {
-      const ordersIncrement = paginatedOrders.slice(10, 19);
-      setPaginatedOrders(ordersIncrement);
-    }
-
-    if (currentPageIndex === 3) {
-      const ordersIncrement = paginatedOrders.slice(20, 29);
-      setPaginatedOrders(ordersIncrement);
-    }
-  };
-  const fetchOrders = async () => {
+  const fetchOrders = async (token, asset, filtered) => {
     if (ordersLoading) {
       return;
     }
     setOrdersLoading(true);
-    const result = await fetchOrdersList(sessionInfo.accessToken);
+    const result = await fetchOrdersList(token);
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);
     } else {
       const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
-      setPaginatedOrders(fetchedOrders);
+      if (filtered) {
+        const filter = asset + '_USD';
+        const filteredOrders = _.filter(fetchedOrders, { productId: filter });
 
-      setOrders(fetchedOrders);
-      setOrdersLoading(false);
+        setPaginatedOrders(filteredOrders);
+        setOrdersLoading(false);
+      } else {
+        setPaginatedOrders(fetchedOrders);
+        setOrders(fetchedOrders);
+        setOrdersLoading(false);
+      }
     }
   };
 
@@ -133,8 +125,8 @@ const OrderProvider = ({ children }) => {
     sortOrders,
     placeCancelOrder,
     cancelOrderLoading,
-    paginateOrders,
     paginatedOrders,
+    setPaginatedOrders,
   };
 
   return (

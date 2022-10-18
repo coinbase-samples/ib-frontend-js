@@ -17,40 +17,65 @@ import {
 
 export function OrderActivity(props) {
   let searchOptions = true;
-  let filteredOrders;
   const {
     orders,
     sortOrders,
     ordersLoading: ordersLoaded,
     fetchOrders,
     paginatedOrders,
-    paginateOrders,
   } = useContext(OrderContext);
 
-  const { sessionInfo, attrInfo } = useContext(AuthContext);
-  const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
+  const { sessionInfo } = useContext(AuthContext);
+  //const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
-
+  const assetLanding = props.asset;
   useEffect(() => {
     if (!ordersLoaded && orders?.length === 0) {
-      fetchOrders(sessionInfo.accessToken, sub);
+      let filtered;
+      if (assetLanding) {
+        filtered = true;
+        fetchOrders(sessionInfo.accessToken, props.asset, filtered);
+        searchOptions = false;
+      } else {
+        filtered = false;
+        fetchOrders(sessionInfo.accessToken);
+      }
     }
   }, [orders]);
 
-  if (props.asset) {
-    const filter = props.asset + '_USD';
-    filteredOrders = _.filter(orders, { productId: filter });
-    searchOptions = false;
-  }
-  if (filteringText) {
-    filteredOrders = _.filter(orders, { productId: filteringText });
-  }
+  const buildPageCount = (orderTotal) => {
+    if (orderTotal > 10) {
+      pageCount = orderTotal / 10;
+    } else {
+      pageCount = 0;
+    }
+  };
+
+  let pageCount;
+  const orderTotal = paginatedOrders.length;
+  buildPageCount(orderTotal);
+  const paginateOrders = (currentPageIndex) => {
+    if (currentPageIndex === 0) {
+      return paginatedOrders.slice(0, 9);
+    }
+    if (currentPageIndex === 1) {
+      return paginatedOrders.slice(10, 19);
+    }
+
+    if (currentPageIndex === 2) {
+      return paginatedOrders.slice(20, 29);
+    }
+    if (currentPageIndex === 3) {
+      return paginatedOrders.slice(30, 39);
+    }
+    if (currentPageIndex === 4) {
+      return paginatedOrders.slice(40, 49);
+    }
+  };
 
   const setPagination = (detail) => {
     setCurrentPageIndex(detail.currentPageIndex);
-    //setOrdersLength(ordersLength + 1);
-    console.log('page index ', detail.currentPageIndex);
     paginateOrders(detail.currentPageIndex);
   };
   const handleSort = (event) => {
@@ -126,7 +151,7 @@ export function OrderActivity(props) {
             minWidth: 125,
           },
         ]}
-        items={filteredOrders ? filteredOrders : paginatedOrders.slice(0, 9)}
+        items={paginateOrders(currentPageIndex)}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         empty={
@@ -145,7 +170,7 @@ export function OrderActivity(props) {
         currentPageIndex={currentPageIndex}
         onChange={({ detail }) => setPagination(detail)}
         openEnd
-        pagesCount={3}
+        pagesCount={pageCount}
       />
     </SpaceBetween>,
   ];
