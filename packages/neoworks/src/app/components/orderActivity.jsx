@@ -30,6 +30,7 @@ export function OrderActivity(props) {
   //const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
+  let showPagination = false;
   const { asset } = props;
   let orderTotal = orders.length;
 
@@ -43,8 +44,10 @@ export function OrderActivity(props) {
   const buildPageCount = (orderTotal) => {
     if (orderTotal > 10) {
       pageCount = orderTotal / 10;
+      showPagination = true;
     } else {
       pageCount = 0;
+      showPagination = false;
     }
   };
 
@@ -167,17 +170,21 @@ export function OrderActivity(props) {
         }
         header={<Header> Order History </Header>}
       />
-      <Pagination
-        ariaLabels={{
-          nextPageLabel: 'Next page',
-          previousPageLabel: 'Previous page',
-          pageLabel: (pageNumber) => `Page ${pageNumber} of all pages`,
-        }}
-        currentPageIndex={currentPageIndex}
-        onChange={({ detail }) => setPagination(detail)}
-        openEnd
-        pagesCount={pageCount}
-      />
+      {showPagination ? (
+        <Pagination
+          ariaLabels={{
+            nextPageLabel: 'Next page',
+            previousPageLabel: 'Previous page',
+            pageLabel: (pageNumber) => `Page ${pageNumber} of all pages`,
+          }}
+          currentPageIndex={currentPageIndex}
+          onChange={({ detail }) => setPagination(detail)}
+          openEnd
+          pagesCount={pageCount}
+        />
+      ) : (
+        ''
+      )}
     </SpaceBetween>,
   ];
 }
