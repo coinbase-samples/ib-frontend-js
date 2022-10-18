@@ -52,7 +52,7 @@ export function YourAssets() {
       // header={
       //   cancelOrderPreview ? 'Order Cancellation Confirm' : 'Order Status'
       // }
-      items={porfolioValues ? { portfolio } : []}
+      items={porfolioValues ? portfolio : []}
       loading={portfolioLoaded}
       loadingText="Loading Portfolio"
       empty={
