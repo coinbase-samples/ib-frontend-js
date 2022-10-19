@@ -26,6 +26,8 @@ export function OrderActivity(props) {
     fetchOrders,
   } = useContext(OrderContext);
 
+  const ordersValues = orders.length > 0;
+
   const { sessionInfo } = useContext(AuthContext);
   //const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
@@ -160,7 +162,7 @@ export function OrderActivity(props) {
             minWidth: 125,
           },
         ]}
-        items={paginateOrders(currentPageIndex)}
+        items={ordersValues ? paginateOrders(currentPageIndex) : []}
         loading={ordersLoaded}
         loadingText="Loading Orders"
         empty={

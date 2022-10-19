@@ -60,7 +60,7 @@ export function PortfolioChart(props) {
         },
       ]}
       xDomain={[startDate, endDate]}
-      yDomain={[yEnd, yStart]}
+      yDomain={[yStart, yEnd]}
       i18nStrings={{
         filterLabel: 'Filter displayed data',
         filterPlaceholder: 'Filter data',
