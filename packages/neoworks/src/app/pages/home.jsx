@@ -14,7 +14,7 @@ export function Home() {
     // const calculatedBalance = _.sumBy(portfolio, (asset) => {
     //   return asset.balance;
     // });
-    const calculatedBalance = 1000;
+    const calculatedBalance = '';
     // portfolio.forEach((element) => {
     //   calculatedBalance = element.balance;
     // });

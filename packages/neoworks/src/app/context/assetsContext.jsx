@@ -14,8 +14,6 @@ const AssetProvider = ({ children }) => {
   const [sorting, setSorting] = useState(false);
 
   const sortAssets = async (event) => {
-    console.log(event.detail);
-    console.log(assets);
     let sortedAssets;
     if (assetsLoading) {
       return;

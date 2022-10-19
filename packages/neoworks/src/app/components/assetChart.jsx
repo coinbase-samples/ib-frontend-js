@@ -34,7 +34,8 @@ export function AssetChart(props) {
       const end = assetChart.pop();
       setYStart(start?.y * 0.9);
       setYEnd(end?.y * 1.1);
-
+      console.log(start, end);
+      console.log(assetChart);
       return;
     } else {
       fetchChartByAsset(asset, apiStart, apiEnd);
