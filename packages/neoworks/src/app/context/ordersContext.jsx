@@ -50,14 +50,6 @@ const OrderProvider = ({ children }) => {
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);
-      // } else if (asset) {
-      //   const filter = asset + '_USD';
-      //   const response = !asset
-      //     ? result
-      //     : _.filter(result, { productId: filter });
-      //   console.log('dynamic response', response, filter);
-      //   setOrders(response);
-      //   setOrdersLoading(false);
     } else {
       const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
       setOrders(fetchedOrders);
@@ -87,10 +79,32 @@ const OrderProvider = ({ children }) => {
     try {
       setNewOrderLoading(true);
       const result = await createOrder(sessionInfo.accessToken, body);
-      setOrders([...orders, result]);
+      const executedOrder = {
+        orderId: result.orderId,
+        ownerId: result.ownerId,
+        productId: result.productId,
+        side: result.side.slice(11),
+        type: result.type.slice(11),
+        quantity: result.quantity,
+        limitPrice: result.limitPrice,
+        timeInForce: result.timeInForce,
+        status: result.status.slice(13),
+        createdAt: result.createdAt,
+        updatedAt: result.updatedAt,
+        filledQuantity: result.filledQuantity,
+        filledValue: result.filledValue,
+        averageFilledPrice: result.averageFilledPrice,
+        commission: result.commission,
+        exchangeFee: result.exchangeFee,
+        cancelReason: result.cancelReason,
+        failureReason: result.failureReason,
+      };
+      console.log(executedOrder);
+
+      setOrders([...orders, executedOrder]);
 
       // setLastOrder(result);
-      setOrderDetail(result);
+      setOrderDetail(executedOrder);
       setNewOrderLoading(false);
     } catch (e) {
       console.log(e);
