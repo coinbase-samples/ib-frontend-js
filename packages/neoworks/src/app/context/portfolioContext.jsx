@@ -1,6 +1,6 @@
 import { useContext, useState, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
-
+import _ from 'lodash';
 import {
   //this is your imports for services
   fetchPortfolioList,
@@ -22,7 +22,9 @@ const PortfolioProvider = ({ children }) => {
 
     setPortfolioLoading(true);
     const result = await fetchPortfolioList(sessionInfo.accessToken, sub);
-    setPortfolio(result);
+    const fetchedPortfolio = _.orderBy(result, ['balance'], ['desc']);
+
+    setPortfolio(fetchedPortfolio);
     setPortfolioLoading(false);
   };
 

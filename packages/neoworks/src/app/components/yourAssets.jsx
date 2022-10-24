@@ -32,21 +32,26 @@ export function YourAssets() {
           id: 'asset',
           header: 'Asset',
           width: 30,
-          cell: (e) => (
-            <Link href={`#/assets/${e.currency}`}>{e.currency}</Link>
-          ),
+          cell: (e) =>
+            e.currency !== 'USD' ? (
+              <Link href={`#/assets/${e.currency}`}>{e.currency}</Link>
+            ) : (
+              <p>USD</p>
+            ),
         },
         {
           id: 'amount',
           header: 'Amount',
           width: 50,
-          cell: (item) => item.available || '-',
+          cell: (item) =>
+            item.currency !== 'USD' ? item.available : item.available,
         },
         {
           id: 'balance',
           header: 'Balance',
           width: 50,
-          cell: (item) => `$${item.fiatValue}` || '-',
+          cell: (item) =>
+            item.currency !== 'USD' ? item.fiatValue : item.available,
         },
       ]}
       // header={
