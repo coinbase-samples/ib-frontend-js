@@ -33,10 +33,9 @@ export function PortfolioChart(props) {
     } else if (assetChart[0].asset === currentAssetChart) {
       const start = _.first(assetChart);
       const end = assetChart.pop();
-      setYStart(start?.y * 0.9);
-      setYEnd(end?.y * 1.1);
-      console.log(start, end);
-      console.log(assetChart);
+      setYStart(start?.y * 0.8);
+      setYEnd(end?.y * 1.3);
+
       return;
     } else {
       fetchChartByAsset(asset, apiStart, apiEnd);
