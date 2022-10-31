@@ -47,6 +47,10 @@ export function TradeForm(props) {
 
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
+  const [timeInForceType, setTimeInForceType] = React.useState(
+    'GOOD_UNTIL_CANCELLED'
+  );
+
   const [error, setError] = React.useState('');
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
@@ -74,7 +78,6 @@ export function TradeForm(props) {
       setError('Please enter an integer value');
     }
   };
-
   const handleLimitPrice = (lp) => {
     if (!isNaN(+lp)) {
       setLimitPrice(lp);
@@ -164,80 +167,103 @@ export function TradeForm(props) {
             </SpaceBetween>
           }
         >
-          <SpaceBetween id="formSpaces" direction="vertical" size="l">
-            <ButtonDropdown
-              id="type"
-              onItemClick={displayOrderType}
-              items={[
-                {
-                  text: 'Buy',
-                  id: 'Buy',
-                  disabled: false,
-                },
-                allowedSale
-                  ? { text: 'Sell', id: 'Sell', disabled: false }
-                  : {},
-              ]}
-            >
-              {orderType}
-            </ButtonDropdown>
-            <Select
-              id="orderType"
-              selectedOption={selectedOrderedType}
-              onChange={({ detail }) =>
-                setSelectedOrderedType(detail.selectedOption)
-              }
-              options={[
-                { label: 'Market', value: 'MARKET' },
-                { label: 'Limit', value: 'LIMIT' },
-              ]}
-              selectedAriaLabel="Selected Order Type"
-            />
+          {/* <SpaceBetween id="formSpaces" direction="vertical" size="xs"> */}
+          <ButtonDropdown
+            id="type"
+            onItemClick={displayOrderType}
+            items={[
+              {
+                text: 'Buy',
+                id: 'Buy',
+                disabled: false,
+              },
+              allowedSale ? { text: 'Sell', id: 'Sell', disabled: false } : {},
+            ]}
+          >
+            {orderType}
+          </ButtonDropdown>
+          <h4>Order Type</h4>
+          <Select
+            id="orderType"
+            selectedOption={selectedOrderedType}
+            onChange={({ detail }) =>
+              setSelectedOrderedType(detail.selectedOption)
+            }
+            options={[
+              { label: 'Market', value: 'MARKET' },
+              { label: 'Limit', value: 'LIMIT' },
+            ]}
+            selectedAriaLabel="Selected Order Type"
+          />
 
-            {selectedOrderedType.value === 'LIMIT' ? (
+          {selectedOrderedType.value === 'LIMIT' ? (
+            <SpaceBetween id="formLabel" direction="horizontal" size="l">
               <FormField label="Limit Price" id="limitPrice" errorText={error}>
                 <Input
                   id="price"
                   onChange={({ detail }) => handleLimitPrice(detail.value)}
                   value={limitPrice}
                 />
-              </FormField>
-            ) : (
-              ''
-            )}
-            <FormField label="Asset" id="asset">
-              {!urlAsset ? (
-                <Select
-                  id="selectAsset"
-                  selectedOption={selectedOption}
-                  onChange={({ detail }) =>
-                    setSelectedOption(detail.selectedOption)
-                  }
-                  required="true"
-                  options={tradingOptions}
-                />
-              ) : (
-                <Select
-                  id="assetSelection"
-                  selectedOption={selectedOption}
-                  disabled
-                  required="true"
-                  options={dropDownOptions()}
-                />
-              )}
-            </FormField>
-            <div>
-              <h4>Asset Price:</h4> ${assetPrice}
-            </div>
 
-            <FormField label="Quantity" id="quantity" errorText={error}>
-              <Input
-                id="inputQuantity"
-                onChange={({ detail }) => handleQuantity(detail.value)}
-                value={quantity}
+                <h4>Time in Force Type </h4>
+                <Select
+                  id="timeInForceType"
+                  selectedOption={timeInForceType}
+                  onChange={({ detail }) =>
+                    setTimeInForceType(detail.selectedOption)
+                  }
+                  options={[
+                    {
+                      label: 'GOOD_UNTIL_CANCELLED',
+                      value: 'GOOD_UNTIL_CANCELLED',
+                    },
+                    {
+                      label: 'IMMEDIATE_OR_CANCEL',
+                      value: 'IMMEDIATE_OR_CANCEL',
+                    },
+                    { label: 'FILL_OR_KILL', value: 'FILL_OR_KILL' },
+                  ]}
+                  selectedAriaLabel="Selected Time In Force Type"
+                />
+              </FormField>
+            </SpaceBetween>
+          ) : (
+            ''
+          )}
+
+          <FormField label="Asset" id="asset">
+            {!urlAsset ? (
+              <Select
+                id="selectAsset"
+                selectedOption={selectedOption}
+                onChange={({ detail }) =>
+                  setSelectedOption(detail.selectedOption)
+                }
+                required="true"
+                options={tradingOptions}
               />
-            </FormField>
-          </SpaceBetween>
+            ) : (
+              <Select
+                id="assetSelection"
+                selectedOption={selectedOption}
+                disabled
+                required="true"
+                options={dropDownOptions()}
+              />
+            )}
+          </FormField>
+          <div>
+            <h4>Asset Price:</h4> ${assetPrice}
+          </div>
+
+          <FormField label="Quantity" id="quantity" errorText={error}>
+            <Input
+              id="inputQuantity"
+              onChange={({ detail }) => handleQuantity(detail.value)}
+              value={quantity}
+            />
+          </FormField>
+          {/* </SpaceBetween> */}
           <div>
             <p>
               {selectedOption?.label} Balance: {amountHeld}
@@ -256,6 +282,7 @@ export function TradeForm(props) {
         fiatBalance={fiatBalance}
         orderSideType={orderType}
         limitPrice={limitPrice}
+        timeInForceType={timeInForceType}
         homePage={homePage}
       />
     </div>
