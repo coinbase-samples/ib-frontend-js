@@ -21,6 +21,7 @@ export async function fetchOrdersList(token) {
    const rename = fetchOrdersClient.data.data.map(o => {
     o.side = o.side.slice(11);
     o.status = o.status.slice(13);
+    o.timeInForce = o.timeInForce.slice(20);
 
     return o;
    });
@@ -51,7 +52,7 @@ export async function fetchOrderDetails(token, orderId) {
       "type": OrderByIdResponse.type.slice(11),
       "quantity": OrderByIdResponse.quantity,
       "limitPrice": OrderByIdResponse.limitPrice,
-      "timeInForce": OrderByIdResponse.timeInForce,
+      "timeInForce": OrderByIdResponse.timeInForce.slice(20),
       "status": OrderByIdResponse.status.slice(13),
       "createdAt": OrderByIdResponse.createdAt,
       "updatedAt": OrderByIdResponse.updatedAt,
@@ -79,7 +80,7 @@ export async function fetchOrderDetails(token, orderId) {
       "side": body.side,
       "quantity": body.quantity,
       "type": "ORDER_TYPE_" + body.orderType,
-      "timeInForce": "ORDER_TIME_IN_FORCE_GOOD_UNTIL_CANCELLED"
+      "timeInForce": "ORDER_TIME_IN_FORCE_" + body.timeInForceType
   });
     await sleep(1000);
         const url = `${baseUrl}/v1/order`;

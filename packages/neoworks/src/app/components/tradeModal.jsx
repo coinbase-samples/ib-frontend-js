@@ -34,6 +34,7 @@ export function TradeModal(props) {
     assetPrice,
     fiatBalance,
     side,
+    timeInForceType,
     orderSideType,
     orderType,
     limitPrice,
@@ -79,6 +80,7 @@ export function TradeModal(props) {
       quantity: qty,
       limitPrice: orderPrice,
       orderType,
+      timeInForceType,
     };
 
     await currentOrder(body);
@@ -200,6 +202,8 @@ export function TradeModal(props) {
               {props.qty}
               <h5>Platform Fee:</h5>
               {platformFee}
+              <h5>Time In Force Type:</h5>
+              {timeInForceType}
               <h5>Payment Type: </h5>
               USD
               <h5>USD Balance: </h5>

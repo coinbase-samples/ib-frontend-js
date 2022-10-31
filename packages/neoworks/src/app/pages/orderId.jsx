@@ -113,6 +113,9 @@ export function OrderId() {
                     <h5>Side:</h5>
 
                     {orderDetail?.side}
+                    <h5>Time In Force:</h5>
+
+                    {orderDetail?.timeInForce}
                     <h5>Type</h5>
 
                     {orderDetail?.type}
