@@ -222,10 +222,6 @@ export function TradeForm(props) {
                       label: 'IMMEDIATE OR CANCEL',
                       value: 'IMMEDIATE_OR_CANCEL',
                     },
-                    {
-                      label: 'FILL OR KILL',
-                      value: 'FILL_OR_KILL',
-                    },
                   ]}
                   selectedAriaLabel="Selected"
                 />
