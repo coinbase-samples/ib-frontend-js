@@ -57,7 +57,7 @@ export function TradeModal(props) {
     orderPrice = assetPrice;
   }
   let productId = asset;
-  if (!homePage) {
+  if (!homePage && asset.indexOf('_USD') === -1) {
     productId = asset + '_USD';
   }
   // console.log('this is the logger ' + orderFeed);
