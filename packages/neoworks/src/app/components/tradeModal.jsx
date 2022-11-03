@@ -36,6 +36,7 @@ export function TradeModal(props) {
     side,
     timeInForceType,
     orderSideType,
+    expiry_time,
     orderType,
     limitPrice,
     homePage,
@@ -77,6 +78,7 @@ export function TradeModal(props) {
     const body = {
       productId,
       side,
+      expiry_time,
       quantity: qty,
       limitPrice: orderPrice,
       orderType,

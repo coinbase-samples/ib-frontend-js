@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+  DatePicker,
   Form,
   Header,
   Input,
@@ -13,7 +14,6 @@ import { TradeModal } from './tradeModal';
 import { useParams } from 'react-router-dom';
 import { AssetContext } from '../context/assetsContext';
 import { WebsocketContext } from '../context/websocketContext';
-
 import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
@@ -43,25 +43,27 @@ export function TradeForm(props) {
   } = useContext(PortfolioContext);
 
   const [quantity, setQuantity] = React.useState('1');
+  const [expiryTime, setExpiryTime] = React.useState('');
+
   const [limitPrice, setLimitPrice] = React.useState(0);
 
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
-  const [timeInForceType, setTimeInForceType] = React.useState(
-    'GOOD_UNTIL_CANCELLED'
-  );
-
+  // const [timeInForceType, setTimeInForceType] = React.useState({
+  //   label: 'GOOD UNTIL CANCELLED',
+  //   value: 'GOOD_UNTIL_CANCELLED',
+  // });
+  const [selectedOption, setSelectedOption] = React.useState({
+    label: 'GOOD UNTIL CANCELLED',
+    value: 'GOOD_UNTIL_CANCELLED',
+  });
   const [error, setError] = React.useState('');
+  const [dateValue, setDateValue] = React.useState('');
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
   let homePage;
-  if (urlAsset) {
-    homePage = false;
-  } else {
-    homePage = true;
-  }
 
-  const [selectedOption, setSelectedOption] = React.useState({
+  const [selectedAsset, setSelectedAsset] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
   });
@@ -96,16 +98,14 @@ export function TradeForm(props) {
     }
   }, []);
 
-  // const assetObject = _.filter(assets, { ticker: selectedOption.label });
-
   const assetPriceFilter = _.filter(assetFeed, {
-    ticker: selectedOption.label,
+    ticker: selectedAsset.label,
   });
 
   const assetPrice = assetPriceFilter[0]?.lowBid;
 
   const portfolioObject = _.filter(portfolio, {
-    currency: selectedOption?.label,
+    currency: selectedAsset?.label,
   });
   const fiatObject = _.filter(portfolio, {
     currency: 'USD',
@@ -129,7 +129,6 @@ export function TradeForm(props) {
     e.preventDefault();
     setShowPreviewModal(true);
   };
-
   const dropDownOptions = () => {
     if (!urlAsset) {
       return tradingOptions;
@@ -162,12 +161,11 @@ export function TradeForm(props) {
           actions={
             <SpaceBetween id="formLabel" direction="horizontal" size="xs">
               <Button id="submit" variant="primary">
-                {orderType} {selectedOption.label}
+                {orderType} {selectedAsset.label}
               </Button>
             </SpaceBetween>
           }
         >
-          {/* <SpaceBetween id="formSpaces" direction="vertical" size="xs"> */}
           <ButtonDropdown
             id="type"
             onItemClick={displayOrderType}
@@ -204,13 +202,12 @@ export function TradeForm(props) {
                   onChange={({ detail }) => handleLimitPrice(detail.value)}
                   value={limitPrice}
                 />
-
-                <h4>Time in Force Type </h4>
+              </FormField>
+              <FormField label="Time In Force Type" id="timeType">
                 <Select
-                  id="timeInForceType"
-                  selectedOption={timeInForceType}
+                  selectedOption={selectedOption}
                   onChange={({ detail }) =>
-                    setTimeInForceType(detail.selectedOption)
+                    setSelectedOption(detail.selectedOption)
                   }
                   options={[
                     {
@@ -218,14 +215,45 @@ export function TradeForm(props) {
                       value: 'GOOD_UNTIL_CANCELLED',
                     },
                     {
-                      label: 'IMMEDIATE_OR_CANCEL',
+                      label: 'GOOD UNTIL DATE TIME',
+                      value: 'GOOD_UNTIL_DATETIME',
+                    },
+                    {
+                      label: 'IMMEDIATE OR CANCEL',
                       value: 'IMMEDIATE_OR_CANCEL',
                     },
-                    { label: 'FILL_OR_KILL', value: 'FILL_OR_KILL' },
+                    {
+                      label: 'FILL OR KILL',
+                      value: 'FILL_OR_KILL',
+                    },
                   ]}
-                  selectedAriaLabel="Selected Time In Force Type"
+                  selectedAriaLabel="Selected"
                 />
               </FormField>
+              {selectedOption.value === 'GOOD_UNTIL_DATETIME' ? (
+                <FormField label="Choose Date" id="dateTime">
+                  <DatePicker
+                    onChange={({ detail }) => {
+                      console.log(detail.value);
+                      setExpiryTime(new Date(detail.value));
+                      console.log(expiryTime);
+
+                      setDateValue(detail.value);
+                    }}
+                    value={dateValue}
+                    openCalendarAriaLabel={(selectedDate) =>
+                      'Choose certificate expiry date' +
+                      (selectedDate ? `, selected date is ${selectedDate}` : '')
+                    }
+                    nextMonthAriaLabel="Next month"
+                    placeholder="YYYY/MM/DD"
+                    previousMonthAriaLabel="Previous month"
+                    todayAriaLabel="Today"
+                  />
+                </FormField>
+              ) : (
+                ''
+              )}
             </SpaceBetween>
           ) : (
             ''
@@ -235,9 +263,9 @@ export function TradeForm(props) {
             {!urlAsset ? (
               <Select
                 id="selectAsset"
-                selectedOption={selectedOption}
+                selectedOption={selectedAsset}
                 onChange={({ detail }) =>
-                  setSelectedOption(detail.selectedOption)
+                  setSelectedAsset(detail.selectedOption)
                 }
                 required="true"
                 options={tradingOptions}
@@ -245,7 +273,7 @@ export function TradeForm(props) {
             ) : (
               <Select
                 id="assetSelection"
-                selectedOption={selectedOption}
+                selectedOption={selectedAsset}
                 disabled
                 required="true"
                 options={dropDownOptions()}
@@ -266,24 +294,26 @@ export function TradeForm(props) {
           {/* </SpaceBetween> */}
           <div>
             <p>
-              {selectedOption?.label} Balance: {amountHeld}
+              {selectedAsset?.label} Balance: {amountHeld}
             </p>
           </div>
         </Form>
       </form>
+
       <TradeModal
         open={showPreviewModal}
         close={closePreviewModal}
         qty={quantity}
-        asset={selectedOption.value}
+        asset={selectedAsset.value}
         side={orderSide}
         assetPrice={assetPrice}
         orderType={selectedOrderedType.value}
         fiatBalance={fiatBalance}
         orderSideType={orderType}
         limitPrice={limitPrice}
-        timeInForceType={timeInForceType}
+        timeInForceType={selectedOption.value}
         homePage={homePage}
+        expiry_time={expiryTime}
       />
     </div>
   );
