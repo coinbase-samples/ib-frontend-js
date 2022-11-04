@@ -130,7 +130,7 @@ export function TradeForm(props) {
       setShowPreviewModal(true);
     } else {
       alert(
-        'Your order amount is:  ' + orderAmount + '.  Must be greater than $1'
+        'Your order amount is:  $' + orderAmount + '.  Must be greater than $1'
       );
     }
   };
