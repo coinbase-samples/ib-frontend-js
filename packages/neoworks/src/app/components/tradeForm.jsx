@@ -49,10 +49,7 @@ export function TradeForm(props) {
 
   const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
-  // const [timeInForceType, setTimeInForceType] = React.useState({
-  //   label: 'GOOD UNTIL CANCELLED',
-  //   value: 'GOOD_UNTIL_CANCELLED',
-  // });
+
   const [selectedOption, setSelectedOption] = React.useState({
     label: 'GOOD UNTIL CANCELLED',
     value: 'GOOD_UNTIL_CANCELLED',
@@ -62,7 +59,7 @@ export function TradeForm(props) {
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const urlAsset = useParams().asset;
   let homePage;
-
+  const orderMinimum = 1.0;
   const [selectedAsset, setSelectedAsset] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
@@ -127,7 +124,15 @@ export function TradeForm(props) {
 
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
-    setShowPreviewModal(true);
+    const orderAmount = quantity * assetPrice;
+    console.log(orderAmount);
+    if (orderAmount > orderMinimum) {
+      setShowPreviewModal(true);
+    } else {
+      alert(
+        'Your order amount is:  ' + orderAmount + '.  Must be greater than $1'
+      );
+    }
   };
   const dropDownOptions = () => {
     if (!urlAsset) {
@@ -230,7 +235,6 @@ export function TradeForm(props) {
                 <FormField label="Choose Date" id="dateTime">
                   <DatePicker
                     onChange={({ detail }) => {
-                      console.log(detail.value);
                       setExpiryTime(new Date(detail.value));
                       console.log(expiryTime);
 
