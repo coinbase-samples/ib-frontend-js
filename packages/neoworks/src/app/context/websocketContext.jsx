@@ -31,12 +31,12 @@ const WebsocketProvider = ({ children }) => {
       const newAssets = JSON.parse(rawMessage.body);
       setAssetFeed(newAssets);
     }
-    if (rawMessage?.type === 'orders') {
+    if (rawMessage?.type === 'order') {
       const newOrders = JSON.parse(rawMessage?.body);
       // console.log('orders feed ' + JSON.stringify(newOrders));
       setOrderFeed(newOrders);
 
-      console.log('order feed ', orderFeed);
+      //console.log('order feed ', orderFeed);
     }
   }, [lastMessage]);
 
