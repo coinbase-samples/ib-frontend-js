@@ -60,7 +60,6 @@ export function TradeModal(props) {
   if (!homePage && asset.indexOf('_USD') === -1) {
     productId = asset + '_USD';
   }
-  // console.log('this is the logger ' + orderFeed);
 
   useEffect(() => {
     const orderId = orderDetail?.orderId;
@@ -93,7 +92,6 @@ export function TradeModal(props) {
     setOrderPreview(true);
     props.close();
   };
-
   const cancelOrder = () => {
     window.location.reload(false);
   };
