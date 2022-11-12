@@ -17,7 +17,7 @@ import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
 
-export function TradeForm() {
+export function TradeForm(props) {
   const tradingOptions = [
     { label: 'BTC', value: 'BTC_USD' },
     { label: 'ETH', value: 'ETH_USD' },
@@ -89,9 +89,7 @@ export function TradeForm() {
     }
   };
 
-  const handleFormChange = async (detail) => {
-    setSelectedAsset(detail.selectedOption);
-  };
+  //
 
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
@@ -128,7 +126,6 @@ export function TradeForm() {
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
     const orderAmount = quantity * assetPrice;
-    console.log(orderAmount);
     if (orderAmount > orderMinimum) {
       setShowPreviewModal(true);
     } else {
@@ -137,8 +134,7 @@ export function TradeForm() {
       );
     }
   };
-  const dropDownOptions = async () => {
-    console.log(urlAsset);
+  const dropDownOptions = () => {
     if (!urlAsset) {
       return tradingOptions;
     } else {
@@ -269,7 +265,9 @@ export function TradeForm() {
               <Select
                 id="selectAsset"
                 selectedOption={selectedAsset}
-                onChange={({ detail }) => handleFormChange(detail)}
+                onChange={({ detail }) =>
+                  setSelectedAsset(detail.selectedOption)
+                }
                 required="true"
                 options={tradingOptions}
               />
@@ -294,7 +292,6 @@ export function TradeForm() {
               value={quantity}
             />
           </FormField>
-          {/* </SpaceBetween> */}
           <div>
             <p>
               {selectedAsset?.label} Balance: {amountHeld}
