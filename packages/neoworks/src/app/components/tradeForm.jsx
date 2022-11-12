@@ -7,7 +7,6 @@ import {
   Button,
   SpaceBetween,
   FormField,
-  ButtonDropdown,
   Select,
 } from '@cloudscape-design/components';
 import { TradeModal } from './tradeModal';
@@ -18,7 +17,7 @@ import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
 import _ from 'lodash';
 
-export function TradeForm(props) {
+export function TradeForm() {
   const tradingOptions = [
     { label: 'BTC', value: 'BTC_USD' },
     { label: 'ETH', value: 'ETH_USD' },
@@ -44,12 +43,13 @@ export function TradeForm(props) {
 
   const [quantity, setQuantity] = React.useState('1');
   const [expiryTime, setExpiryTime] = React.useState('');
-
   const [limitPrice, setLimitPrice] = React.useState(0);
-
-  const [orderType, setOrderType] = React.useState('Buy');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
 
+  const [selectedSideOption, setSelectedSideOption] = React.useState({
+    label: 'Buy',
+    value: 'Buy',
+  });
   const [selectedOption, setSelectedOption] = React.useState({
     label: 'GOOD UNTIL CANCELLED',
     value: 'GOOD_UNTIL_CANCELLED',
@@ -57,18 +57,21 @@ export function TradeForm(props) {
   const [error, setError] = React.useState('');
   const [dateValue, setDateValue] = React.useState('');
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
+  //const [allowedSale, setAllowedSale] = React.useState(false);
+  //const [amountHeld, setAmountHeld] = React.useState(0);
+  const [selectedOrderedType, setSelectedOrderedType] = React.useState({
+    label: 'Market',
+    value: 'MARKET',
+  });
   const urlAsset = useParams().asset;
   let homePage;
+
   const orderMinimum = 1.0;
   const [selectedAsset, setSelectedAsset] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
   });
-
-  const [selectedOrderedType, setSelectedOrderedType] = React.useState({
-    label: 'Market',
-    value: 'MARKET',
-  });
+  let allowedSale;
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
       setQuantity(qty);
@@ -86,6 +89,10 @@ export function TradeForm(props) {
     }
   };
 
+  const handleFormChange = async (detail) => {
+    setSelectedAsset(detail.selectedOption);
+  };
+
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
@@ -100,7 +107,6 @@ export function TradeForm(props) {
   });
 
   const assetPrice = assetPriceFilter[0]?.lowBid;
-
   const portfolioObject = _.filter(portfolio, {
     currency: selectedAsset?.label,
   });
@@ -109,19 +115,16 @@ export function TradeForm(props) {
   });
 
   let amountHeld;
-  let allowedSale;
   const fiatBalance = fiatObject[0]?.available;
-
   const portfolioPrice = portfolioObject[0]?.available;
 
-  if (portfolioPrice) {
+  if (portfolioPrice > 0) {
     amountHeld = portfolioPrice;
     allowedSale = true;
   } else {
     amountHeld = 0;
     allowedSale = false;
   }
-
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
     const orderAmount = quantity * assetPrice;
@@ -134,7 +137,8 @@ export function TradeForm(props) {
       );
     }
   };
-  const dropDownOptions = () => {
+  const dropDownOptions = async () => {
+    console.log(urlAsset);
     if (!urlAsset) {
       return tradingOptions;
     } else {
@@ -148,12 +152,14 @@ export function TradeForm(props) {
   const closePreviewModal = () => {
     setShowPreviewModal(false);
   };
+
   const displayOrderType = (e) => {
-    if (e.detail.id === 'Buy') {
-      setOrderType('BUY');
+    if (e.selectedOption.label === 'Buy') {
+      console.log(e);
+      setSelectedSideOption(e.selectedOption);
       setOrderSideType('ORDER_SIDE_BUY');
     } else {
-      setOrderType('Sell');
+      setSelectedSideOption(e.selectedOption);
       setOrderSideType('ORDER_SIDE_SELL');
     }
   };
@@ -165,26 +171,27 @@ export function TradeForm(props) {
           header={<Header variant="h3">Place Order</Header>}
           actions={
             <SpaceBetween id="formLabel" direction="horizontal" size="xs">
-              <Button id="submit" variant="primary">
-                {orderType} {selectedAsset.label}
-              </Button>
+              {allowedSale ? (
+                <Button id="submit" variant="primary">
+                  {selectedSideOption.label} {selectedAsset.label}
+                </Button>
+              ) : (
+                <p style={{ color: 'red' }}>You dont have the funds.</p>
+              )}
             </SpaceBetween>
           }
         >
-          <ButtonDropdown
+          <Select
             id="type"
-            onItemClick={displayOrderType}
-            items={[
-              {
-                text: 'Buy',
-                id: 'Buy',
-                disabled: false,
-              },
-              allowedSale ? { text: 'Sell', id: 'Sell', disabled: false } : {},
+            selectedOption={selectedSideOption}
+            onChange={({ detail }) => displayOrderType(detail)}
+            options={[
+              { label: 'Buy', value: 'Buy' },
+              { label: 'Sell', value: 'Sell' },
             ]}
           >
-            {orderType}
-          </ButtonDropdown>
+            {selectedSideOption}
+          </Select>
           <h4>Order Type</h4>
           <Select
             id="orderType"
@@ -236,8 +243,6 @@ export function TradeForm(props) {
                   <DatePicker
                     onChange={({ detail }) => {
                       setExpiryTime(new Date(detail.value));
-                      console.log(expiryTime);
-
                       setDateValue(detail.value);
                     }}
                     value={dateValue}
@@ -264,9 +269,7 @@ export function TradeForm(props) {
               <Select
                 id="selectAsset"
                 selectedOption={selectedAsset}
-                onChange={({ detail }) =>
-                  setSelectedAsset(detail.selectedOption)
-                }
+                onChange={({ detail }) => handleFormChange(detail)}
                 required="true"
                 options={tradingOptions}
               />
@@ -309,7 +312,7 @@ export function TradeForm(props) {
         assetPrice={assetPrice}
         orderType={selectedOrderedType.value}
         fiatBalance={fiatBalance}
-        orderSideType={orderType}
+        orderSideType={selectedSideOption.value}
         limitPrice={limitPrice}
         timeInForceType={selectedOption.value}
         homePage={homePage}

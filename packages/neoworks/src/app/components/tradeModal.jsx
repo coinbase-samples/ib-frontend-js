@@ -86,7 +86,6 @@ export function TradeModal(props) {
 
     await currentOrder(body);
   };
-
   const closeModal = () => {
     //add an if check to ensure api finishes
     setOrderPreview(true);
@@ -149,11 +148,7 @@ export function TradeModal(props) {
                 <Icons asset={props.asset} />
                 {orderResponse()}
                 <h4>Status: </h4>
-                {statusFound ? (
-                  filteredOrderFeed[0]?.status
-                ) : (
-                  <p>Checking Status</p>
-                )}
+                {statusFound ? orderFeed?.status : <p>Checking Status</p>}
               </div>
             </ColumnLayout>
           </HelpPanel>
