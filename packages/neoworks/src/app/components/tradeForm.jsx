@@ -172,7 +172,9 @@ export function TradeForm(props) {
                   {selectedSideOption.label} {selectedAsset.label}
                 </Button>
               ) : (
-                <p style={{ color: 'red' }}>You dont have the funds.</p>
+                <p style={{ color: 'red' }}>
+                  You dont have the funds. ${fiatBalance}
+                </p>
               )}
             </SpaceBetween>
           }
@@ -181,10 +183,14 @@ export function TradeForm(props) {
             id="type"
             selectedOption={selectedSideOption}
             onChange={({ detail }) => displayOrderType(detail)}
-            options={[
-              { label: 'Buy', value: 'Buy' },
-              { label: 'Sell', value: 'Sell' },
-            ]}
+            options={
+              allowedSale
+                ? [
+                    { label: 'Buy', value: 'Buy' },
+                    { label: 'Sell', value: 'Sell' },
+                  ]
+                : [{ label: 'Buy', value: 'Buy' }]
+            }
           >
             {selectedSideOption}
           </Select>
