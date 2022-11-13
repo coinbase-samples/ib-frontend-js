@@ -173,7 +173,7 @@ export function TradeForm(props) {
                 </Button>
               ) : (
                 <p style={{ color: 'red' }}>
-                  You dont have the funds. ${fiatBalance}
+                  Insufficient funds. ${fiatBalance}
                 </p>
               )}
             </SpaceBetween>
