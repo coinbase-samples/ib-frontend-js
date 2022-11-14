@@ -79,33 +79,44 @@ const OrderProvider = ({ children }) => {
     try {
       setNewOrderLoading(true);
       const result = await createOrder(sessionInfo.accessToken, body);
-      const executedOrder = {
-        orderId: result.orderId,
-        ownerId: result.ownerId,
-        productId: result.productId,
-        side: result.side.slice(11),
-        type: result.type.slice(11),
-        quantity: result.quantity,
-        limitPrice: result.limitPrice,
-        timeInForce: result.timeInForce,
-        status: result.status.slice(13),
-        createdAt: result.createdAt,
-        updatedAt: result.updatedAt,
-        filledQuantity: result.filledQuantity,
-        filledValue: result.filledValue,
-        averageFilledPrice: result.averageFilledPrice,
-        commission: result.commission,
-        exchangeFee: result.exchangeFee,
-        cancelReason: result.cancelReason,
-        failureReason: result.failureReason,
-      };
-      console.log(executedOrder);
 
-      setOrders([...orders, executedOrder]);
+      if (result.httpStatus > '201') {
+        console.log('failed');
+        setOrderDetail({
+          httpStatus: result.httpStatus,
+          orderResponse: result.orderResponse,
+        });
+        setNewOrderLoading(false);
+      } else {
+        console.log(result);
+        const executedOrder = {
+          httpStatus: result.httpStatus,
+          orderId: result.orderId,
+          ownerId: result.ownerId,
+          productId: result.productId,
+          side: result.side.slice(11),
+          type: result.type.slice(11),
+          quantity: result.quantity,
+          limitPrice: result.limitPrice,
+          timeInForce: result.timeInForce,
+          status: result.status.slice(13),
+          createdAt: result.createdAt,
+          updatedAt: result.updatedAt,
+          filledQuantity: result.filledQuantity,
+          filledValue: result.filledValue,
+          averageFilledPrice: result.averageFilledPrice,
+          commission: result.commission,
+          exchangeFee: result.exchangeFee,
+          cancelReason: result.cancelReason,
+          failureReason: result.failureReason,
+        };
 
-      // setLastOrder(result);
-      setOrderDetail(executedOrder);
-      setNewOrderLoading(false);
+        setOrders([...orders, executedOrder]);
+
+        // setLastOrder(result);
+        setOrderDetail(executedOrder);
+        setNewOrderLoading(false);
+      }
     } catch (e) {
       console.log(e);
     }

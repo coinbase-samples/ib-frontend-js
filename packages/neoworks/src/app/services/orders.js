@@ -103,8 +103,12 @@ export async function fetchOrderDetails(token, orderId) {
     try {
       const placeNewOrder = await makeCall(token, 'POST', url, payload);
 
-      const createOrderResponse = await placeNewOrder.json();
-      return createOrderResponse;
+      const createOrderResponse = await placeNewOrder.orderResponse.json();
+      return {
+        "httpStatus": placeNewOrder.httpStatus,
+        "httpStatusText": placeNewOrder.statusText, 
+        "orderResponse": createOrderResponse
+      };
     } catch (e) {
       return e;
     }

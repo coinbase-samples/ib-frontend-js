@@ -97,10 +97,14 @@ export function TradeModal(props) {
   const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {
-    if (orderDetail?.code) {
+    console.log(orderDetail.httpStatus);
+    if (orderDetail?.httpStatus > '201') {
       orderFail = true;
       return (
-        <p>We're sorry, your order Failed. Reason: {orderDetail?.message}</p>
+        <p>
+          We're sorry, your order Failed. Reason:{' '}
+          {orderDetail.orderResponse.message}
+        </p>
       );
     }
     return (
@@ -147,8 +151,8 @@ export function TradeModal(props) {
               <div>
                 <Icons asset={props.asset} />
                 {orderResponse()}
-                <h4>Status: </h4>
-                {statusFound ? orderFeed?.status : <p>Checking Status</p>}
+
+                {statusFound ? <p>Order Status: {orderFeed?.status} </p> : ''}
               </div>
             </ColumnLayout>
           </HelpPanel>

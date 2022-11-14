@@ -22,7 +22,11 @@ export const makeCall = async (token, method, url, body) => {
         body,
         headers,
       });
-      return callAmp;
+      console.log(callAmp.body)
+      return {
+        "httpStatus": `${callAmp.status}`,
+        "orderResponse": callAmp
+      };
     } else {
       const callAmp = await fetch(url, {
         mode: 'cors',
