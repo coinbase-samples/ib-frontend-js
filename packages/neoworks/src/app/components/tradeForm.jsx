@@ -57,8 +57,7 @@ export function TradeForm(props) {
   const [error, setError] = React.useState('');
   const [dateValue, setDateValue] = React.useState('');
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
-  //const [allowedSale, setAllowedSale] = React.useState(false);
-  //const [amountHeld, setAmountHeld] = React.useState(0);
+
   const [selectedOrderedType, setSelectedOrderedType] = React.useState({
     label: 'Market',
     value: 'MARKET',
@@ -103,7 +102,7 @@ export function TradeForm(props) {
     ticker: selectedAsset.label,
   });
 
-  const assetPrice = assetPriceFilter[0]?.price;
+  const assetPrice = assetPriceFilter[0]?.lowBid;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedAsset?.label,
   });
@@ -111,7 +110,6 @@ export function TradeForm(props) {
     currency: 'USD',
   });
 
-  let amountHeld;
   const fiatBalance = fiatObject[0]?.available;
   const allowedOrder = assetPrice < 100;
 
@@ -135,6 +133,7 @@ export function TradeForm(props) {
       return tradingOptions;
     } else {
       const filteredAsset = tradingOptions.find((a) => a.value === urlAsset);
+      console.log(filteredAsset);
 
       return filteredAsset;
     }
@@ -294,7 +293,7 @@ export function TradeForm(props) {
           </FormField>
           <div>
             <p>
-              {selectedAsset?.label} Balance: {amountHeld}
+              {selectedAsset?.label} Balance: {portfolioPrice}
             </p>
           </div>
         </Form>
