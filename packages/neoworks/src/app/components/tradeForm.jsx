@@ -71,7 +71,6 @@ export function TradeForm(props) {
     label: urlAsset ? urlAsset : 'BTC',
     value: urlAsset ? urlAsset : 'BTC_USD',
   });
-  let allowedSale;
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
       setQuantity(qty);
@@ -114,15 +113,12 @@ export function TradeForm(props) {
 
   let amountHeld;
   const fiatBalance = fiatObject[0]?.available;
+  const allowedOrder = assetPrice < 100;
+
   const portfolioPrice = portfolioObject[0]?.available;
 
-  if (portfolioPrice > 0) {
-    amountHeld = portfolioPrice;
-    allowedSale = true;
-  } else {
-    amountHeld = 0;
-    allowedSale = false;
-  }
+  const allowedSale = portfolioPrice > 0;
+
   const handlePreviewSubmit = (e) => {
     e.preventDefault();
     const orderAmount = quantity * assetPrice;
@@ -151,7 +147,6 @@ export function TradeForm(props) {
 
   const displayOrderType = (e) => {
     if (e.selectedOption.label === 'Buy') {
-      console.log(e);
       setSelectedSideOption(e.selectedOption);
       setOrderSideType('ORDER_SIDE_BUY');
     } else {
@@ -167,7 +162,7 @@ export function TradeForm(props) {
           header={<Header variant="h3">Place Order</Header>}
           actions={
             <SpaceBetween id="formLabel" direction="horizontal" size="xs">
-              {allowedSale ? (
+              {allowedOrder ? (
                 <Button id="submit" variant="primary">
                   {selectedSideOption.label} {selectedAsset.label}
                 </Button>
