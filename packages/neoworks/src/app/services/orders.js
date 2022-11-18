@@ -106,7 +106,6 @@ export async function fetchOrderDetails(token, orderId) {
       const createOrderResponse = await placeNewOrder.orderResponse.json();
       return {
         "httpStatus": placeNewOrder?.httpStatus,
-        "httpStatusText": placeNewOrder?.statusText, 
         "orderResponse": createOrderResponse
       };
     } catch (e) {
