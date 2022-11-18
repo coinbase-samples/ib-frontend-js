@@ -103,7 +103,7 @@ export function TradeForm(props) {
     ticker: selectedAsset.label,
   });
 
-  const assetPrice = assetPriceFilter[0]?.lowBid;
+  const assetPrice = assetPriceFilter[0]?.price;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedAsset?.label,
   });
@@ -134,9 +134,8 @@ export function TradeForm(props) {
     if (!urlAsset) {
       return tradingOptions;
     } else {
-      const filteredAsset = _.filter(tradingOptions, {
-        label: urlAsset,
-      });
+      const filteredAsset = tradingOptions.find((a) => a.value === urlAsset);
+
       return filteredAsset;
     }
   };
