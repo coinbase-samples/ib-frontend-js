@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { LineChart, Box, Button } from '@cloudscape-design/components';
 import _ from 'lodash';
-import { ChartContext } from '../context/chartsContext';
+import { ChartContext } from '../../context/chartsContext';
 
 import { useContext, useEffect } from 'react';
 

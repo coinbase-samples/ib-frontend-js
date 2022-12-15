@@ -1,6 +1,6 @@
 import { Container, Grid, Header } from '@cloudscape-design/components';
 import { useContext } from 'react';
-import { PortfolioChart } from '../components/portfolioChart';
+import { PortfolioChart } from '../components/portfolio/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/assets/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
@@ -11,14 +11,8 @@ export function Home() {
   let loadedBalance;
 
   const calculateBalance = () => {
-    // const calculatedBalance = _.sumBy(portfolio, (asset) => {
-    //   return asset.balance;
-    // });
     const calculatedBalance = '';
-    // portfolio.forEach((element) => {
-    //   calculatedBalance = element.balance;
-    // });
-    // const calculatedBalance = '14';
+
     return calculatedBalance;
   };
 
