@@ -133,7 +133,6 @@ export function TradeForm(props) {
       return tradingOptions;
     } else {
       const filteredAsset = tradingOptions.find((a) => a.value === urlAsset);
-      console.log(filteredAsset);
 
       return filteredAsset;
     }

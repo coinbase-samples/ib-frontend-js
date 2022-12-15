@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { AssetChart } from './assetChart';
 import { useParams } from 'react-router-dom';
+import { AssetChart } from './assetChart';
 import { Icons } from '../../utils/Icons';
 import { TradeForm } from '../tradeForm';
 import { Container, Grid, Header } from '@cloudscape-design/components';

@@ -71,7 +71,7 @@
     "react-dom": "^18"
   },
   "dependencies": {
-    "@cloudscape-design/components": "^3.0.75",
+    "@cloudscape-design/components": "^3.0.142",
     "@cloudscape-design/global-styles": "^1.0.1",
     "@emotion/react": "11.10.4",
     "@emotion/styled": "11.10.4",

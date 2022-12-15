@@ -6,7 +6,7 @@ export function AssetId() {
     <Tabs
       tabs={[
         {
-          label: 'Overview',
+          label: 'Asset Id Landing',
           id: 'first',
           content: <PureAssetLanding />,
         },

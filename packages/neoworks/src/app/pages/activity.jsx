@@ -7,7 +7,7 @@ export function Activity() {
     <Tabs
       tabs={[
         {
-          label: 'Orders',
+          label: 'Activity Landing',
           id: 'ActivityPage-1',
           content: <OrderActivity />,
         },

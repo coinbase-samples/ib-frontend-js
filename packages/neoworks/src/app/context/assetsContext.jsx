@@ -23,12 +23,10 @@ const AssetProvider = ({ children }) => {
     const sortedType = event.detail.sortingColumn.sortingField;
     if (sorting) {
       sortedAssets = _.orderBy(assets, [sortedType], ['asc']);
-      console.log('if ' + sortedAssets);
 
       setSorting(false);
     } else {
       sortedAssets = _.orderBy(assets, [sortedType], ['desc']);
-      console.log('else ' + sortedAssets);
 
       setSorting(true);
     }
