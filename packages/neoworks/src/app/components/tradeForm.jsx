@@ -101,7 +101,6 @@ export function TradeForm(props) {
   const assetPriceFilter = _.filter(assetFeed, {
     ticker: selectedAsset.label,
   });
-
   const assetPrice = assetPriceFilter[0]?.lowBid;
   const portfolioObject = _.filter(portfolio, {
     currency: selectedAsset?.label,

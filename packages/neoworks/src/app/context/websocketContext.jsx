@@ -35,8 +35,6 @@ const WebsocketProvider = ({ children }) => {
       const newOrders = JSON.parse(rawMessage?.body);
       console.log('orders feed ' + JSON.stringify(newOrders));
       setOrderFeed(newOrders);
-
-      console.log('order feed ', orderFeed);
     }
   }, [lastMessage]);
 

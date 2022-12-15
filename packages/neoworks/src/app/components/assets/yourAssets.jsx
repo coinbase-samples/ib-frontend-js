@@ -11,7 +11,6 @@ export function YourAssets() {
   } = useContext(PortfolioContext);
 
   const porfolioValues = portfolio.length > 0;
-  console.log(porfolioValues);
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();

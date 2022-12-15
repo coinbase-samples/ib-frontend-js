@@ -79,26 +79,23 @@ const OrderProvider = ({ children }) => {
     try {
       setNewOrderLoading(true);
       const result = await createOrder(sessionInfo.accessToken, body);
-      console.log('!!!', result);
       if (result.httpStatus > '201') {
-        console.log('failed');
         setOrderDetail({
           httpStatus: result.httpStatus,
           orderResponse: result.orderResponse,
         });
         setNewOrderLoading(false);
       } else {
-        console.log(result);
         const executedOrder = {
           httpStatus: result.httpStatus,
           orderId: result.orderResponse.orderId,
           ownerId: result.orderResponse.ownerId,
           productId: result.orderResponse.productId,
-          side: result.orderResponse.side,
-          type: result.orderResponse.type,
+          side: result.orderResponse.side.slice(11),
+          type: result.orderResponse.type.slice(11),
           quantity: result.orderResponse.quantity,
           limitPrice: result.orderResponse.limitPrice,
-          timeInForce: result.orderResponse.timeInForce,
+          timeInForce: result.orderResponse.timeInForce.slice(20),
           status: result.orderResponse.status,
           createdAt: result.orderResponse.createdAt,
           updatedAt: result.orderResponse.updatedAt,
@@ -118,7 +115,7 @@ const OrderProvider = ({ children }) => {
         setNewOrderLoading(false);
       }
     } catch (e) {
-      console.log('error', e);
+      return e;
     }
   };
 
@@ -131,7 +128,7 @@ const OrderProvider = ({ children }) => {
       setOrderDetail(result);
       setCancelOrderLoading(false);
     } catch (e) {
-      console.log(e);
+      return e;
     }
   };
 

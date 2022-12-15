@@ -32,7 +32,7 @@ export function OrderId() {
         return orderDetailResponse;
       }
     } catch (e) {
-      console.log(e);
+      return e;
     }
   };
   const currentOrderDetail = orderDetail;
