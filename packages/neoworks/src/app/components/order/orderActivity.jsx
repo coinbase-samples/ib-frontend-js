@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { OrderContext } from '../context/ordersContext';
+import { OrderContext } from '../../context/ordersContext';
 import { useContext, useEffect } from 'react';
-import { Icons } from '../utils/Icons';
-import { AuthContext } from '../context/authContext';
+import { Icons } from '../../utils/Icons';
+import { AuthContext } from '../../context/authContext';
 import _ from 'lodash';
 
 import {

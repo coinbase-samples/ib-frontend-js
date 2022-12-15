@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Tabs from '@cloudscape-design/components/tabs';
-import { OrderActivity } from '../components/orderActivity';
+import { OrderActivity } from '../components/order/orderActivity';
 
 export function Activity() {
   return (
@@ -11,11 +11,6 @@ export function Activity() {
           id: 'ActivityPage-1',
           content: <OrderActivity />,
         },
-        // {
-        //   label: 'Transfers',
-        //   id: 'TransfersPage-2',
-        //   content: 'Second tab content area',
-        // },
       ]}
       variant="container"
     />

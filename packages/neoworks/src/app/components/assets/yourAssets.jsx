@@ -1,7 +1,7 @@
 import { Table, Box, Link } from '@cloudscape-design/components';
-import { PortfolioContext } from '../context/portfolioContext';
+import { PortfolioContext } from '../../context/portfolioContext';
 import { useContext, useEffect } from 'react';
-import { Icons } from '../utils/Icons';
+import { Icons } from '../../utils/Icons';
 
 export function YourAssets() {
   const {

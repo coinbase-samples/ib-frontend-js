@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { ProfileContext } from '../context/profileContext';
+import { ProfileContext } from '../../context/profileContext';
 
 import {
   Container,
@@ -12,7 +12,7 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 
-import { editProfilePhoto } from '../services/profile';
+import { editProfilePhoto } from '../../services/profile';
 import { UpdateProfileModal } from './profileUpdateModal';
 
 export function PureProfile({

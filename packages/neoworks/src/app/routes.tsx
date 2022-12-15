@@ -6,7 +6,7 @@ import { AuthContext, AuthStatus } from './context/authContext';
 
 import { Home } from './pages/home';
 import { Trades } from './pages/assets';
-import { Profile } from './components/profiles';
+import { Profile } from './components/profile/profiles';
 import { Activity } from './pages/activity';
 import { AssetId } from './pages/assetId';
 import { OrderId } from './pages/orderId';

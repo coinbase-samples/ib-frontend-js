@@ -1,6 +1,6 @@
 import { Container, Header, SpaceBetween } from '@cloudscape-design/components';
 import * as React from 'react';
-import { TradeableAssets } from '../components/tradeableAssets';
+import { TradeableAssets } from '../components/assets/tradeableAssets';
 
 export function Trades(props) {
   return (

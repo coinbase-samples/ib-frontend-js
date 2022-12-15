@@ -1,8 +1,8 @@
-import { Container, Grid, Header, Link } from '@cloudscape-design/components';
+import { Container, Grid, Header } from '@cloudscape-design/components';
 import { useContext } from 'react';
 import { PortfolioChart } from '../components/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
-import { YourAssets } from '../components/yourAssets';
+import { YourAssets } from '../components/assets/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
 
 export function Home() {

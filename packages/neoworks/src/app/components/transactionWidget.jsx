@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Tabs } from '@cloudscape-design/components';
 import { TradeForm } from './tradeForm';
-import { TransferForm } from './transferForm';
+import { TransferForm } from './transfer/transferForm';
 export function TransactionWidget() {
   return (
     <div>

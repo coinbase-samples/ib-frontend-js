@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Icons } from '../utils/Icons';
-import { OrderContext } from '../context/ordersContext';
+import { Icons } from '../../utils/Icons';
+import { OrderContext } from '../../context/ordersContext';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 

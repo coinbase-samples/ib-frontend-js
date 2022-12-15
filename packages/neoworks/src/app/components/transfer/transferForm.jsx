@@ -9,7 +9,7 @@ import {
   Input,
   Select,
 } from '@cloudscape-design/components';
-import TransferModal from '../components/transferModal';
+import TransferModal from './transferModal';
 
 export function TransferForm(props) {
   const [quantity, setQuantity] = React.useState('0');

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { AssetChart } from './assetChart';
 import { useParams } from 'react-router-dom';
-import { Icons } from '../utils/Icons';
-import { TradeForm } from '../components/tradeForm';
+import { Icons } from '../../utils/Icons';
+import { TradeForm } from '../tradeForm';
 import { Container, Grid, Header } from '@cloudscape-design/components';
-import { OrderActivity } from './orderActivity';
+import { OrderActivity } from '../order/orderActivity';
 
 export function PureAssetLanding() {
   const { asset } = useParams();

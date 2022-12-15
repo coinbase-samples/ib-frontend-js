@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { transferFee } from '../../constants';
+import { transferFee } from '../../../constants';
 import {
   Modal,
   HelpPanel,

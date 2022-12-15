@@ -13,7 +13,7 @@ import {
   ColumnLayout,
 } from '@cloudscape-design/components';
 import { useParams } from 'react-router-dom';
-import CancelOrderModal from '../components/cancelOrderModal';
+import { CancelOrderModal } from '../components/order/cancelOrderModal';
 
 export function OrderId() {
   const [orderInvalid, setOrderInvalid] = React.useState(false);

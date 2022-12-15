@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import { ProfileContext } from '../context/profileContext';
+import { ProfileContext } from '../../context/profileContext';
 import { useNavigate } from 'react-router-dom';
 
 import {
