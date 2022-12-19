@@ -98,7 +98,7 @@ export function TradeModal(props) {
   const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {
-    if (orderDetail?.httpStatus > '201') {
+    if (!orderDetail?.httpStatus === 200) {
       setOrderFail(true);
       return (
         <p>
