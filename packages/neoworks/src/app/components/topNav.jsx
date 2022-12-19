@@ -20,7 +20,6 @@ export default function TopNav() {
     <TopNavigation
       identity={{
         href: '#',
-        // title: "Neoworks",
         logo: {
           src: logo,
           alt: 'logo',

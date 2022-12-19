@@ -25,6 +25,7 @@ export function TradeModal(props) {
     useContext(OrderContext);
 
   const { orderFeed } = useContext(WebsocketContext);
+  const [orderFail, setOrderFail] = React.useState(false);
   const [statusFound, setStatusFound] = React.useState(false);
   const [filteredOrderFeed, setFilteredOrderFeed] = React.useState([]);
   const [orderPreview, setOrderPreview] = React.useState(true);
@@ -71,7 +72,7 @@ export function TradeModal(props) {
   }, [orderFeed, orderDetail]);
 
   const orderTotal = qty * orderPrice + platformFee;
-  let orderFail = false;
+  // let orderFail = false;
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -98,22 +99,24 @@ export function TradeModal(props) {
 
   const orderResponse = () => {
     if (orderDetail?.httpStatus > '201') {
-      orderFail = true;
+      setOrderFail(true);
       return (
         <p>
           We're sorry, your order Failed. Reason:{' '}
           {orderDetail.orderResponse.message}
         </p>
       );
+    } else {
+      return (
+        <p>
+          {' '}
+          Congrats, we successfully submitted your order for {props.qty}{' '}
+          {props.asset}.
+        </p>
+      );
     }
-    return (
-      <p>
-        {' '}
-        Congrats, we successfully submitted your order for {props.qty}{' '}
-        {props.asset}.
-      </p>
-    );
   };
+
   return (
     <Modal
       visible={props.open}

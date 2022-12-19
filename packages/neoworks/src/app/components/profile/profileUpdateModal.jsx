@@ -151,7 +151,6 @@ export function UpdateProfileModal(props) {
         );
       }
       setUpdateProfileResponse('Your profile was successfully updated.');
-      // navigate('/profile');
       return submitProfile;
     } catch (e) {
       console.log(e);

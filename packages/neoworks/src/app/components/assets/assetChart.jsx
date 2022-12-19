@@ -22,24 +22,20 @@ export function AssetChart(props) {
   const apiEnd = endDate.getTime();
 
   useEffect(() => {
+    const start = _.first(assetChart);
+    const end = assetChart.pop();
     if (!assetChart.length && !assetChartLoading) {
       fetchChartByAsset(asset, apiStart, apiEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);
     } else if (assetChart[0].asset === currentAssetChart) {
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
       setYStart(start?.y * 0.8);
       setYEnd(end?.y * 1.3);
 
       return;
     } else {
       fetchChartByAsset(asset, apiStart, apiEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
 
       setYStart(start?.y);
       setYEnd(end?.y);

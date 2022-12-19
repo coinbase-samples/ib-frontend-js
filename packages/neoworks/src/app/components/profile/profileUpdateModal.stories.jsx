@@ -13,12 +13,12 @@ export const ModelLoaded = Template.bind({});
 ModelLoaded.args = ModelLoaded.args = {
   userProfile: {
     userId: 1,
-    name: 'Jay Parisi',
-    email: 'jay.parisi@coinbase.com',
+    name: 'Johnyy  Cyrpto',
+    email: 'johnny.crypto @crizzy.oi',
     roles: ['user', 'admin'],
-    username: 'jprix',
+    username: 'jcrypto',
     address: '123 Happy Canyon Way, Denver',
-    legalName: 'Jay Parisi',
+    legalName: 'Johnyy  Cyrpto',
     dateOfBirth: '1/23/2001',
   },
 };

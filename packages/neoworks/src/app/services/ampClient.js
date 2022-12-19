@@ -1,18 +1,8 @@
-
-
-
-
 export const makeCall = async (token, method, url, body) => {
-
-  
-
-//   const signature = await getSignature(method, path, body);
   const headers = {
-
     Accept: 'application/json',
     Authorization: 'Bearer ' + token,
     'Content-Type': 'application/json',
-    
   };
   try {
     if (body) {
@@ -22,10 +12,9 @@ export const makeCall = async (token, method, url, body) => {
         body,
         headers,
       });
-      console.log(callAmp.body)
       return {
-        "httpStatus": `${callAmp.status}`,
-        "orderResponse": callAmp
+        httpStatus: `${callAmp.status}`,
+        orderResponse: callAmp,
       };
     } else {
       const callAmp = await fetch(url, {

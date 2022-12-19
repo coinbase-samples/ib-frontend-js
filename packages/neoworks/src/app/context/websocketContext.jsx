@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext, createContext } from 'react';
 
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { AuthContext } from './authContext';
+import { webSocketHost } from '../../constants';
 
-const wsUrl = 'wss://api-dev.neoworks.xyz/ws?alias=';
+const wsUrl = webSocketHost;
 
 const defaultState = {
   assetFeed: [],
@@ -33,7 +34,6 @@ const WebsocketProvider = ({ children }) => {
     }
     if (rawMessage?.type === 'order') {
       const newOrders = JSON.parse(rawMessage?.body);
-      console.log('orders feed ' + JSON.stringify(newOrders));
       setOrderFeed(newOrders);
     }
   }, [lastMessage]);

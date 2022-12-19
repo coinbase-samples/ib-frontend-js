@@ -93,7 +93,6 @@ export function OrderId() {
               name: 'Details',
               content: (item) => (
                 <HelpPanel
-                  // header="Trade Details"
                   loading={orderLoading}
                   loadingText="Loading Order Details"
                 >

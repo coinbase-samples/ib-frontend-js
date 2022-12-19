@@ -1,7 +1,6 @@
 import { useContext, useState, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
 import {
-  //this is your imports for services
   fetchOrderDetails,
   fetchOrdersList,
   createOrder,
@@ -110,7 +109,6 @@ const OrderProvider = ({ children }) => {
 
         setOrders([...orders, executedOrder]);
 
-        // setLastOrder(result);
         setOrderDetail(executedOrder);
         setNewOrderLoading(false);
       }
