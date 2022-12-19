@@ -87,8 +87,6 @@ export function TradeForm(props) {
     }
   };
 
-  //
-
   useEffect(() => {
     if (!portfolioLoaded && portfolio?.length === 0) {
       fetchPortfolio();
