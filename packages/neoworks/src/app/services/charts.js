@@ -6,7 +6,7 @@ const sleep = (ms) => {
 
 export async function fetchAssetChart(asset, apiStart, apiEnd) {
   await sleep(1000);
-  const url = `${exchangeHost}/${asset}-USD/candles?start=${apiStart}&end=${apiEnd}&granularity=3600`;
+  const url = `${exchangeHost}/products/${asset}-USD/candles?start=${apiStart}&end=${apiEnd}&granularity=3600`;
 
   try {
     const assetChart = await fetch(url, {

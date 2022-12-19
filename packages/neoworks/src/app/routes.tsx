@@ -11,7 +11,6 @@ import { Activity } from './pages/activity';
 import { AssetId } from './pages/assetId';
 import { OrderId } from './pages/orderId';
 import { Landing } from './pages/landing';
-import { Portfolio } from './pages/portfolio';
 
 
 export const Router = () => {
@@ -26,7 +25,6 @@ export const Router = () => {
             <Route path="/assets" element={<Trades />} />
             <Route path="/assets/:asset" element={<AssetId />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/activity" element={<Activity />} />
             <Route path="/activity/orders/:orderId" element={<OrderId />} />
           </Route>
