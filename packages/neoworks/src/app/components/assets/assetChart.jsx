@@ -83,7 +83,6 @@ export function AssetChart(props) {
       recoveryText="Retry"
       xScaleType="time"
       xTitle="Time (UTC)"
-      //   yTitle="$113,757.17"
       empty={
         <Box textAlign="center" color="inherit">
           <b>No data available</b>

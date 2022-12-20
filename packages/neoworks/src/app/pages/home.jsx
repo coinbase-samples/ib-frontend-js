@@ -4,6 +4,7 @@ import { PortfolioChart } from '../components/portfolio/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/assets/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
+import '../../css/app.css';
 
 export function Home() {
   const { portfolio } = useContext(PortfolioContext);

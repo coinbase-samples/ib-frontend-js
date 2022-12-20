@@ -58,8 +58,8 @@ export function TradeModal(props) {
     orderPrice = assetPrice;
   }
   let productId = asset;
-  if (!homePage && asset.indexOf('_USD') === -1) {
-    productId = asset + '_USD';
+  if (!homePage && asset.indexOf('-USD') === -1) {
+    productId = asset + '-USD';
   }
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export function TradeModal(props) {
   const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {
-    if (!orderDetail?.httpStatus === 200) {
+    if (!orderDetail?.httpStatus >= 400) {
       setOrderFail(true);
       return (
         <p>
