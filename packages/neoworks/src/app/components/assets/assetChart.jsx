@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Button, LineChart } from '@cloudscape-design/components';
 import { ChartContext } from '../../context/chartsContext';
 import { useContext, useEffect } from 'react';
+import _ from 'lodash';
 import { dateCalculator } from '../../utils/dateCalculator';
 
 export function AssetChart(props) {
@@ -10,32 +11,35 @@ export function AssetChart(props) {
 
   const [yStart, setYStart] = React.useState(0);
   const [yEnd, setYEnd] = React.useState(1000);
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
 
   const { asset } = props;
   const currentAssetChart = asset;
 
+  const now = Date.now();
+
+  const endDate = new Date(now);
+  const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
+  const apiStart = startDate.getTime();
+  const apiEnd = endDate.getTime();
+
   useEffect(() => {
-    const chartData = dateCalculator(assetChart);
-    setStartDate(chartData.startDate);
-    setEndDate(chartData.endDate);
-
+    const start = _.first(assetChart);
+    const end = assetChart.pop();
     if (!assetChart.length && !assetChartLoading) {
-      fetchChartByAsset(asset, chartData.apiStart, chartData.apiEnd);
+      fetchChartByAsset(asset, apiStart, apiEnd);
 
-      setYStart(chartData.start?.y);
-      setYEnd(chartData.end?.y);
+      setYStart(start?.y);
+      setYEnd(end?.y);
     } else if (assetChart[0].asset === currentAssetChart) {
-      setYStart(chartData.start?.y * 0.8);
-      setYEnd(chartData.end?.y * 1.3);
+      setYStart(start?.y * 0.8);
+      setYEnd(end?.y * 1.3);
 
       return;
     } else {
-      fetchChartByAsset(asset, chartData.apiStart, chartData.apiEnd);
+      fetchChartByAsset(asset, apiStart, apiEnd);
 
-      setYStart(chartData.start?.y);
-      setYEnd(chartData.end?.y);
+      setYStart(start?.y);
+      setYEnd(end?.y);
     }
   }, [assetChart]);
 
