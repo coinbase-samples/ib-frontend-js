@@ -1,49 +1,42 @@
 import * as React from 'react';
 import { LineChart, Box, Button } from '@cloudscape-design/components';
-import _ from 'lodash';
 import { ChartContext } from '../../context/chartsContext';
 
 import { useContext, useEffect } from 'react';
+import { dateCalculator } from '../../utils/dateCalculator';
 
-export function PortfolioChart(props) {
+export function PortfolioChart() {
   const { assetChart, assetChartLoading, fetchChartByAsset } =
     useContext(ChartContext);
 
   const [yStart, setYStart] = React.useState(0);
   const [yEnd, setYEnd] = React.useState(1000);
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
 
   const asset = 'ETH';
   const currentAssetChart = asset;
 
-  const now = Date.now();
-
-  const endDate = new Date(now);
-  const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
-  const apiStart = startDate.getTime();
-  const apiEnd = endDate.getTime();
-
   useEffect(() => {
-    if (!assetChart.length && !assetChartLoading) {
-      fetchChartByAsset(asset, apiStart, apiEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
+    const chartData = dateCalculator(assetChart);
+    setStartDate(chartData.startDate);
+    setEndDate(chartData.endDate);
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+    if (!assetChart.length && !assetChartLoading) {
+      fetchChartByAsset(asset, chartData.apiStart, chartData.apiEnd);
+
+      setYStart(chartData.start?.y);
+      setYEnd(chartData.end?.y);
     } else if (assetChart[0].asset === currentAssetChart) {
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
-      setYStart(start?.y * 0.8);
-      setYEnd(end?.y * 1.3);
+      setYStart(chartData.start?.y * 0.8);
+      setYEnd(chartData.end?.y * 1.3);
 
       return;
     } else {
-      fetchChartByAsset(asset, apiStart, apiEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
+      fetchChartByAsset(asset, chartData.apiStart, chartData.apiEnd);
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(chartData.start?.y);
+      setYEnd(chartData.end?.y);
     }
   }, [assetChart]);
 
@@ -87,7 +80,6 @@ export function PortfolioChart(props) {
       recoveryText="Retry"
       xScaleType="time"
       xTitle="Time (UTC)"
-      //   yTitle="$113,757.17"
       empty={
         <Box textAlign="center" color="inherit">
           <b>No data available</b>

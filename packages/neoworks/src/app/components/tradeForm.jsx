@@ -43,7 +43,7 @@ export function TradeForm(props) {
 
   const [quantity, setQuantity] = React.useState('1');
   const [expiryTime, setExpiryTime] = React.useState('');
-  const [limitPrice, setLimitPrice] = React.useState(0);
+  const [limitPrice, setLimitPrice] = React.useState(1);
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
 
   const [selectedSideOption, setSelectedSideOption] = React.useState({
