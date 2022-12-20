@@ -29,7 +29,6 @@ export function OrderActivity(props) {
   const ordersValues = orders.length > 0;
 
   const { sessionInfo } = useContext(AuthContext);
-  //const sub = attrInfo.find((a) => a.Name === 'sub')?.Value;
   const [filteringText, setFilteringText] = React.useState('');
   const [currentPageIndex, setCurrentPageIndex] = React.useState(0);
   let showPagination = false;
