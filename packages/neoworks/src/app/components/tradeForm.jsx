@@ -19,12 +19,12 @@ import _ from 'lodash';
 
 export function TradeForm(props) {
   const tradingOptions = [
-    { label: 'BTC', value: 'BTC_USD' },
-    { label: 'ETH', value: 'ETH_USD' },
-    { label: 'SOL', value: 'SOL_USD' },
-    { label: 'ADA', value: 'ADA_USD' },
-    { label: 'MATIC', value: 'MATIC_USD' },
-    { label: 'ATOM', value: 'ATOM_USD' },
+    { label: 'BTC', value: 'BTC-USD' },
+    { label: 'ETH', value: 'ETH-USD' },
+    { label: 'SOL', value: 'SOL-USD' },
+    { label: 'ADA', value: 'ADA-USD' },
+    { label: 'MATIC', value: 'MATIC-USD' },
+    { label: 'ATOM', value: 'ATOM-USD' },
   ];
 
   const { assetFeed } = useContext(WebsocketContext);
@@ -68,7 +68,7 @@ export function TradeForm(props) {
   const orderMinimum = 1.0;
   const [selectedAsset, setSelectedAsset] = React.useState({
     label: urlAsset ? urlAsset : 'BTC',
-    value: urlAsset ? urlAsset : 'BTC_USD',
+    value: urlAsset ? urlAsset : 'BTC-USD',
   });
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {
