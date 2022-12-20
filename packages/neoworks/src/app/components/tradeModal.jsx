@@ -72,7 +72,7 @@ export function TradeModal(props) {
   }, [orderFeed, orderDetail]);
 
   const orderTotal = qty * orderPrice + platformFee;
-  // let orderFail = false;
+
   const submitOrder = async () => {
     setOrderPreview(false);
     const body = {
@@ -88,7 +88,6 @@ export function TradeModal(props) {
     await currentOrder(body);
   };
   const closeModal = () => {
-    //add an if check to ensure api finishes
     setOrderPreview(true);
     props.close();
   };
@@ -102,8 +101,7 @@ export function TradeModal(props) {
       setOrderFail(true);
       return (
         <p>
-          We're sorry, your order Failed. Reason:{' '}
-          {orderDetail.orderResponse.message}
+          We're sorry, your order Failed. Reason: {orderDetail.response.message}
         </p>
       );
     } else {
@@ -223,7 +221,6 @@ export function TradeModal(props) {
                 <Popover
                   position="top"
                   size="small"
-                  //   triggerType="custom"
                   content={
                     <StatusIndicator type="success">
                       Slippage is the difference between the expected price of

@@ -133,7 +133,6 @@ export function UpdateProfileModal(props) {
 
   const submitUpdateProfile = async () => {
     setUpdatePreview(false);
-    console.log('name being submitted', profileName);
     const body = {
       userId: props?.userProfile?.Id,
       email,
@@ -151,7 +150,6 @@ export function UpdateProfileModal(props) {
         );
       }
       setUpdateProfileResponse('Your profile was successfully updated.');
-      return submitProfile;
     } catch (e) {
       console.log(e);
     }

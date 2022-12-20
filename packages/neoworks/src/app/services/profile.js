@@ -27,8 +27,7 @@ export async function updateProfile(token, body, userId) {
 
   try {
     const submitUpdatedProfile = await makeCall(token, 'PUT', url, payload);
-
-    const updatedProfileResponse = await submitUpdatedProfile.json();
+    const updatedProfileResponse = await submitUpdatedProfile.response.json();
     return updatedProfileResponse;
   } catch (e) {
     return e;

@@ -14,7 +14,7 @@ export const makeCall = async (token, method, url, body) => {
       });
       return {
         httpStatus: `${callAmp.status}`,
-        orderResponse: callAmp,
+        response: callAmp,
       };
     } else {
       const callAmp = await fetch(url, {

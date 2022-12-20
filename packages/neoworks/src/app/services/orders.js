@@ -87,10 +87,10 @@ export async function createOrder(token, body) {
   try {
     const placeNewOrder = await makeCall(token, 'POST', url, payload);
 
-    const createOrderResponse = await placeNewOrder.orderResponse.json();
+    const createOrderResponse = await placeNewOrder.response.json();
     return {
       httpStatus: placeNewOrder?.httpStatus,
-      orderResponse: createOrderResponse,
+      response: createOrderResponse,
     };
   } catch (e) {
     return e;
