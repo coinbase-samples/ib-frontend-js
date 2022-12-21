@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Grid, Input, Button, Container, TopNavigation, SpaceBetween } from "@cloudscape-design/components";
 
 import { AuthContext } from '../context/authContext';
+import { gridDefinition } from '../utils/grid';
 
 
 export function Landing() {
@@ -49,9 +50,7 @@ export function Landing() {
     }}
   />
   <Grid
-      gridDefinition={[
-        { colspan: { default: 6, s: 3 }, offset: { s: 0, m: 3 }  },
-      ]}
+      gridDefinition={gridDefinition}
     ><Container>
     <div>
       Username:

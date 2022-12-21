@@ -16,7 +16,7 @@ export const WebsocketContext = createContext(defaultState);
 const WebsocketProvider = ({ children }) => {
   const [websocketUrl, setWebsocketUrl] = useState(wsUrl);
   const [assetFeed, setAssetFeed] = useState([
-    { ticker: 'BTC-USD', price: '22888.11' },
+    { ticker: 'BTC-USD', price: '' },
   ]);
   const [orderFeed, setOrderFeed] = useState([
     { orderId: '1', productId: 'BTC-USD' },

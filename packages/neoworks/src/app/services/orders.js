@@ -66,6 +66,7 @@ export async function createOrder(token, body) {
   let payload = JSON.stringify({
     productId: body.productId,
     side: body.side,
+    limit: body.limitPrice,
     quantity: body.quantity,
     type: 'ORDER_TYPE_' + body.orderType,
     timeInForce: 'ORDER_TIME_IN_FORCE_' + body.timeInForceType,

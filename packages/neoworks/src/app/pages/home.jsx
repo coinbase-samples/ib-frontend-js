@@ -4,6 +4,7 @@ import { PortfolioChart } from '../components/portfolio/portfolioChart';
 import { TransactionWidget } from '../components/transactionWidget';
 import { YourAssets } from '../components/assets/yourAssets';
 import { PortfolioContext } from '../context/portfolioContext';
+import { gridDefinition } from '../utils/grid';
 import '../../css/app.css';
 
 export function Home() {
@@ -11,26 +12,12 @@ export function Home() {
   let balanceLoaded = false;
   let loadedBalance;
 
-  const calculateBalance = () => {
-    const calculatedBalance = '';
-
-    return calculatedBalance;
-  };
-
   if (portfolio) {
-    loadedBalance = calculateBalance();
     balanceLoaded = true;
   }
   return (
     //grids hold containers
-    <Grid
-      id="homeDashboard"
-      gridDefinition={[
-        { colspan: { default: 8, m: 8, l: 8 } },
-        { colspan: { default: 6, m: 4, l: 8 } },
-        { colspan: { default: 12, m: 12, l: 12 } },
-      ]}
-    >
+    <Grid id="homeDashboard" gridDefinition={gridDefinition}>
       <Container
         className="portfolioBalanceContainer"
         loading={balanceLoaded}

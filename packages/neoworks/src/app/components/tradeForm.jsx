@@ -43,7 +43,7 @@ export function TradeForm(props) {
 
   const [quantity, setQuantity] = React.useState('1');
   const [expiryTime, setExpiryTime] = React.useState('');
-  const [limitPrice, setLimitPrice] = React.useState(1);
+  const [limitPrice, setLimitPrice] = React.useState('1');
   const [orderSide, setOrderSideType] = React.useState('ORDER_SIDE_BUY');
 
   const [selectedSideOption, setSelectedSideOption] = React.useState({
@@ -67,8 +67,8 @@ export function TradeForm(props) {
 
   const orderMinimum = 1.0;
   const [selectedAsset, setSelectedAsset] = React.useState({
-    label: urlAsset ? urlAsset : 'BTC',
-    value: urlAsset ? urlAsset : 'BTC-USD',
+    label: urlAsset ? urlAsset : 'ADA',
+    value: urlAsset ? urlAsset : 'ADA-USD',
   });
   const handleQuantity = (qty) => {
     if (!isNaN(+qty)) {

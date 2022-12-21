@@ -81,30 +81,30 @@ const OrderProvider = ({ children }) => {
       if (result.httpStatus > '201') {
         setOrderDetail({
           httpStatus: result.httpStatus,
-          orderResponse: result.orderResponse,
+          response: result.response,
         });
         setNewOrderLoading(false);
       } else {
         const executedOrder = {
           httpStatus: result.httpStatus,
-          orderId: result.orderResponse.orderId,
-          ownerId: result.orderResponse.ownerId,
-          productId: result.orderResponse.productId,
-          side: result.orderResponse.side.slice(11),
-          type: result.orderResponse.type.slice(11),
-          quantity: result.orderResponse.quantity,
-          limitPrice: result.orderResponse.limitPrice,
-          timeInForce: result.orderResponse.timeInForce.slice(20),
-          status: result.orderResponse.status,
-          createdAt: result.orderResponse.createdAt,
-          updatedAt: result.orderResponse.updatedAt,
-          filledQuantity: result.orderResponse.filledQuantity,
-          filledValue: result.orderResponse.filledValue,
-          averageFilledPrice: result.orderResponse.averageFilledPrice,
-          commission: result.orderResponse.commission,
-          exchangeFee: result.orderResponse.exchangeFee,
-          cancelReason: result.orderResponse.cancelReason,
-          failureReason: result.orderResponse.failureReason,
+          orderId: result.response.orderId,
+          ownerId: result.response.ownerId,
+          productId: result.response.productId,
+          side: result.response.side.slice(11),
+          type: result.response.type.slice(11),
+          quantity: result.response.quantity,
+          limitPrice: result.response.limitPrice,
+          timeInForce: result.response.timeInForce.slice(20),
+          status: result.response.status,
+          createdAt: result.response.createdAt,
+          updatedAt: result.response.updatedAt,
+          filledQuantity: result.response.filledQuantity,
+          filledValue: result.response.filledValue,
+          averageFilledPrice: result.response.averageFilledPrice,
+          commission: result.response.commission,
+          exchangeFee: result.response.exchangeFee,
+          cancelReason: result.response.cancelReason,
+          failureReason: result.response.failureReason,
         };
 
         setOrders([...orders, executedOrder]);
