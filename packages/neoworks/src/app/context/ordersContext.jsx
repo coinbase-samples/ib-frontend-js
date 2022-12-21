@@ -21,6 +21,7 @@ const OrderProvider = ({ children }) => {
   const [orderLoading, setOrderLoading] = useState(false);
   const [newOrderLoading, setNewOrderLoading] = useState(false);
   const [cancelOrderLoading, setCancelOrderLoading] = useState(false);
+  const [orderFail, setOrderFail] = useState(false);
   const [sorting, setSorting] = useState(false);
   const fetchOrderById = async (orderId) => {
     if (!orderLoading && fetchingOrderDetail) {
@@ -84,6 +85,7 @@ const OrderProvider = ({ children }) => {
           response: result.response,
         });
         setNewOrderLoading(false);
+        setOrderFail(true);
       } else {
         const executedOrder = {
           httpStatus: result.httpStatus,
@@ -143,6 +145,7 @@ const OrderProvider = ({ children }) => {
     sortOrders,
     placeCancelOrder,
     cancelOrderLoading,
+    orderFail,
   };
 
   return (

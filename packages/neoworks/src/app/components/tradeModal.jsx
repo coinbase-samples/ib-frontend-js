@@ -21,11 +21,10 @@ import {
 } from '@cloudscape-design/components';
 
 export function TradeModal(props) {
-  const { currentOrder, newOrderLoading, orderDetail } =
+  const { currentOrder, newOrderLoading, orderDetail, orderFail } =
     useContext(OrderContext);
 
   const { orderFeed } = useContext(WebsocketContext);
-  const [orderFail, setOrderFail] = React.useState(false);
   const [statusFound, setStatusFound] = React.useState(false);
   const [filteredOrderFeed, setFilteredOrderFeed] = React.useState([]);
   const [orderPreview, setOrderPreview] = React.useState(true);
@@ -97,8 +96,7 @@ export function TradeModal(props) {
   const overBudget = orderTotal > USDbalance;
 
   const orderResponse = () => {
-    if (!orderDetail?.httpStatus >= 400) {
-      setOrderFail(true);
+    if (orderFail) {
       return (
         <p>
           We're sorry, your order Failed. Reason: {orderDetail.response.message}
