@@ -18,8 +18,8 @@ export function TransferForm(props) {
   const [showPreviewModal, setShowPreviewModal] = React.useState(false);
   const { asset } = props;
   const [selectedOption, setSelectedOption] = React.useState({
-    label: asset ? asset : 'BTC-USD',
-    value: asset ? asset : 'BTC-USD',
+    label: asset ? asset : 'ADA-USD',
+    value: asset ? asset : 'ADA-USD',
   });
 
   const handlePreviewSubmit = (e) => {
