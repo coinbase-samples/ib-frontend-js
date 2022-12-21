@@ -68,7 +68,7 @@ export function Landing() {
       />
       <br />
       {loginFailure ? ( <p style={{color: "red"}}>Login Error: {failureResponse} please try again.</p> ) : ('' )}
-      <Button onClick={handleSignIn}>Sign In</Button>
+      <Button onClick={handleSignIn}>Sign in</Button>
     </div>
 
     </Container>

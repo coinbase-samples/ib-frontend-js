@@ -1,12 +1,7 @@
 import { makeCall } from './ampClient';
 import { baseUrl } from '../../constants';
 
-const sleep = (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
 export async function fetchProfile(token, userId) {
-  await sleep(1000);
   const url = `${baseUrl}/v1/profile/${userId}`;
 
   try {
@@ -20,7 +15,6 @@ export async function fetchProfile(token, userId) {
 }
 
 export async function updateProfile(token, body, userId) {
-  await sleep(1000);
   const url = `${baseUrl}/v1/profile/${userId}`;
 
   const payload = JSON.stringify(body);
@@ -35,5 +29,5 @@ export async function updateProfile(token, body, userId) {
 }
 
 export async function editProfilePhoto() {
-  console.log('Photo Updated');
+  return true;
 }

@@ -59,8 +59,6 @@ export function PureUpdateProfileModal({
                 <Input
                   onChange={({ detail }) => {
                     setProfileName(detail.value);
-                    console.log(detail.value);
-                    console.log(profileName);
                   }}
                   value={profileName}
                 />
@@ -151,7 +149,7 @@ export function UpdateProfileModal(props) {
       }
       setUpdateProfileResponse('Your profile was successfully updated.');
     } catch (e) {
-      console.log(e);
+      return e;
     }
   };
   return (

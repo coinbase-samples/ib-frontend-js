@@ -33,7 +33,6 @@ const ProfileProvider = ({ children, userId }) => {
   }, []);
 
   const updateUserProfile = async (body) => {
-    console.log(body);
     try {
       setUpdatingProfile(true);
       const result = await updateProfile(
@@ -42,12 +41,10 @@ const ProfileProvider = ({ children, userId }) => {
         userProfile.userId
       );
 
-      console.log(result);
       setUserProfile(result);
       setUpdatingProfile(false);
       return result;
     } catch (e) {
-      console.log(e);
       setUpdatingProfile(false);
     }
   };
