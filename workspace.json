@@ -2,7 +2,6 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "neoworks": "packages/neoworks",
-    "neoworks-e2e": "packages/neoworks-e2e"
+    "neoworks": "packages/neoworks"
   }
 }

@@ -150,7 +150,11 @@ export function TradeModal(props) {
                 <Icons asset={props.asset} />
                 {orderResponse()}
 
-                {statusFound ? <p> {orderFeed?.status} </p> : ''}
+                {statusFound ? (
+                  <p> Status: {orderFeed?.status} </p>
+                ) : (
+                  <p>not listening to orders.</p>
+                )}
               </div>
             </ColumnLayout>
           </HelpPanel>
