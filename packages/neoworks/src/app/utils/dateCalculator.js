@@ -5,15 +5,17 @@ export const dateCalculator = (assetChart) => {
 
   const endDate = new Date(now);
   const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
-  const apiStart = startDate.getTime();
-  const apiEnd = endDate.getTime();
-  const start = _.first(assetChart);
-  const end = assetChart.pop();
+  const xStart = startDate.getTime();
+  const xEnd = endDate.getTime();
+  const yStart = _.first(assetChart);
+  const yEnd = assetChart.pop();
 
   return {
-    apiStart,
-    apiEnd,
-    start,
-    end,
+    xStart,
+    xEnd,
+    yStart,
+    yEnd,
+    endDate,
+    startDate,
   };
 };

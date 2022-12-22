@@ -2,6 +2,7 @@ import * as React from 'react';
 import { LineChart, Box, Button } from '@cloudscape-design/components';
 import _ from 'lodash';
 import { ChartContext } from '../../context/chartsContext';
+import { dateCalculator } from '../../utils/dateCalculator';
 
 import { useContext, useEffect } from 'react';
 
@@ -15,16 +16,11 @@ export function PortfolioChart(props) {
   const asset = 'ETH';
   const currentAssetChart = asset;
 
-  const now = Date.now();
-
-  const endDate = new Date(now);
-  const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
-  const apiStart = startDate.getTime();
-  const apiEnd = endDate.getTime();
+  const calculatedDate = dateCalculator(assetChart);
 
   useEffect(() => {
     if (!assetChart.length && !assetChartLoading) {
-      fetchChartByAsset(asset, apiStart, apiEnd);
+      fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
@@ -38,7 +34,7 @@ export function PortfolioChart(props) {
 
       return;
     } else {
-      fetchChartByAsset(asset, apiStart, apiEnd);
+      fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
       const start = _.first(assetChart);
       const end = assetChart.pop();
 
@@ -58,7 +54,7 @@ export function PortfolioChart(props) {
           data: assetChart,
         },
       ]}
-      xDomain={[startDate, endDate]}
+      xDomain={[calculatedDate.startDate, calculatedDate.endDate]}
       yDomain={[yStart, yEnd]}
       i18nStrings={{
         filterLabel: 'Filter displayed data',

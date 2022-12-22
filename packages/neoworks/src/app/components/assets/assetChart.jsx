@@ -15,31 +15,24 @@ export function AssetChart(props) {
   const { asset } = props;
   const currentAssetChart = asset;
 
-  const now = Date.now();
-
-  const endDate = new Date(now);
-  const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
-  const apiStart = startDate.getTime();
-  const apiEnd = endDate.getTime();
+  const calculatedDate = dateCalculator(assetChart);
 
   useEffect(() => {
-    const start = _.first(assetChart);
-    const end = assetChart.pop();
     if (!assetChart.length && !assetChartLoading) {
-      fetchChartByAsset(asset, apiStart, apiEnd);
+      fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(calculatedDate.yStart?.y);
+      setYEnd(calculatedDate.yEnd?.y);
     } else if (assetChart[0].asset === currentAssetChart) {
-      setYStart(start?.y * 0.8);
-      setYEnd(end?.y * 1.3);
+      setYStart(calculatedDate.yStart?.y * 0.8);
+      setYEnd(calculatedDate.yEnd?.y * 1.3);
 
       return;
     } else {
-      fetchChartByAsset(asset, apiStart, apiEnd);
+      fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(calculatedDate.yStart.y);
+      setYEnd(calculatedDate.yEnd.y);
     }
   }, [assetChart]);
 
@@ -54,7 +47,7 @@ export function AssetChart(props) {
           data: assetChart,
         },
       ]}
-      xDomain={[startDate, endDate]}
+      xDomain={[calculatedDate.startDate, calculatedDate.endDate]}
       yDomain={[yStart, yEnd]}
       i18nStrings={{
         filterLabel: 'Filter displayed data',

@@ -26,6 +26,8 @@ export const Icons = ({ asset }) => {
       return <Solana height="45px" width="45px" />;
     case 'SOL_USD':
       return <Solana height="45px" width="45px" />;
+    case 'SOL-USD':
+      return <Solana height="45px" width="45px" />;
     case 'Solana':
       return <Solana height="45px" width="45px" />;
     case 'Matic':
