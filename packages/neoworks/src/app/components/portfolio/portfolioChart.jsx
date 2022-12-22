@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { LineChart, Box, Button } from '@cloudscape-design/components';
-import _ from 'lodash';
 import { ChartContext } from '../../context/chartsContext';
 import { dateCalculator } from '../../utils/dateCalculator';
 
@@ -21,25 +20,18 @@ export function PortfolioChart(props) {
   useEffect(() => {
     if (!assetChart.length && !assetChartLoading) {
       fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
 
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(calculatedDate.yStart?.y);
+      setYEnd(calculatedDate.yEnd?.y);
     } else if (assetChart[0].asset === currentAssetChart) {
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
-      setYStart(start?.y * 0.8);
-      setYEnd(end?.y * 1.3);
+      setYStart(calculatedDate.yStart?.y * 0.8);
+      setYEnd(calculatedDate.yEnd?.y * 1.3);
 
       return;
     } else {
       fetchChartByAsset(asset, calculatedDate.xStart, calculatedDate.xEnd);
-      const start = _.first(assetChart);
-      const end = assetChart.pop();
-
-      setYStart(start?.y);
-      setYEnd(end?.y);
+      setYStart(calculatedDate.yStart?.y);
+      setYEnd(calculatedDate.yEnd?.y);
     }
   }, [assetChart]);
 

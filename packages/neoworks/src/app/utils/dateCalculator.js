@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export const dateCalculator = (assetChart) => {
   const now = Date.now();
 
@@ -7,7 +5,8 @@ export const dateCalculator = (assetChart) => {
   const startDate = new Date(endDate.getTime() - 5 * 24 * 60 * 60 * 1000);
   const xStart = startDate.getTime();
   const xEnd = endDate.getTime();
-  const yStart = _.first(assetChart);
+
+  const yStart = assetChart[0];
   const yEnd = assetChart.pop();
 
   return {

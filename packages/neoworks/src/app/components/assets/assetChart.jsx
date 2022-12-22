@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Button, LineChart } from '@cloudscape-design/components';
 import { ChartContext } from '../../context/chartsContext';
 import { useContext, useEffect } from 'react';
-import _ from 'lodash';
 import { dateCalculator } from '../../utils/dateCalculator';
 
 export function AssetChart(props) {
