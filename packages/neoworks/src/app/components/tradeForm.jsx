@@ -15,7 +15,6 @@ import { AssetContext } from '../context/assetsContext';
 import { WebsocketContext } from '../context/websocketContext';
 import { PortfolioContext } from '../context/portfolioContext';
 import { useContext, useEffect } from 'react';
-import _ from 'lodash';
 
 export function TradeForm(props) {
   const tradingOptions = [
