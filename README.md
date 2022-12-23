@@ -41,6 +41,8 @@ Your values will be pulled into constants.js
 
 Validate the values contained in the .env file:
 
+cd to packages/neoworks and run:
+
 ```bash
  source .env
  echo $NX_CLIENT_ID
