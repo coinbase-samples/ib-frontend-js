@@ -1,6 +1,5 @@
 import React, { useState, useContext, createContext } from 'react';
 import { AuthContext } from '../context/authContext';
-import _ from 'lodash';
 import { fetchAssetsList } from '../services/assets';
 
 const defaultState = {};

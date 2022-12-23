@@ -95,22 +95,21 @@ export function TradeForm(props) {
       fetchAssets();
     }
   }, []);
+  const assetPriceFilter = assetFeed.find(
+    (r) => r?.ticker === selectedAsset?.label
+  );
 
-  const assetPriceFilter = _.filter(assetFeed, {
-    ticker: selectedAsset.label,
-  });
-  const assetPrice = assetPriceFilter[0]?.lowBid;
-  const portfolioObject = _.filter(portfolio, {
-    currency: selectedAsset?.label,
-  });
-  const fiatObject = _.filter(portfolio, {
-    currency: 'USD',
-  });
+  const assetPrice = assetPriceFilter?.lowBid;
+  const portfolioObject = portfolio.find(
+    (p) => p?.currency === selectedAsset?.label
+  );
 
-  const fiatBalance = fiatObject[0]?.available;
+  const fiatObject = portfolio.find((c) => c?.currency === 'USD');
+
+  const fiatBalance = fiatObject?.available;
   const allowedOrder = assetPrice < 100;
 
-  const portfolioPrice = portfolioObject[0]?.available;
+  const portfolioPrice = portfolioObject?.available;
 
   const allowedSale = portfolioPrice > 0;
 
