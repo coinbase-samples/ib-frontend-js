@@ -4,7 +4,6 @@ import { WebsocketContext } from '../context/websocketContext';
 import { tradeFee } from '../../constants';
 import { OrderContext } from '../context/ordersContext';
 import { useContext, useEffect } from 'react';
-import _ from 'lodash';
 
 import {
   Modal,
@@ -26,7 +25,6 @@ export function TradeModal(props) {
 
   const { orderFeed } = useContext(WebsocketContext);
   const [statusFound, setStatusFound] = React.useState(false);
-  const [filteredOrderFeed, setFilteredOrderFeed] = React.useState([]);
   const [orderPreview, setOrderPreview] = React.useState(true);
   const platformFee = tradeFee;
   const {
@@ -63,11 +61,12 @@ export function TradeModal(props) {
 
   useEffect(() => {
     const orderId = orderDetail?.orderId;
-    const filterOrder = _.filter(orderFeed, {
-      clientOrderId: orderId,
-    });
-    setFilteredOrderFeed([...filterOrder]);
-    setStatusFound(true);
+
+    if (orderId === orderFeed.clientOrderId) {
+      setStatusFound(true);
+    } else {
+      setStatusFound(false);
+    }
   }, [orderFeed, orderDetail]);
 
   const orderTotal = qty * orderPrice + platformFee;
@@ -99,7 +98,8 @@ export function TradeModal(props) {
     if (orderFail) {
       return (
         <p>
-          We're sorry, your order Failed. Reason: {orderDetail.response.message}
+          We're sorry, your order Failed. Reason:{' '}
+          {orderDetail?.response?.message}
         </p>
       );
     } else {

@@ -3,7 +3,6 @@ import { OrderContext } from '../../context/ordersContext';
 import { useContext, useEffect } from 'react';
 import { Icons } from '../../utils/Icons';
 import { AuthContext } from '../../context/authContext';
-import _ from 'lodash';
 
 import {
   Header,
@@ -57,7 +56,7 @@ export function OrderActivity(props) {
   if (props.asset) {
     assetLanding = true;
     const filter = asset + '_USD';
-    filteredOrders = _.filter(orders, { productId: filter });
+    filteredOrders = orders.filter((o) => (o.productId = filter));
     searchOptions = false;
     orderTotal = filteredOrders.length;
   }

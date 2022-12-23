@@ -6,7 +6,6 @@ import {
   createOrder,
   cancelOrder,
 } from '../services/orders';
-import _ from 'lodash';
 
 const defaultState = {};
 
@@ -51,7 +50,9 @@ const OrderProvider = ({ children }) => {
       setOrders([]);
       setOrdersLoading(false);
     } else {
-      const fetchedOrders = _.orderBy(result, ['createdAt'], ['desc']);
+      const fetchedOrders = result.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
       setOrders(fetchedOrders);
       setOrdersLoading(false);
     }
@@ -65,10 +66,14 @@ const OrderProvider = ({ children }) => {
     setSorting(true);
     const sortedType = event.detail.sortingColumn.sortingField;
     if (sorting) {
-      sortedOrders = _.orderBy(orders, [sortedType], ['asc']);
+      sortedOrders = orders.sort(
+        (a, b) => sortedType && new Date(b.createdAt) - new Date(a.createdAt)
+      );
       setSorting(false);
     } else {
-      sortedOrders = _.orderBy(orders, [sortedType], ['desc']);
+      sortedOrders = orders.sort(
+        (a, b) => sortedType && new Date(a.createdAt) - new Date(b.createdAt)
+      );
       setSorting(true);
     }
     setOrders(sortedOrders);
