@@ -98,15 +98,14 @@ export function TradeModal(props) {
     if (orderFail) {
       return (
         <p>
-          We're sorry, your order Failed. Reason:{' '}
+          We're sorry, your order Failed. Reason:
           {orderDetail?.response?.message}
         </p>
       );
     } else {
       return (
         <p>
-          {' '}
-          Congrats, we successfully submitted your order for {props.qty}{' '}
+          Congrats, we successfully submitted your order for {props.qty}
           {props.asset}.
         </p>
       );

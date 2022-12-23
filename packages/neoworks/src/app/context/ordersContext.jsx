@@ -46,10 +46,12 @@ const OrderProvider = ({ children }) => {
 
     setOrdersLoading(true);
     const result = await fetchOrdersList(token);
+    console.log(result.length);
     if (!result.length) {
       setOrders([]);
       setOrdersLoading(false);
     } else {
+      console.log(result);
       const fetchedOrders = result.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );

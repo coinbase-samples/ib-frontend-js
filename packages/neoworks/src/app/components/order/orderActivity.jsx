@@ -56,7 +56,7 @@ export function OrderActivity(props) {
   if (props.asset) {
     assetLanding = true;
     const filter = asset + '_USD';
-    filteredOrders = orders.filter((o) => (o.productId = filter));
+    filteredOrders = orders.filter((o) => o.productId === filter);
     searchOptions = false;
     orderTotal = filteredOrders.length;
   }
