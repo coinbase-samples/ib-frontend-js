@@ -14,6 +14,7 @@ const AssetProvider = ({ children }) => {
   const [sorting, setSorting] = useState(false);
 
   const sortAssets = async (event) => {
+    console.log(event);
     let sortedAssets;
     if (assetsLoading) {
       return;
@@ -22,11 +23,16 @@ const AssetProvider = ({ children }) => {
     setSorting(true);
     const sortedType = event.detail.sortingColumn.sortingField;
     if (sorting) {
-      sortedAssets = _.orderBy(assets, [sortedType], ['asc']);
+      sortedAssets = assets.sort(
+        (r, b) => sortedType && Number(b.highOffer) - Number(r.highOffer)
+      );
+      console.log(sortedAssets);
 
       setSorting(false);
     } else {
-      sortedAssets = _.orderBy(assets, [sortedType], ['desc']);
+      sortedAssets = assets.sort(
+        (r, b) => sortedType && Number(r.highOffer) - Number(b.highOffer)
+      );
 
       setSorting(true);
     }
