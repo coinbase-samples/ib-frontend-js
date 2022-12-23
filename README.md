@@ -23,20 +23,16 @@ cd ib-frontend-js
 npm install
 ```
 
-## Access credentials
 
-Navigate to the Prime Settings page and pull the API credentials:
-```bash
-https://prime.coinbase.com/portfolio/{your_portfolio_id}/settings/address-book
-```
-
-## Set environment variables
+## Set environment variables by copying sample.env to a new file called .env
 
 Add the following environment variables to a .env file in base of the repository:
 
 ```bash
-NX_USERPOOL_ID=us-east-1_...QR
-NX_CLIENT_ID=9...45c
+NX_PORT=8442
+NX_HOST=Your_Port
+NX_USERPOOL_ID=Your_Cognito_Pool_ID
+NX_CLIENT_ID=9489ncratfvbqcibncqohs45c
 NX_API_URL=http://localhost:8443
 NX_WS_URL=ws://localhost:8443/ws?alias=
 ```
