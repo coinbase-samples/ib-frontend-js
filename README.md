@@ -32,7 +32,7 @@ Add the following environment variables to a .env file in base of the repository
 NX_PORT=8442
 NX_HOST=Your_Port
 NX_USERPOOL_ID=Your_Cognito_Pool_ID
-NX_CLIENT_ID=9489ncratfvbqcibncqohs45c
+NX_CLIENT_ID=Your_Cognito_Client_ID
 NX_API_URL=http://localhost:8443
 NX_WS_URL=ws://localhost:8443/ws?alias=
 ```
